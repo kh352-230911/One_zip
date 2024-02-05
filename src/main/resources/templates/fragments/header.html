@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="httP://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <!-- -->
+<!-- fragment를 가진 것은 어딘가에 불려가 쓰인다는 의미-->
+<header th:fragment="header">
+    <div id="header-container">
+        <h2>Hello Spring</h2>
+    </div>
+    <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img th:src="@{/images/logo-spring.png}" alt="스프링로고" width="50px"/>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/board/boardList.do}">게시판</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/memberList.do}">회원관리</a></li>
+            </ul>
+            <!-- 인증 자체를 Security가 관리하므로 Security에게 물어봐야 함.-->
+            <!-- 다른 문자나 특수문자를 혼용할시 '| |'사용해야함.-->
+            <!-- sec:authorize="isAnonymous()"속성으로 로그인 하지 않은상태를 판별 -->
+            <th:block sec:authorize="isAnonymous()">
+                <button class="btn btn-outline-success my-2 my-sm-0 mr-3" type="button" th:onclick="|location.href='@{/auth/login.do}';|">로그인</button>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="button" th:onclick="|location.href='@{/member/createMember.do}';|">회원가입</button>
+            </th:block>
+            <th:block sec:authorize="isAuthenticated()">
+                <a th:href="@{/member/memberDetail.do}">
+                    <!--
+                        Security가 관리하는 인증 객체
+                        1. principal: UserDetails객체
+                        2. password: UserDetails객체안에 있는 password
+                        3. authorities: UserDetails객체안에 있는 authorities
+                    -->
+                    <!-- Security에 authentication(Utility)객체가 존재. 이 객체의 authorities를 사용 -->
+                    <span sec:authentication="principal.username" th:title="${#authentication.authorities}"></span>
+<!--                    <span sec:authentication="authorities"></span>-->
+                </a>님, 안녕하세요🍓
+                <!-- Security에서는 로그아웃을 Post방식으로 만들어야 함.-->
+                <form th:action="@{/auth/logout.do}" method="post" class="d-inline">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">로그아웃</button>
+                </form>
+            </th:block>
+
+        </div>
+    </nav>
+</header>
+</html>

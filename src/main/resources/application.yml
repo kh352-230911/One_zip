@@ -1,0 +1,25 @@
+server:
+  port:
+  servlet:
+    context-path: /onezip
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: ${PROD_DB_URL}
+    username: ${PROD_DB_USERNAME}
+    password: ${PROD_DB_PASSWORD}
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        hbm2ddl:
+          auto: validate
+    database: oracle
+    database-platform: org.hibernate.dialect.OracleDialect
+
+logging:
+  level:
+    root: info
+    com.sh.app: debug

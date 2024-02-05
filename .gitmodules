@@ -1,0 +1,3 @@
+[submodule "wallets"]
+	path = wallets
+	url = https://github.com/kh352-230911/One_zip-wallets.git

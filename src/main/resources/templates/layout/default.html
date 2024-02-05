@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+
+    <th:block th:include="~{fragments/head::head}"></th:block>
+    <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">Hello Spring</title>
+    <style layout:fragment="style"></style>
+
+</head>
+<body>
+<div id="container">
+    <header th:include="~{fragments/header::header}"></header>
+    <section id="content">
+        <div layout:fragment="content"></div>
+    </section>
+    <footer th:include="~{fragments/footer::footer}"></footer>
+</div>
+<script layout:fragment="script"></script>
+</body>
+</html>
