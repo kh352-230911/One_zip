@@ -8,6 +8,8 @@ spring:
     url: ${PROD_DB_URL}
     username: ${PROD_DB_USERNAME}
     password: ${PROD_DB_PASSWORD}
+  profiles:
+    default: test
   jpa:
     generate-ddl: true
     show-sql: true
@@ -23,3 +25,4 @@ logging:
   level:
     root: info
     com.sh.app: debug
+
