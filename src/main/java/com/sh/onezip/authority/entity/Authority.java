@@ -27,7 +27,8 @@ public class Authority implements Serializable{
     @GeneratedValue(generator = "seq_Authority_id_generator")
     @SequenceGenerator(
             name = "seq_Authority_id_generator",
-            sequenceName = "seq_tb_authority",
+
+            sequenceName = "tb_authority_seq",
             initialValue = 1,
             allocationSize = 1)
     private Long id;
