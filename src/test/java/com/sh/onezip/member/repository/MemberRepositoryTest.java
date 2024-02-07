@@ -81,18 +81,25 @@ class MemberRepositoryTest {
         memberRepository.save(member);
 
         Authority authority = Authority.builder()
-                .memberId(member.getMemberId())
+                .memberId("abcde")
                 .userType(RoleAuth.ROLE_USER)
                 .build();
         authorityRepository.save(authority);
+
+
         System.out.println(authority);
+
+        System.out.println(member);
+        System.out.println(member.getAuthorities());
+
         // when
         Member member2 = memberRepository.findByMemberId(member.getMemberId());
         System.out.println(member2);
         // then
         assertThat(member2).isNotNull();
+
         assertThat(member2.getAuthorities())
-//                .isNotEmpty()
+                .isNotEmpty()
                 .allSatisfy((_authority) -> {
                     assertThat(_authority.getId()).isEqualTo(authority.getId());
                     assertThat(_authority.getMemberId()).isEqualTo(member.getMemberId());
@@ -101,3 +108,4 @@ class MemberRepositoryTest {
     }
 
 }
+

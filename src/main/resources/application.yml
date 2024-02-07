@@ -8,8 +8,15 @@ spring:
     url: ${PROD_DB_URL}
     username: ${PROD_DB_USERNAME}
     password: ${PROD_DB_PASSWORD}
+#spring:
+#  datasource:
+#    driver-class-name: oracle.jdbc.OracleDriver
+#    url: jdbc:oracle:thin:@localhost:1521:xe
+#    username: ziptest
+#    password: ziptest
   profiles:
     default: test
+
   jpa:
     generate-ddl: true
     show-sql: true
