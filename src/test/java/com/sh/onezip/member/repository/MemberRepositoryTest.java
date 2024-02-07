@@ -75,8 +75,8 @@ class MemberRepositoryTest {
         Member member = Member.builder()
                 .memberId("honggd1")
                 .password(passwordEncoder.encode("1234"))
-                .name("홍길동2")
-                .nickname("alphabet3")
+                .name("홍길동3")
+                .nickname("alphabet345")
                 .birthday(LocalDate.of(1999, 9, 9))
                 .gender(Gender.M)
                 .phone("01012341234")
@@ -86,17 +86,10 @@ class MemberRepositoryTest {
         memberRepository.save(member);
 
         Authority authority = Authority.builder()
-                .memberId("abcde")
+                .memberId(member.getMemberId())
                 .userType(RoleAuth.ROLE_USER)
                 .build();
         authorityRepository.save(authority);
-
-
-        System.out.println(authority);
-
-        System.out.println(member);
-        System.out.println(member.getAuthorities());
-
         // when
         Member member2 = memberRepository.findByMemberId(member.getMemberId());
         System.out.println(member2);
