@@ -73,9 +73,9 @@ class MemberRepositoryTest {
     void test2() {
         // given
         Member member = Member.builder()
-                .memberId("honggd")
+                .memberId("honggd1")
                 .password(passwordEncoder.encode("1234"))
-                .name("홍길동")
+                .name("홍길동2")
                 .nickname("alphabet3")
                 .birthday(LocalDate.of(1999, 9, 9))
                 .gender(Gender.M)
@@ -97,7 +97,7 @@ class MemberRepositoryTest {
         // then
         assertThat(member2).isNotNull();
         assertThat(member2.getAuthorities())
-//                .isNotEmpty()
+                .isNotEmpty()
                 .allSatisfy((_authority) -> {
                     assertThat(_authority.getId()).isEqualTo(authority.getId());
                     assertThat(_authority.getMemberId()).isEqualTo(member.getMemberId());
