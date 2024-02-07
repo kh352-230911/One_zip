@@ -4,13 +4,16 @@ import com.sh.onezip.authority.entity.Authority;
 import com.sh.onezip.authority.entity.RoleAuth;
 import com.sh.onezip.authority.repository.AuthorityRepository;
 import com.sh.onezip.member.entity.Gender;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import com.sh.onezip.member.entity.Member;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +21,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class MemberRepositoryTest {
     @Autowired
@@ -31,6 +34,7 @@ class MemberRepositoryTest {
     void test0(){
         assertThat(memberRepository).isNotNull();
     }
+
 
     @DisplayName("회원 등록 및 조회")
     @Test
@@ -58,6 +62,7 @@ class MemberRepositoryTest {
         assertThat(authority.getId()).isNotNull().isNotZero();
     }
 
+
     @DisplayName("username 회원 조회시 권한정보도 함께 조회되어야 한다.")
     @Test
     void test2() {
@@ -81,22 +86,26 @@ class MemberRepositoryTest {
                 .build();
         authorityRepository.save(authority);
 
+
         System.out.println(authority);
 
         System.out.println(member);
         System.out.println(member.getAuthorities());
 
         // when
-        Member member2 = memberRepository.findByName(member.getName());
+        Member member2 = memberRepository.findByMemberId(member.getMemberId());
         System.out.println(member2);
         // then
         assertThat(member2).isNotNull();
-//        assertThat(member2.getAuthorities())
-//                .isNotEmpty()
-//                .allSatisfy((_authority) -> {
-//                    assertThat(_authority.getId()).isEqualTo(authority.getId());
-//                    assertThat(_authority.getMemberId()).isEqualTo(member.getMemberId());
-//                    assertThat(_authority.getUserType()).isEqualTo(authority.getUserType());
-//                });
+
+        assertThat(member2.getAuthorities())
+                .isNotEmpty()
+                .allSatisfy((_authority) -> {
+                    assertThat(_authority.getId()).isEqualTo(authority.getId());
+                    assertThat(_authority.getMemberId()).isEqualTo(member.getMemberId());
+                    assertThat(_authority.getUserType()).isEqualTo(authority.getUserType());
+                });
     }
+
 }
+
