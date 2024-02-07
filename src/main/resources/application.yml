@@ -17,7 +17,7 @@ spring:
       hibernate:
         format_sql: true
         hbm2ddl:
-          auto: create
+          auto: validate
     database: oracle
     database-platform: org.hibernate.dialect.OracleDialect
 

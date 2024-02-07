@@ -22,6 +22,9 @@ public class MemberService {
     public Member findByName(String username) {
         return memberRepository.findByName(username);
     }
+    public Member findByMemberId(String memberId) {
+        return memberRepository.findByMemberId(memberId);
+    }
 
     public Member createMember(Member member) {
         memberRepository.save(member);
