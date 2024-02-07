@@ -30,7 +30,7 @@ public class MemberDetails implements UserDetails{
 
     @Override
     public String getUsername() {
-        return this.member.getName();
+        return this.member.getMemberId();
     }
 
     @Override

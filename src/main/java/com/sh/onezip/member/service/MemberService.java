@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @Slf4j
-@Transactional
 public class MemberService {
     @Autowired
     MemberRepository memberRepository;
@@ -22,6 +21,9 @@ public class MemberService {
 
     public Member findByName(String username) {
         return memberRepository.findByName(username);
+    }
+    public Member findByMemberId(String memberId) {
+        return memberRepository.findByMemberId(memberId);
     }
 
     public Member createMember(Member member) {

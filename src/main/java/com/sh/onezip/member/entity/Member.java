@@ -50,14 +50,11 @@ public class Member {
     @Column(nullable = false)
     private String memberAddr;
 
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private List<Authority> authorities;
+
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-//    @Builder.Default
     private List<Authority> authorities;
-//            = new ArrayList<>(); // authorities 필드 초기화
+
 
 }
