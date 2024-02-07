@@ -8,9 +8,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,6 +21,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@DynamicInsert // null이 아닌 필드만 등록
+@DynamicUpdate // 영속성컨텍스트의 엔티티와 달라진 필드만 수정
 @Table(name = "tb_member")
 public class Member {
     @Id //jakarta.persistence
@@ -45,8 +50,14 @@ public class Member {
     @Column(nullable = false)
     private String memberAddr;
 
-    @OneToMany(fetch = FetchType.EAGER)
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "member_id")
+//    private List<Authority> authorities;
+
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+//    @Builder.Default
     private List<Authority> authorities;
+//            = new ArrayList<>(); // authorities 필드 초기화
 
 }
