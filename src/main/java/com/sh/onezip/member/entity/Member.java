@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
@@ -18,6 +20,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@DynamicUpdate
+@DynamicInsert
 @Table(name = "tb_member")
 public class Member {
     @Id //jakarta.persistence
