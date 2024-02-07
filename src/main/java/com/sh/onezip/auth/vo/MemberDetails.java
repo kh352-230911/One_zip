@@ -10,11 +10,12 @@ import java.util.Collection;
 import java.util.Map;
 
 @Data
-public class MemberDetails implements UserDetails{
+public class MemberDetails implements UserDetails {
 
     final Member member;
 
     private Map<String, Object> attributes;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.member.getAuthorities().stream()
@@ -30,7 +31,7 @@ public class MemberDetails implements UserDetails{
 
     @Override
     public String getUsername() {
-        return this.member.getName();
+        return this.member.getMemberId();
     }
 
     @Override
@@ -53,3 +54,4 @@ public class MemberDetails implements UserDetails{
         return true;
     }
 }
+

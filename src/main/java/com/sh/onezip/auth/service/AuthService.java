@@ -18,11 +18,12 @@ public class AuthService implements UserDetailsService{
     private MemberService memberService;
 
     @Override
-    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        Member member = memberService.findByName(name);
+    public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
+        Member member = memberService.findByMemberId(memberId);
         if(member == null){
-            throw new UsernameNotFoundException(name);
+            throw new UsernameNotFoundException(memberId);
         }
         return new MemberDetails(member);
     }
+
 }

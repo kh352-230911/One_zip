@@ -8,18 +8,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Entity
 @Table(
         name = "tb_authority",
         uniqueConstraints =
-        @UniqueConstraint(
+            @UniqueConstraint(
                 name = "uq_authority_member_id_name",
                 columnNames = {"member_id", "user_type"}))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Authority {
+public class Authority implements Serializable{
     @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
     @GeneratedValue(generator = "seq_Authority_id_generator")
@@ -35,6 +37,5 @@ public class Authority {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleAuth userType;
-
 
 }
