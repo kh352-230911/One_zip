@@ -32,7 +32,6 @@ class MemberRepositoryTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-
     @DisplayName("MemberRepository빈은 null이 아니다.")
     @Test
     void test0(){

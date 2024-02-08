@@ -7,7 +7,7 @@ body {
     font-size: 1.2em;
 }
 
-div, section, header, aside, footer {
+ section, header, aside, footer {
     padding: 10px;
 }
 

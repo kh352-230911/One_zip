@@ -26,7 +26,6 @@ import java.util.List;
 @Table(name = "tb_member")
 public class Member {
 
-
     @Id
     @Column
     private String memberId;
@@ -50,8 +49,6 @@ public class Member {
     private LocalDate regDate;
     @Column(nullable = false)
     private String memberAddr;
-
-
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
