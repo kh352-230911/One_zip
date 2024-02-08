@@ -34,7 +34,7 @@ public class DiaryService {
     }
     public void createDiary(DiaryCreateDto diaryCreateDto, Member  member) {
         Zip zip = zipRepository.findByMember(member)
-                .orElseThrow(() -> new RuntimeException("Zip not found for the member"));
+                .orElse(null);
 
         // 찾은 Zip의 ID를 DiaryCreateDto에 설정합니다.
         diaryCreateDto.setZipId(zip.getId());
