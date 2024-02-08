@@ -14,5 +14,4 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     @Query("FROM Member m JOIN FETCH m.authorities WHERE m.memberId = :memberId")
     Member findByMemberId(String memberId);
 
-
 }
