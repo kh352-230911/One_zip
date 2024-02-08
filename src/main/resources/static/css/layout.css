@@ -10,8 +10,8 @@ body {
   border-radius: 9px;
   border: 1px solid #738186;
 
-  width: 960px;
-  height: 660px;
+  width: 70vw;
+  height: 80vh;
 
   margin: 100px auto;
 
@@ -51,8 +51,11 @@ body {
 .upside{
   flex:0.1;
   color: black;
-
   font-size: 13px;
+  margin-left: 20px;
+}
+.upside span{
+
 }
 
 .title{
@@ -179,7 +182,7 @@ body {
 .menu_bar{
   display: flex;
   flex-direction: column;
-  flex: 0.1;
+  flex: 0.05;
 
   margin-top: 80px;
   margin-bottom: 360px;
@@ -190,11 +193,13 @@ body {
 
 .menu_bar > a{
   flex: 1;
-
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
   background-color: steelblue;
   color: whitesmoke;
-  text-align: left;
-  line-height: 30px;
+  text-align: center;
+
 
   margin-top: 6px;
   margin-bottom: 6px;
@@ -211,3 +216,4 @@ body {
 .menu_bar > a:hover{
   background-color:#4F92CD;
 }
+
