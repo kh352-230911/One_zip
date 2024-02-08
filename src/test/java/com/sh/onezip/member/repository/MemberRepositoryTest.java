@@ -64,7 +64,7 @@ class MemberRepositoryTest {
         authorityRepository.save(authority);
 
         assertThat(member.getMemberId()).isNotNull();
-        assertThat(authority.getId()).isNotNull().isNotZero();
+        assertThat(authority.getMemberId()).isNotNull().isNotEmpty();
     }
 
 
@@ -99,7 +99,7 @@ class MemberRepositoryTest {
         assertThat(member2.getAuthorities())
                 .isNotEmpty()
                 .allSatisfy((_authority) -> {
-                    assertThat(_authority.getId()).isEqualTo(authority.getId());
+                    assertThat(_authority.getMemberId()).isEqualTo(authority.getMemberId());
                     assertThat(_authority.getMemberId()).isEqualTo(member.getMemberId());
                     assertThat(_authority.getUserType()).isEqualTo(authority.getUserType());
                 });
