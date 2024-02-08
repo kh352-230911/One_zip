@@ -25,7 +25,7 @@ import java.util.List;
 @DynamicUpdate // 영속성컨텍스트의 엔티티와 달라진 필드만 수정
 @Table(name = "tb_member")
 public class Member {
-    @Id //jakarta.persistence
+    @Id
     @Column
     private String memberId;
     @Column(nullable = false)
@@ -49,8 +49,6 @@ public class Member {
     private LocalDate regDate;
     @Column(nullable = false)
     private String memberAddr;
-
-
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
