@@ -1,10 +1,13 @@
 package com.sh.onezip.businessmember.entity;
 
+import com.sh.onezip.product.entity.Product;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -12,6 +15,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "tb_businessmember")
 @Data
+@ToString(exclude = "products")
 public class Businessmember {
     @Id
     @Column
@@ -38,5 +42,9 @@ public class Businessmember {
     @Column
     @Enumerated(EnumType.STRING)
     private BizAccess bizRegStatus;
+
+    @OneToMany(mappedBy = "businessmember", fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<Product> products = new ArrayList<>();
 
 }

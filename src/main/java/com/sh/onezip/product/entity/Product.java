@@ -1,6 +1,7 @@
 package com.sh.onezip.product.entity;
 
 import com.sh.onezip.businessmember.entity.Businessmember;
+import com.sh.onezip.productimage.entity.ProductImage;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -29,9 +31,6 @@ public class Product {
             allocationSize = 1)
     private Long id;
     @Column
-    @JoinColumn(name = "biz_member_Id")
-    private String bizMemberId;
-    @Column
     private String productName;
     @Column
     @Enumerated(EnumType.STRING)
@@ -47,5 +46,9 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "biz_member_Id")
     private Businessmember businessmember;
+
+    @OneToMany(mappedBy = "product" ,fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<ProductImage> productImage = new ArrayList<>();
 
 }
