@@ -146,7 +146,7 @@
 </div>
     <script>
       function getTextFile() {
-          var input = document.createElement("input");
+          const input = document.createElement("input");
           input.type = "file";
           input.accept = "text/plain"
           input.onchange = function (event) {
@@ -156,7 +156,7 @@
       }
 
       function processFile(file) {
-          var reader = new FileReader();
+          const reader = new FileReader();
           reader.readAsText(file, "utf-8");
 
           reader.onload = function () {
