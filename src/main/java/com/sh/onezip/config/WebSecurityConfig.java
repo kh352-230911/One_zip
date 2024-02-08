@@ -26,6 +26,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/auth/**").permitAll()
                     .requestMatchers("/member/createMember.do","/member/checkIdDuplicate.do").anonymous()
                     .requestMatchers("/board/**").authenticated()
+                    .requestMatchers("/community/**").authenticated()
                     .requestMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated();
         }));
