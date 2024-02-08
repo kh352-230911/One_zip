@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CommunityController {
     @GetMapping("/home.do")
     public void home(){}
-
     @GetMapping("/diary.do")
     public void diary(){}
     @GetMapping("/photo.do")
