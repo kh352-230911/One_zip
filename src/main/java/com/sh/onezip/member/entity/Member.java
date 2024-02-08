@@ -53,6 +53,4 @@ public class Member {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private List<Authority> authorities;
-
-
 }

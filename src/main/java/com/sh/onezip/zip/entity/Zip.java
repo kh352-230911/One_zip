@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,8 @@ import java.util.Optional;
 @Builder
 public class Zip {
     @Id
-    @GeneratedValue(generator = "seq_tb_zip_id_generator")
+    @GeneratedValue(strategy = GenerationType.AUTO,
+            generator = "seq_tb_zip_id_generator")
     @SequenceGenerator(
             name = "seq_tb_zip_id_generator",
             sequenceName = "seq_tb_zip_id",
@@ -34,7 +36,7 @@ public class Zip {
     private Member member;
     private String content;
     @CreationTimestamp
-    private LocalDateTime regDate;
+    private LocalDate regDate;
     @OneToMany
     @JoinColumn(name = "zip_id")
     @Builder.Default
