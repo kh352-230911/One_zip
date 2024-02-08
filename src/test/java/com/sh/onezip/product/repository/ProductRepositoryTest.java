@@ -30,8 +30,8 @@ class ProductRepositoryTest {
     ProductRepository productRepository;
     @Autowired
     BusinessmemberRepository businessmemberRepository;
-    @Autowired
-    ProductImageRepository productImageRepository;
+//    @Autowired
+//    ProductImageRepository productImageRepository;
 
     private List<Product> products;
 

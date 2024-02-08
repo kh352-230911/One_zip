@@ -47,8 +47,8 @@ public class Product {
     @JoinColumn(name = "biz_member_Id")
     private Businessmember businessmember;
 
-    @OneToMany(mappedBy = "product" ,fetch = FetchType.EAGER)
-    @Builder.Default
-    private List<ProductImage> productImage = new ArrayList<>();
+//    @OneToMany(mappedBy = "product" ,fetch = FetchType.EAGER)
+//    @Builder.Default
+//    private List<ProductImage> productImage = new ArrayList<>();
 
 }
