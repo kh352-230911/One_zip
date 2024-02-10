@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface BusinessmemberRepository extends JpaRepository<Businessmember, String> {
 
-    Businessmember findByBizMemberId(String biz1234);
+public interface BusinessmemberRepository extends JpaRepository<Businessmember, String> {
+    Businessmember findByBizMemberId(String bizMemberId);
 
 }

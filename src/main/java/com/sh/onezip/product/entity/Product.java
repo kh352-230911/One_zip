@@ -1,7 +1,6 @@
 package com.sh.onezip.product.entity;
 
 import com.sh.onezip.businessmember.entity.Businessmember;
-import com.sh.onezip.productimage.entity.ProductImage;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,9 +22,9 @@ import java.util.List;
 @Entity
 public class Product {
     @Id
-    @GeneratedValue(generator = "seq_board_id_generator")
+    @GeneratedValue(generator = "seq_tb_product_id_generator")
     @SequenceGenerator(
-            name = "seq_board_id_generator",
+            name = "seq_tb_product_id_generator",
             sequenceName = "seq_tb_product_id",
             initialValue = 1,
             allocationSize = 1)

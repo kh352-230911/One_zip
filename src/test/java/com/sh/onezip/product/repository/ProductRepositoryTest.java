@@ -5,7 +5,7 @@ import com.sh.onezip.businessmember.repository.BusinessmemberRepository;
 import com.sh.onezip.member.repository.MemberRepository;
 import com.sh.onezip.product.entity.Product;
 import com.sh.onezip.product.entity.ProductType;
-import com.sh.onezip.productimage.repository.ProductImageRepository;
+//import com.sh.onezip.productimage.repository.ProductImageRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

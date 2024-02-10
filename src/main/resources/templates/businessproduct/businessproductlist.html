@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+
+<head>
+    <title>사업자 - 상품 등록 리스트</title>
+</head>
+<style layout:fragment="style"></style>
+<div layout:fragment="content">
+    <section id="board-container" class="container">
+        <p>총 [[${totalCount}]]건의 상품이 있습니다.</p>
+        <input type="button" value="상품등록" id="btn-add" class="btn btn-outline-success d-block my-3 ml-auto"
+               th:onclick="|location.href = '@{/board/createBoard.do}';|"/>
+            <div th:each="product, status : ${products}" th:data-businessmember-id="${business.id}">
+                <div>
+                상품고유번호 <span th:text="${product.id}"></span>
+                </div>
+                <div>
+                상품 명 <span th:text="${product.id}"></span>
+                </div>
+                <div>
+                상품 가격 <span th:text="${product.id}"></span>
+                </div>
+                <div th:text="${#temporals.format(product.createdAt, 'yyyy/MM/dd HH:mm')}">등록일시</div>
+            </div>
+
+        <div id="pagebar">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link">Previous</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+</div>
+<script layout:fragment="script"></script>
+</html>
