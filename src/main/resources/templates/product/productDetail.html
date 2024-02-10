@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layout/default}">
+<head>
+	<title>게시글 상세보기</title>
+</head>
+<style layout:fragment="style"></style>
+
+<div layout:fragment="content">
+	<div id="product-container" class="w-50 mx-auto text-center">
+		<p th:text="${product.productName}" th:style="'font-size: 40px;'"></p>
+		<span th:text="|할인 전: ${product.productPrice}원|" th:style="'text-decoration:line-through; margin-right: 10px;'"></span>
+		<span th:text="|할인 후: ${product.sellPrice}원|" th:style="'color: red;'"></span>
+		<br>
+		<span th:text="|구매수량:|"><span th:style="'margin-right: 10px;'"></span></span>
+		<span th:text="|최종 가격: ${product.sellPrice}원|" th:style="'color: red;'"></span>
+
+	</div>
+</div>
+
+<script layout:fragment="script"></script>
+</html>
