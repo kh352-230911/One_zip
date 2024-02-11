@@ -25,6 +25,7 @@ import java.util.List;
 @DynamicUpdate // 영속성컨텍스트의 엔티티와 달라진 필드만 수정
 @Table(name = "tb_member")
 public class Member {
+
     @Id
     @Column
     private String memberId;
@@ -34,7 +35,6 @@ public class Member {
     private String name;
     @Column(nullable = false,unique = true)
     private String nickname;
-    @Column(nullable = false)
     private LocalDate birthday;
     @Enumerated(EnumType.STRING)
     private Gender gender;

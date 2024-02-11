@@ -27,7 +27,28 @@ spring:
           auto: validate
     database: oracle
     database-platform: org.hibernate.dialect.OracleDialect
-
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 282187eefb7b7474fc1a3556e02f0c4c
+            client-secret: 1KVRiiho3WCjslfsd393hh9F8jDlQGNA
+            redirect-uri: http://localhost:8080/onezip/login/oauth2/code/kakao
+            client-authentication-method: 'client_secret_post'
+            authorization-grant-type: authorization_code
+          google:
+            client-id: 751691890420-8bv8q8ebjeur5dfj93oe64ekv7akog98.apps.googleusercontent.com
+            client-secret: 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
+            scope: email, profile #사용자의 어떤정보를 가져올 것인가
+            authorization-grant-type: authorization_code
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-info-authentication-method: POST
+            user-name-attribute: id
 logging:
   level:
     root: info

@@ -40,19 +40,19 @@ class BusinessmemberRepositoryTest {
     @Test
     public void test1(){
         Businessmember businessmember = Businessmember.builder()
-                .bizMemberId("biz1234")
+                .bizMemberId("biz1010")
                 .bizPassword("1234")
-                .bizName("홍찰찰")
+                .bizName("홍두깨")
                 .bizPhone("010-1234-1234")
                 .bizAddr("경기도 용인시")
                 .bizLicense("제출 완료")
-                .bizRegNo("13DFG3489")
+                .bizRegNo("34HJNDFG489")
                 .bizRegStatus(BizAccess.D)
                 .build();
         businessmemberRepository.save(businessmember);
         Businessmember businessmember2 = businessmemberRepository.findByBizMemberId(businessmember.getBizMemberId());
         assertThat(businessmember2).isNotNull();
-        assertThat(businessmember2.getBizName()).isEqualTo("홍찰찰");
+        assertThat(businessmember2.getBizName()).isEqualTo("홍두깨");
 
     }
 
@@ -60,36 +60,13 @@ class BusinessmemberRepositoryTest {
     @Test
     public void test2(){
 
-        Businessmember bizman = businessmemberRepository.findByBizMemberId("biz1234");
+        Businessmember bizman = businessmemberRepository.findByBizMemberId("biz1010");
 
         Product product = Product.builder()
                 .businessmember(bizman)
-                .productName("홍찰찰의 찰비빔면")
+                .productName("홍두깨의 두꺼운 두께의 깨강정")
                 .productTypecode(ProductType.O)
-                .productPrice(1_000)
-                .discountRate(10)
-                .build();
-
-        productRepository.save(product);
-        Optional<Product> productOpt = productRepository.findById(product.getId());
-        Product product2 = productOpt.orElse(null);
-
-        assertThat(product2.getId())
-                .isNotNull()
-                .isEqualTo(product.getId());
-    }
-
-    @DisplayName("사업자 회원은 상품을 등록하고 등록한 상품을 조회할 수 있습니다.")
-    @Test
-    public void test3(){
-
-        Businessmember bizman = businessmemberRepository.findByBizMemberId("biz1234");
-
-        Product product = Product.builder()
-                .businessmember(bizman)
-                .productName("홍찰찰의 찰비빔면")
-                .productTypecode(ProductType.O)
-                .productPrice(1_000)
+                .productPrice(10_000)
                 .discountRate(10)
                 .build();
 
@@ -105,12 +82,12 @@ class BusinessmemberRepositoryTest {
     @DisplayName("사업자의 Id로 사업자가 등록한 상품의 정보를 읽어올 수 있습니다.")
     @Test
     public void test4(){
-        Businessmember bizman = businessmemberRepository.findByBizMemberId("biz1234");
+        Businessmember bizman = businessmemberRepository.findByBizMemberId("biz1010");
         List<Product> products = productRepository.findByBusinessmemberBizMemberId(bizman.getBizMemberId());
         assertThat(products)
                 .allSatisfy((product-> {
                     assertThat(product).isNotNull();
-                    assertThat(product.getBusinessmember().getBizMemberId()).isEqualTo("biz1234");
+                    assertThat(product.getBusinessmember().getBizMemberId()).isEqualTo("biz1010");
                     System.out.println(product);
                 }));
     }
