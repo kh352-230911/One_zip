@@ -8,5 +8,5 @@ import java.util.List;
 public class ZipDetailDto {
     private String content;
     private String colorCode;
-    private List<ZipDetailDto> ZupDetailDto;
+    private List<ZipDetailDto> ZipDetailDto;
 }

@@ -23,13 +23,13 @@ public class ZipService {
         return zipRepository.findById(id);
     }
 
-    public List<Zip> findByMemberId(Member member){
-        return zipRepository.findByMemberId(member);
+    public Zip findByMemberId(Member member){
+        return (Zip) zipRepository.findByMemberId(member);
     }
 
-    public Zip createZip(Zip zip){
-        zipRepository.save(zip);
-        return zip;
+    public Zip zipCreate(Zip zip){
+        List<Zip> _zip = zipRepository.findByMemberId(zip.getMember());
+        return zipRepository.save(zip);
     }
 
     public Zip updateZip(Zip zip){
