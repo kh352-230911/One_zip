@@ -8,6 +8,8 @@ import com.sh.onezip.product.entity.ProductType;
 import com.sh.onezip.productimage.entity.PImageType;
 import com.sh.onezip.productimage.entity.ProductImage;
 import com.sh.onezip.productimage.repository.ProductImageRepository;
+import com.sh.onezip.productoption.entity.ProductOption;
+import com.sh.onezip.productoption.repository.ProductOptionRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,6 +43,8 @@ class ProductRepositoryTest {
     BusinessmemberRepository businessmemberRepository;
     @Autowired
     ProductImageRepository productImageRepository;
+    @Autowired
+    ProductOptionRepository productOptionRepository;
 
     private List<Product> products;
 
@@ -120,6 +124,27 @@ class ProductRepositoryTest {
                 .isLessThanOrEqualTo(pageSize);
 
     }
+
+//    @DisplayName("상품에 옵션을 등록할 수 있습니다.")
+//    @Test
+//    public void test4(){
+//        Optional<Product> productOpt = productRepository.findById(1L);
+//        Product product = productOpt.orElse(null);
+//        ProductOption productOption = ProductOption.builder()
+//                .product(product)
+//                .optionName("옵션명1,옵션명2,옵션명3")
+//                .totalStock(10)
+//                .optionCost(1000)
+//                .neOption(true)
+//                .build();
+//        productOptionRepository.save(productOption);
+//        Optional<ProductOption> productOptionOpt = productOptionRepository.findById(1L);
+//        ProductOption productOption2 = productOptionOpt.orElse(null);
+//        assertThat(productOption2.op).isEqualTo()
+//
+//
+//    }
+
 
 
 

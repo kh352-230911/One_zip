@@ -1,7 +1,10 @@
 package com.sh.onezip.product.controller;
 
+import com.sh.onezip.auth.vo.MemberDetails;
+import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.product.dto.ProductDetailDto;
 import com.sh.onezip.product.dto.ProductListDto;
+import com.sh.onezip.product.dto.ProductPurchaseInfoDto;
 import com.sh.onezip.product.entity.Product;
 import com.sh.onezip.product.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,31 +40,6 @@ public class ProductController {
     ProductService productService;
 
     @GetMapping("/productList.do")
-    // size: 페이지당 아이템 수
-    // page: 가져올 페이지 번호
-//    public void productList(@PageableDefault(size = 5, page = 0) Pageable pageable,
-//                            Model model, HttpServletRequest httpServletRequest){
-//        Page<ProductListDto> productPage = productService.findAll(pageable);
-//        String url = httpServletRequest.getRequestURI();
-//        // Pageable에서 가져올 페이지 번호인 page가 0이라면,
-//        // 사용자에게 보이는 페이지 번호는 1이어야 함.
-//        int realPage = pageable.getPageNumber() + 1;
-//        try {
-//            realPage = Integer.parseInt(httpServletRequest.getParameter("page"));
-//        } catch (NumberFormatException ignore) {}
-//        // 1: 현재 페이지 번호
-//        // 2: 한 페이지당 표시할 개체 수
-//        // 3: 전체페이지 수
-//        // 4: 요청 url
-//        String pagebar = HelloMvcUtils.getPagebar(
-//                realPage, productPage.getSize(), productPage.getTotalPages() , url);
-//        System.out.println(pagebar + "pagebar");
-//        model.addAttribute("pagebar", pagebar);
-//        model.addAttribute("products", productPage.getContent());
-//        model.addAttribute("totalCount", productPage.getTotalElements());
-//        System.out.println("productList");
-//    }
-
     public void productList(Model model, HttpServletRequest httpServletRequest){
         String url = httpServletRequest.getRequestURI();
         int realPage = 1;
@@ -87,9 +65,33 @@ public class ProductController {
 
     @GetMapping("/productDetail.do")
     public void productDetail(@RequestParam("id") Long id, Model model) {
-        ProductDetailDto productDetailDto = productService.findById(id);
+        ProductDetailDto productDetailDto = productService.ProductDetailDtofindById(id);
         model.addAttribute("product", productDetailDto);
         log.debug("product = {}", productDetailDto);
+    }
+
+    @PostMapping("/productPurchaseInfo.do")
+    public void productPurchaseInfo(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @RequestParam("productId") Long id,
+            @RequestParam("productQuantity") int productQuantity,
+            Model model){
+        Member member = memberDetails.getMember();
+        ProductPurchaseInfoDto productPurchaseInfoDto = productService.productPurchaseInfoDtofindById(id);
+        productPurchaseInfoDto.setMember(member);
+        productPurchaseInfoDto.setProductQuantity(productQuantity);
+        int totalPrice = productPurchaseInfoDto.getProductPrice() * productQuantity;
+        double discountRate = (double)productPurchaseInfoDto.getDiscountRate()/100;
+        productPurchaseInfoDto.setTotalProductPrice(totalPrice);
+        int totalDiscountPrice = (int)((totalPrice) * (discountRate));
+        productPurchaseInfoDto.setTotalDiscountPrice(totalDiscountPrice);
+        productPurchaseInfoDto.setSellPrice(totalPrice - totalDiscountPrice);
+        model.addAttribute("productPurchaseInfoDto", productPurchaseInfoDto);
+    }
+
+    @PostMapping("/productGiftInfo.do")
+    public void productGiftInfo(){
+
     }
 
 }
