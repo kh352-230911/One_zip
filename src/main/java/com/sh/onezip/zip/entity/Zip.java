@@ -38,7 +38,7 @@ public class Zip {
     @CreationTimestamp
     private LocalDate regDate;
     @OneToMany
-    @JoinColumn(name = "zip_id")
+    @JoinColumn(name = "ref_id")
     @Builder.Default
     private List<Attachment> attachments = new ArrayList<>();
     private String colorCode;

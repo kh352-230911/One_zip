@@ -10,22 +10,22 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "attachment")
+@Table(name = "tb_attachment")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Attachment {
     @Id
-    @GeneratedValue(generator = "seq_attachment_id_generator")
+    @GeneratedValue(generator = "seq_tb_attachment_id_generator")
     @SequenceGenerator(
-            name = "seq_attachment_id_generator",
-            sequenceName = "seq_attachment_id",
+            name = "seq_tb_attachment_id_generator",
+            sequenceName = "seq_tb_attachment_id",
             initialValue = 1,
             allocationSize = 50
     )
     private Long id;
-    @Column(name = "reg_id")
+    @Column(name = "ref_id")
     private Long refId;
     private String refType;
     private String originalFilename;
