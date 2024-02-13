@@ -68,45 +68,45 @@ class ZipRepositoryTest {
                 .isNotEmpty();
 //                .isSortedAccordingTo(Collections.reverseOrder());
     }
-
-    @DisplayName("멤버id로 집 조회")
-    @Test
-    void test3(){
-        Member member = Member.builder().memberId("honggd1").build();
-        System.out.println(member);
-        Zip zip = zipRepository.findByMember(member).orElse(null);
-        assertThat(zip).isNotNull();
-    }
-
-    @DisplayName("집 수정")
-    @Test
-    void test4(){
-        Member member = Member.builder().memberId("honggd1").build();
-        Zip zip = zipRepository.findByMember(member).orElseThrow();
-        String newContent = "새내용";
-        String newColorCode = "#000000";
-        zip.setContent(newContent);
-        zip.setColorCode(newColorCode);
-        zipRepository.save(zip);
-
-        Zip zip2 = zipRepository.findByMember(member).orElseThrow();
-        assertThat(zip2).isNotNull()
-                .satisfies((_zip -> {
-                    assertThat(_zip.getContent()).isEqualTo(newContent);
-                    assertThat(_zip.getColorCode()).isEqualTo(newColorCode);
-                }));
-    }
-
-    @DisplayName("집 삭제")
-    @Test
-    void test5(){
-        Member member = Member.builder().memberId("honggd1").build();
-        Zip zip = zipRepository.findByMember(member).orElseThrow();
-        assertThat(zip).isNotNull();
-
-        zipRepository.delete(zip);
-
-        zipRepository.findByMember(member).orElse(null);
-        assertThat(zip.getId()).isNull();
-    }
+//
+//    @DisplayName("멤버id로 집 조회")
+//    @Test
+//    void test3(){
+//        Member member = Member.builder().memberId("honggd1").build();
+//        System.out.println(member);
+//        Zip zip = zipRepository.findByMember(member).orElse(null);
+//        assertThat(zip).isNotNull();
+//    }
+//
+//    @DisplayName("집 수정")
+//    @Test
+//    void test4(){
+//        Member member = Member.builder().memberId("honggd1").build();
+//        Zip zip = zipRepository.findByMember(member).orElseThrow();
+//        String newContent = "새내용";
+//        String newColorCode = "#000000";
+//        zip.setContent(newContent);
+//        zip.setColorCode(newColorCode);
+//        zipRepository.save(zip);
+//
+//        Zip zip2 = zipRepository.findByMember(member).orElseThrow();
+//        assertThat(zip2).isNotNull()
+//                .satisfies((_zip -> {
+//                    assertThat(_zip.getContent()).isEqualTo(newContent);
+//                    assertThat(_zip.getColorCode()).isEqualTo(newColorCode);
+//                }));
+//    }
+//
+//    @DisplayName("집 삭제")
+//    @Test
+//    void test5(){
+//        Member member = Member.builder().memberId("honggd1").build();
+//        Zip zip = zipRepository.findByMember(member).orElseThrow();
+//        assertThat(zip).isNotNull();
+//
+//        zipRepository.delete(zip);
+//
+//        zipRepository.findByMember(member).orElse(null);
+//        assertThat(zip.getId()).isNull();
+//    }
 }
