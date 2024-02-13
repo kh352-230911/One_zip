@@ -42,12 +42,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-<<<<<<< HEAD
 
-=======
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
->>>>>>> 970b6c5 (Feat: attachment 수정)
 }
 
 tasks.named('test') {

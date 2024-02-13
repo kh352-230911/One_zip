@@ -5,8 +5,11 @@ import com.sh.onezip.diary.dto.DiaryListDto;
 import com.sh.onezip.diary.entity.Diary;
 import com.sh.onezip.diary.repository.DiaryRepository;
 import com.sh.onezip.member.entity.Member;
+import com.sh.onezip.zip.repository.ZipRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,10 @@ public class DiaryService {
     @Autowired
     private ZipRepository zipRepository;
 
+    public Page<DiaryListDto> findAll(Pageable pageable) {
+        Page<Diary> diaryPage = diaryRepository.findAll(pageable);
+        return diaryPage.map((diary) -> convertToDiaryListDto(diary)); // Page<BoardListDto>
+    }
     private DiaryListDto convertToDiaryListDto(Diary diary) {
         DiaryListDto diaryListDto = modelMapper.map(diary, DiaryListDto.class);
         diaryListDto.setZipId(
