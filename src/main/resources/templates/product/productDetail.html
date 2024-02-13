@@ -5,20 +5,46 @@
 		layout:decorate="~{layout/default}">
 <head>
 	<title>게시글 상세보기</title>
+	<script>
+		const contextPath = `[[@{/}]]`;
+	</script>
 </head>
 <style layout:fragment="style"></style>
 
 <div layout:fragment="content">
 	<div id="product-container" class="w-50 mx-auto text-center">
-		<p th:text="${product.productName}" th:style="'font-size: 40px;'"></p>
-		<span th:text="|할인 전: ${product.productPrice}원|" th:style="'text-decoration:line-through; margin-right: 10px;'"></span>
-		<span th:text="|할인 후: ${product.sellPrice}원|" th:style="'color: red;'"></span>
-		<br>
-		<span th:text="|구매수량:|"><span th:style="'margin-right: 10px;'"></span></span>
-		<span th:text="|최종 가격: ${product.sellPrice}원|" th:style="'color: red;'"></span>
+		<form name="productFrm"
+			  method="post">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			<p th:text="${product.productName}" th:style="'font-size: 40px;'"></p>
+			<span th:text="|할인 전: ${product.productPrice}원|" th:style="'text-decoration:line-through; margin-right: 10px;'"></span>
+			<input id="product-id" name="productId" type="hidden" th:value='${product.id}'>
+			<span th:text="|할인 후:|" th:style="'color: red;'"></span>
+			<span id="product-sellPrice" th:style="'color: red;'">[[${product.sellPrice}]]</span>
+			<span th:text="|원|" th:style="'color: red;'"></span>
+			<br>
+			<span th:text="|구매수량:|"><span th:style="'margin-right: 10px;'"></span></span>
+			<span><button id="plus-btn" class="quantity-btn">+</button></span>
+			<input id="product-quantity" name="productQuantity" type="text" value='1' style="width: 45px; border: none; outline: none; text-align: center;">
+			<span><button id="minus-btn" class="quantity-btn">-</button></span>
+			<br>
+			<span th:text="|최종 가격:|" th:style="'color: red;'"></span>
+			<input id="product-totalPrice" name="totalPrice" type="number" th:value="${product.sellPrice}" style="width: 100px; border: none; outline: none; text-align: center; color: red;" disabled readonly>
+			<span th:text="|원|" th:style="'color: red; margin-right: 50px;'"></span>
+			<br>
+<!--			<button id="gift-btn" type="button" >선물하기</button>-->
+<!--			<button id="purchase-btn" type="submit">구매하기</button>-->
+			<button onclick="submitTo('gift')">선물하기</button>
+			<button onclick="submitTo('purchase')">구매하기</button>
+		</form>
+	</div>
 
+	<div class="text-center" style="padding: 0 50px; background-color: gray;">
+		<button th:text="|상품 상세보기|" style="margin-right: 200px; width: 150px;"></button>
+		<button th:text="|리뷰 상세보기|" style="margin-right: 200px; width: 150px;"></button>
+		<button th:text="|Q&A|" style="width: 150px;"></button>
 	</div>
 </div>
 
-<script layout:fragment="script"></script>
+<script layout:fragment="script" th:src="@{/js/product/productDetail.js}"></script>
 </html>

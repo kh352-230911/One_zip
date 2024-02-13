@@ -1,8 +1,8 @@
 package com.sh.onezip.product.entity;
 
 import com.sh.onezip.businessmember.entity.Businessmember;
-//import com.sh.onezip.productimage.entity.ProductImage;
 import com.sh.onezip.productimage.entity.ProductImage;
+import com.sh.onezip.productoption.entity.ProductOption;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +50,10 @@ public class Product implements Comparable<Product> {
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     @Builder.Default
     private List<ProductImage> productImages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<ProductOption> productOptions = new ArrayList<>();
 
     @Override
     public int compareTo(Product other) {

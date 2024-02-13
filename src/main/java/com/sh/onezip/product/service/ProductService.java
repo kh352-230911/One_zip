@@ -2,8 +2,10 @@ package com.sh.onezip.product.service;
 
 import com.sh.onezip.product.dto.ProductDetailDto;
 import com.sh.onezip.product.dto.ProductListDto;
+import com.sh.onezip.product.dto.ProductPurchaseInfoDto;
 import com.sh.onezip.product.entity.Product;
 import com.sh.onezip.product.repository.ProductRepository;
+import com.sh.onezip.productoption.repository.ProductOptionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -19,6 +22,9 @@ public class ProductService {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    ProductOptionRepository productOptionRepository;
 
     @Autowired
     ModelMapper modelMapper;
@@ -35,7 +41,7 @@ public class ProductService {
         return productListDto;
     }
 
-    public ProductDetailDto findById(Long id) {
+    public ProductDetailDto ProductDetailDtofindById(Long id) {
         return productRepository.findById(id)
                 .map((product) -> convertToProductDetailDto(product))
                 .orElseThrow();
@@ -44,6 +50,10 @@ public class ProductService {
     private ProductDetailDto convertToProductDetailDto(Product product) {
         ProductDetailDto productDetailDto = modelMapper.map(product, ProductDetailDto.class);
         productDetailDto.setSellPrice((int)(product.getProductPrice() * (1 - ((double)product.getDiscountRate() / 100))));
+
+//        productOptionRepository.findByProductId(product.getId());
+//        productDetailDto.setOptionNames();
+//        productDetailDto.setOptionPrices();
         return productDetailDto;
     }
 
@@ -55,5 +65,13 @@ public class ProductService {
             productListDtos.add(convertToProductListDto(product));
         }
         return productListDtos;
+    }
+
+
+    public ProductPurchaseInfoDto productPurchaseInfoDtofindById(Long id) {
+        Optional<Product> productOpt = productRepository.findById(id);
+        Product product = productOpt.orElse(null);
+        ProductPurchaseInfoDto productPurchaseInfoDto = modelMapper.map(product, ProductPurchaseInfoDto.class);
+        return productPurchaseInfoDto;
     }
 }
