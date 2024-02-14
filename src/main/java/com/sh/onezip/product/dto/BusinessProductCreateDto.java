@@ -1,5 +1,6 @@
 package com.sh.onezip.product.dto;
 
+import com.sh.onezip.businessproduct.entity.Businessmember;
 import com.sh.onezip.product.entity.ProductType;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -7,7 +8,10 @@ import lombok.Data;
 
 @Data
 public class BusinessProductCreateDto {
-    private String bizMemberId;
+
+    private Long id;
+//    private String bizMemberId;
+    private Businessmember businessmember;
     private String productName;
     private int productPrice;
 //    private int discountRate;

@@ -87,7 +87,7 @@ public class BusinessProductController {
             // 유효성 검사를 통과하지 못했을 경우
             throw new RuntimeException(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-//        // ModelMapper 인스턴스 생성
+        // ModelMapper 인스턴스 생성
 //        ModelMapper modelMapper = new ModelMapper();
 //        // ModelMapper 설정 변경
 //        modelMapper.getConfiguration().setAmbiguityIgnored(true);
@@ -95,9 +95,12 @@ public class BusinessProductController {
         Businessmember businessmember = new Businessmember();
         businessmember.setBizMemberId("moneylove");
         // BusinessProductCreateDto에 bizMemberId 설정
-        businessProductCreateDto.setBizMemberId(businessmember.getBizMemberId());
-        productService.businessproductcreate(businessProductCreateDto);
+//        businessProductCreateDto.setBizMemberId(businessmember.getBizMemberId());
+        businessProductCreateDto.setBusinessmember(businessmember);
 
+        System.out.println(businessmember);
+        System.out.println(businessProductCreateDto);
+        productService.businessproductcreate(businessProductCreateDto);
 
         // 리다이렉트후에 사용자피드백
         redirectAttributes.addFlashAttribute("msg", "🎈🎈🎈 게시글을 성공적으로 등록했습니다. 🎈🎈🎈");

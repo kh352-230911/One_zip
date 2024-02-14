@@ -30,6 +30,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("from Product p left join fetch p.businessmember order by p.productName desc")
     Page<Product> findAllBiz(Pageable pageable);
 
-    @Query("FROM Product p WHERE p.businessmember.bizMemberId = :id")
-    List<Product> findByIdBiz(Long id);
+//    @Query("FROM Product p WHERE p.businessmember.bizMemberId = :id")
+//    List<Product> findByIdBiz(Long id);
 }

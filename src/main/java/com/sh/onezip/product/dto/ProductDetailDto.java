@@ -18,5 +18,6 @@ public class ProductDetailDto {
     private LocalDate regDate;
     private List<String> optionNames;
     private List<String> optionPrices;
+    private String bizMemberId;
 
 }
