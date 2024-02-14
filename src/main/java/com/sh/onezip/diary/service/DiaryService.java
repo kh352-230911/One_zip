@@ -5,6 +5,7 @@ import com.sh.onezip.diary.dto.DiaryListDto;
 import com.sh.onezip.diary.entity.Diary;
 import com.sh.onezip.diary.repository.DiaryRepository;
 import com.sh.onezip.member.entity.Member;
+import com.sh.onezip.zip.entity.Zip;
 import com.sh.onezip.zip.repository.ZipRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +39,11 @@ public class DiaryService {
         return diaryListDto;
     }
     public void createDiary(DiaryCreateDto diaryCreateDto, Member  member) {
-//        Zip zip = zipRepository.findByMemberId(member)
-//                .orElseThrow(() -> new RuntimeException("Zip not found for the member"));
-//
-//        // 찾은 Zip의 ID를 DiaryCreateDto에 설정합니다.
-//        diaryCreateDto.setZipId(zip.getId());
+        Zip zip = zipRepository.findByMemberId(member)
+                .orElseThrow(() -> new RuntimeException("Zip not found for the member"));
+
+        // 찾은 Zip의 ID를 DiaryCreateDto에 설정합니다.
+        diaryCreateDto.setZipId(zip.getId());
 
         // 나머지 다이어리 생성 로직...
         diaryRepository.save(convertToDiary(diaryCreateDto));
