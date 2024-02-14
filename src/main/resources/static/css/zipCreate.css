@@ -1,0 +1,20 @@
+/* input 요소를 숨깁니다 */
+input[type="color"] {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    width: 30px; /* 너비를 조정하여 버튼 모양을 변경할 수 있습니다 */
+    height: 30px; /* 높이를 조정하여 버튼 모양을 변경할 수 있습니다 */
+    cursor: pointer;
+}
+
+/* input 요소에 대한 사용자 정의 디자인을 설정합니다 */
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%; /* 버튼을 둥글게 만듭니다 */
+    box-shadow: none; /* 그림자를 제거합니다 */
+}

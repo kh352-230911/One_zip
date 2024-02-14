@@ -23,7 +23,7 @@ import java.io.Serializable;
 @Builder
 public class Authority implements Serializable{
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy= GenerationType.AUTO)
     @GeneratedValue(generator = "seq_Authority_id_generator")
     @SequenceGenerator(
             name = "seq_Authority_id_generator",
