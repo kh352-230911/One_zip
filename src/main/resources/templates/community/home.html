@@ -52,7 +52,10 @@
           </div>
           <div class="home_contents">
 
-            <div class="miniroom_title"><br><strong>티벳토끼의 잡동사니</strong></div>
+            <div class="miniroom_title">
+              <br>
+              <strong th:text="${#authentication.principal.member.name} + '의 잡동사니'"/>
+            </div>
             <div class="miniroom_contents">
 <!--              <img class="miniroom_gif" th:src="@{/images/viscacha.gif}">-->
             </div>

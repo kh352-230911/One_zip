@@ -4,6 +4,8 @@ import com.sh.onezip.product.entity.ProductType;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class ProductDetailDto {
@@ -14,4 +16,7 @@ public class ProductDetailDto {
     private int productPrice;
     private int sellPrice;
     private LocalDate regDate;
+    private List<String> optionNames;
+    private List<String> optionPrices;
+
 }

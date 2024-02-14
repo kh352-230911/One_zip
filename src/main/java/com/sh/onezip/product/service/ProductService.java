@@ -4,8 +4,10 @@ import com.sh.onezip.businessproduct.entity.Businessmember;
 import com.sh.onezip.product.dto.BusinessProductCreateDto;
 import com.sh.onezip.product.dto.ProductDetailDto;
 import com.sh.onezip.product.dto.ProductListDto;
+import com.sh.onezip.product.dto.ProductPurchaseInfoDto;
 import com.sh.onezip.product.entity.Product;
 import com.sh.onezip.product.repository.ProductRepository;
+import com.sh.onezip.productoption.repository.ProductOptionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,12 +17,19 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+<<<<<<< HEAD
+=======
+
+>>>>>>> d43b19924a8847a7670f17ea43e53bddfa9c6a07
 
 @Service
 public class ProductService {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    ProductOptionRepository productOptionRepository;
 
     @Autowired
     ModelMapper modelMapper;
@@ -39,7 +48,11 @@ public class ProductService {
         return productListDto;
     }
 
+<<<<<<< HEAD
     public ProductDetailDto productdetailDtofindById(Long id) {
+=======
+    public ProductDetailDto ProductDetailDtofindById(Long id) {
+>>>>>>> d43b19924a8847a7670f17ea43e53bddfa9c6a07
         return productRepository.findById(id)
                 .map((product) -> convertToProductDetailDto(product))
                 .orElseThrow();
@@ -48,6 +61,10 @@ public class ProductService {
     private ProductDetailDto convertToProductDetailDto(Product product) {
         ProductDetailDto productDetailDto = modelMapper.map(product, ProductDetailDto.class);
         productDetailDto.setSellPrice((int)(product.getProductPrice() * (1 - ((double)product.getDiscountRate() / 100))));
+
+//        productOptionRepository.findByProductId(product.getId());
+//        productDetailDto.setOptionNames();
+//        productDetailDto.setOptionPrices();
         return productDetailDto;
     }
 
@@ -61,6 +78,7 @@ public class ProductService {
         return productListDtos;
     }
 
+<<<<<<< HEAD
     public Page<ProductListDto>  findAllBiz(Pageable pageable) {
         Page<Product> businessproductPage = productRepository.findAllBiz(pageable);
         return businessproductPage.map((product) -> convertTobusinessproductList(product));
@@ -96,6 +114,14 @@ public class ProductService {
         System.out.println(product + "bye");
         productRepository.save(product);
         System.out.println(product);
+=======
+
+    public ProductPurchaseInfoDto productPurchaseInfoDtofindById(Long id) {
+        Optional<Product> productOpt = productRepository.findById(id);
+        Product product = productOpt.orElse(null);
+        ProductPurchaseInfoDto productPurchaseInfoDto = modelMapper.map(product, ProductPurchaseInfoDto.class);
+        return productPurchaseInfoDto;
+>>>>>>> d43b19924a8847a7670f17ea43e53bddfa9c6a07
     }
 }
 //
