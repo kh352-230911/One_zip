@@ -26,6 +26,7 @@ public class MemberService {
         return memberRepository.findByMemberId(memberId);
     }
 
+
     public Member createMember(Member member) {
         memberRepository.save(member);
         Authority authority = Authority.builder()

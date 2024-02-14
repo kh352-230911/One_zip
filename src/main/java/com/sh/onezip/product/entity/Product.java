@@ -1,11 +1,9 @@
 package com.sh.onezip.product.entity;
 
-import com.sh.onezip.businessmember.entity.Businessmember;
+import com.sh.onezip.businessproduct.entity.Businessmember;
+import com.sh.onezip.productimage.entity.ProductImage;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -20,7 +18,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Product {
+@ToString(exclude = "productImages")
+public class Product implements Comparable<Product> {
     @Id
     @GeneratedValue(generator = "seq_tb_product_id_generator")
     @SequenceGenerator(
@@ -31,6 +30,9 @@ public class Product {
     private Long id;
     @Column
     private String productName;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "biz_member_Id")
+    private Businessmember businessmember;
     @Column
     @Enumerated(EnumType.STRING)
     private ProductType productTypecode;
@@ -42,12 +44,13 @@ public class Product {
     @CreationTimestamp
     private LocalDate regDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "biz_member_Id")
-    private Businessmember businessmember;
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<ProductImage> productImages = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "product" ,fetch = FetchType.EAGER)
-//    @Builder.Default
-//    private List<ProductImage> productImage = new ArrayList<>();
+    @Override
+    public int compareTo(Product other) {
+        return (int) (this.id - other.id);
+    }
 
 }

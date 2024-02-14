@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">Hello Spring</title>
+</head>
+
+<body>
+<div id="container">
+    <header th:include="~{fragments/header::header}" >
+
+    </header>
+    <section id="content">
+        <div layout:fragment="content"></div>
+    </section>
+    <footer th:include="~{fragments/footer::footer}" >
+
+    </footer>
+</div>
+<script layout:fragment="script"></script>
+</body>
+</html>
