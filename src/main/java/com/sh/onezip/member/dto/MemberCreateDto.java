@@ -18,18 +18,22 @@ public class MemberCreateDto {
     private String hobby;
     private String mbti;
     private String memberAddr;
+    private String memberDetailAddr;
 
     public Member toMember() {
+
+        String fullAddress = memberAddr + "#" + memberDetailAddr;
         return Member.builder()
                 .memberId(memberId)
                 .password(password)
                 .name(name)
+                .nickname(nickname)
                 .gender(gender)
                 .birthday(birthday)
                 .phone(phone)
                 .hobby(hobby)
                 .mbti(mbti)
-                .memberAddr(memberAddr)
+                .memberAddr(fullAddress)
                 .build();
     }
 }
