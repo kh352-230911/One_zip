@@ -31,7 +31,7 @@ public class Zip {
             initialValue = 1,
             allocationSize = 1)
     private Long id;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
     private String content;
@@ -44,6 +44,4 @@ public class Zip {
     private String colorCode;
     private int dayCount;
     private int totalCount;
-    @Enumerated(EnumType.STRING)
-    private Type type;
 }
