@@ -1,7 +1,5 @@
 package com.sh.onezip.product.service;
 
-import com.sh.onezip.businessproduct.entity.Businessmember;
-import com.sh.onezip.businessproduct.repository.BusinessmemberRepository;
 import com.sh.onezip.product.dto.BusinessProductCreateDto;
 import com.sh.onezip.product.dto.ProductDetailDto;
 import com.sh.onezip.product.dto.ProductListDto;
@@ -53,9 +51,6 @@ public class ProductService {
         ProductDetailDto productDetailDto = modelMapper.map(product, ProductDetailDto.class);
         productDetailDto.setSellPrice((int) (product.getProductPrice() * (1 - ((double) product.getDiscountRate() / 100))));
 
-//        productOptionRepository.findByProductId(product.getId());
-//        productDetailDto.setOptionNames();
-//        productDetailDto.setOptionPrices();
         return productDetailDto;
     }
 
@@ -69,8 +64,8 @@ public class ProductService {
         return productListDtos;
     }
 
-    public Page<ProductListDto> findAllBiz(Pageable pageable) {
-        Page<Product> businessproductPage = productRepository.findAllBiz(pageable);
+    public Page<ProductListDto> findAllBiz(Pageable pageable, String bizMemberId) {
+        Page<Product> businessproductPage = productRepository.findAllBiz(pageable, bizMemberId);
         return businessproductPage.map((product) -> convertTobusinessproductList(product));
     }
 
@@ -80,7 +75,6 @@ public class ProductService {
         productListDto.setSellPrice((int) (product.getProductPrice() * (1 - ((double) product.getDiscountRate() / 100))));
         return productListDto;
     }
-
 
     public List<ProductListDto> findByBusinessmemberBizMemberId(String bizMemberId) {
         List<Product> products = productRepository.findByBusinessmemberBizMemberId(bizMemberId);
@@ -98,7 +92,6 @@ public class ProductService {
     }
 
     public void businessproductcreate(BusinessProductCreateDto businessProductCreateDto) {
-        System.out.println(businessProductCreateDto + "convertTo 보낼게~~");
         Product product1 = convertTobusinessproductcreate(businessProductCreateDto);
         System.out.println(product1 + "product1");
 
@@ -123,16 +116,15 @@ public class ProductService {
         return productPurchaseInfoDto;
 
     }
-}
-//
-//    ProductListDto productListDto = modelMapper.map(product, ProductListDto.class);
-//        productListDto.setBizName(product.getBusinessmember().getBizName());
-//                productListDto.setSellPrice((int)(product.getProductPrice() * (1 - ((double)product.getDiscountRate() / 100))));
 
-// Product 객체로 변환
-//        System.out.println(businessProductCreateDto + "fffffff");
-//        Product product = modelMapper.map(businessProductCreateDto, Product.class);
-//        System.out.println(businessProductCreateDto + "hello");
-//        System.out.println(product + "bye");
-//        productRepository.save(product);
-//        System.out.println(product);
+    public Product businessproductupdate(BusinessProductCreateDto businessProductCreateDto) {
+        Product product1 = convertTobusinessproductupdate(businessProductCreateDto);
+        System.out.println(product1 + "product1");
+        return productRepository.save(product1);
+    }
+
+    private Product convertTobusinessproductupdate(BusinessProductCreateDto businessProductCreateDto) {
+        Product product = modelMapper.map(businessProductCreateDto, Product.class);
+        return product;
+    }
+}

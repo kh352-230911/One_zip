@@ -1,6 +1,5 @@
 package com.sh.onezip.businessproduct.controller;
 
-import com.sh.onezip.auth.vo.MemberDetails;
 import com.sh.onezip.businessproduct.entity.Businessmember;
 import com.sh.onezip.businessproduct.service.BusinessmemberService;
 import com.sh.onezip.common.HelloMvcUtils;
@@ -12,7 +11,6 @@ import com.sh.onezip.product.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -43,30 +42,39 @@ public class BusinessProductController {
     @GetMapping("/businessproductlist.do")
 // Model: Spring MVC에서 Controller에서 View로 데이터를 전달하는 데 사용되는 인터페이스
 // HttpServletRequest: HTTP 요청 정보를 제공하는 클래스
-    public void businessproductlist(Model model, HttpServletRequest httpServletRequest) {
-
-        String bizMemberId = httpServletRequest.getParameter("bizMemberId");
-        // 현재 요청의 URI 가져옴 (현재 사용자가 접속한 페이지의 URL을 나타낸다)
-        String url = httpServletRequest.getRequestURI();
+    public void businessproductlist(@RequestParam("bizMemberId") String bizMemberId, Model model, HttpServletRequest httpServletRequest) {
+        // 하드코딩
+        Businessmember businessmember = new Businessmember();
+        businessmember.setBizMemberId("moneylove");
+        // 요청 파라미터로부터 사업자 아이디(bizMemberId)를 가져옵니다.
+        try {
+            bizMemberId = httpServletRequest.getParameter("bizMemberId");
+        } catch (NumberFormatException ignore) {
+        }
+        // 사업자가 올린 전체 상품 목록
+        List<ProductListDto> businessproductLists = productService.findByBusinessmemberBizMemberId(businessmember.getBizMemberId());
+        System.out.println(businessproductLists + "상품을 등록한 사업자");
+        // 페이지 관련 처리
+        String url = httpServletRequest.getRequestURI() + "?bizMemberId=" + bizMemberId;
+        System.out.println(url + "나왔나..?");
         int realPage = 1;
         int limit = 5;
         try {
             realPage = Integer.parseInt(httpServletRequest.getParameter("page"));
+            System.out.println(realPage + "진짜일까..?");
         } catch (NumberFormatException ignore) {
         }
         Pageable pageable = PageRequest.of(realPage - 1, limit);
-        // findAll(pageable)호출하여 페이지네이션된 상품 목록
-        Page<ProductListDto> businessproductPage = productService.findAllBiz(pageable);
-        // 상픔을 등록한 사업자의 상품 전체 목록을 보여주도록 productService.findAllbusinessproduct()
-        List<ProductListDto> businessproductLists = productService.findByBusinessmemberBizMemberId(bizMemberId);
-        // (현재 페이지 번호, 페이지당 표시할 개체 수, 전체 페이지 수, 요청 URL을 인자로 받아 페이지바를 생성)
-        String pagebar = HelloMvcUtils.getPagebar(
-                realPage, limit, businessproductLists.size(), url);
-        // model.addAttribute()를 사용하여 View로 전달할 데이터를 추가
-        // pagebar, business(페이지네이션된 상품 목록), totalCount(전체 상품 수)를 모델에 추가
+        System.out.println(pageable + "잘넘어가나");
+        // 해당 상품의 리스트를 페이지네이션하여 가져옵니다.
+        Page<ProductListDto> businessproductPage = productService.findAllBiz(pageable, businessmember.getBizMemberId());
+        System.out.println(businessproductPage + "리스트가 잘나오나?");
+        // 페이지 바 생성
+        String pagebar = HelloMvcUtils.getPagebar(realPage, limit, businessproductLists.size(), url);
+        System.out.println(pagebar + "페이지바");
         model.addAttribute("pagebar", pagebar); // view , controller
-        model.addAttribute("business", businessproductPage.getContent());
-        model.addAttribute("totalCount", businessproductLists.size());
+        model.addAttribute("business", businessproductPage.getContent()); // 사업자가 올린 상품 목록
+        model.addAttribute("totalCount", businessproductLists.size()); // 전체 상품 수
     }
 
     @GetMapping("/businessproductcreate.do")
@@ -75,47 +83,71 @@ public class BusinessProductController {
 
     @PostMapping("/businessproductcreate.do")
     public String businessproductcreate(
-            // 유효성검사흫 위한 BusinessCreateDto
+            // 유효성검사를 위한 BusinessCreateDto
             @Valid BusinessProductCreateDto businessProductCreateDto,
             // 유효성 검사 결과를 담는 BindingResult 객체
             BindingResult bindingResult,
             // 리다이렉트 시 데이터 전달을 위한 RedirectAttributes 객체
             RedirectAttributes redirectAttributes
     ) throws IOException {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             // 첫 번째 오류 메시지를 가져와서 예외를 던짐
             // 유효성 검사를 통과하지 못했을 경우
             throw new RuntimeException(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-        // ModelMapper 인스턴스 생성
-//        ModelMapper modelMapper = new ModelMapper();
-//        // ModelMapper 설정 변경
-//        modelMapper.getConfiguration().setAmbiguityIgnored(true);
         // Businessmember 객체 생성 및 bizMemberId 설정
         Businessmember businessmember = new Businessmember();
         businessmember.setBizMemberId("moneylove");
         // BusinessProductCreateDto에 bizMemberId 설정
-//        businessProductCreateDto.setBizMemberId(businessmember.getBizMemberId());
         businessProductCreateDto.setBusinessmember(businessmember);
-
-        System.out.println(businessmember);
-        System.out.println(businessProductCreateDto);
         productService.businessproductcreate(businessProductCreateDto);
 
         // 리다이렉트후에 사용자피드백
         redirectAttributes.addFlashAttribute("msg", "🎈🎈🎈 게시글을 성공적으로 등록했습니다. 🎈🎈🎈");
-        return "redirect:/businessproduct/businessproductlist.do";
+        return "redirect:/businessproduct/businessproductlist.do?bizMemberId=" + businessmember.getBizMemberId();
     }
 
 
     @GetMapping("/businessproductdetail.do")
-    public void businessproductdetail(@RequestParam ("id") Long id, Model model) {
+    public void businessproductdetail(@RequestParam("id") Long id, Model model) {
         ProductDetailDto productDetailDto = productService.productdetailDtofindById(id);
         model.addAttribute("businessproduct", productDetailDto);
     }
-    @GetMapping("/businessproductupdate.do")
-    public void businessproductupdate(){}
+    @PostMapping("/businessproductdetail.do")
+    public String businessproductdetail
+            (@RequestParam("id") Long id, Model model,
+             @Valid BusinessProductCreateDto businessProductCreateDto,
+                                      BindingResult bindingResult,
+                                      RedirectAttributes redirectAttributes) {
+
+        System.out.println(businessProductCreateDto + "잘불러오는감 dto");
+        // 상품 id 하드 코딩
+        Product product = new Product();
+        System.out.println(product + "id 불러오는감?");
+        if(bindingResult.hasErrors()) {
+            StringBuilder message = new StringBuilder();
+            bindingResult.getAllErrors().forEach((err) -> {
+                message.append(err.getDefaultMessage() + " ");
+            });
+            throw new RuntimeException(message.toString());
+        }
+        // Businessmember 객체 생성 및 bizMemberId 설정
+        Businessmember businessmember = new Businessmember();
+        businessmember.setBizMemberId("moneylove");
+
+        businessProductCreateDto.setBusinessmember(businessmember);
+        businessProductCreateDto.setRegDate(LocalDate.now());
+        Product updateBizProduct = productService.businessproductupdate(businessProductCreateDto);
+        System.out.println(businessProductCreateDto + "값을 받아오는감?");
+
+        // 리다이렉트후에 사용자피드백
+        redirectAttributes.addFlashAttribute("msg", "🎈🎈🎈 게시글을 성공적으로 수정했습니다. 🎈🎈🎈");
+        return "redirect:/businessproduct/businessproductdetail.do?id=" + updateBizProduct.getId();
     }
+}
+//    @GetMapping("/businessproductupdate.do")
+//    public void businessproductupdate(){}
+//    }
 
 //    @PostMapping("/businessproductcreate.do")
 //    public String businessproductcreate(){}

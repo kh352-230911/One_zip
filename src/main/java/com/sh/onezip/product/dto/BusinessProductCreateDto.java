@@ -6,6 +6,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 public class BusinessProductCreateDto {
 
@@ -22,4 +24,5 @@ public class BusinessProductCreateDto {
     @Enumerated(EnumType.STRING)
     private ProductType productTypecode;
 //  이미지 url 추후 처리
+    private LocalDate regDate;
 }

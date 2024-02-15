@@ -27,8 +27,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("from Product p left join fetch p.businessmember b left join p.productImages order by p.id desc")
     Page<Product> findAll(Pageable pageable);
 
-    @Query("from Product p left join fetch p.businessmember order by p.productName desc")
-    Page<Product> findAllBiz(Pageable pageable);
+    @Query("from Product p left join fetch p.businessmember WHERE p.businessmember.bizMemberId = :bizMemberId order by p.productName desc")
+    Page<Product> findAllBiz(Pageable pageable,String bizMemberId);
+
 
 //    @Query("FROM Product p WHERE p.businessmember.bizMemberId = :id")
 //    List<Product> findByIdBiz(Long id);
