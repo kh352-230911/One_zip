@@ -113,7 +113,7 @@ public class BusinessProductController {
         ProductDetailDto productDetailDto = productService.productdetailDtofindById(id);
         model.addAttribute("businessproduct", productDetailDto);
     }
-    @PostMapping("/businessproductdetail.do")
+    @PostMapping("/businesspiroductdetal.do")
     public String businessproductdetail
             (@RequestParam("id") Long id, Model model,
              @Valid BusinessProductCreateDto businessProductCreateDto,
