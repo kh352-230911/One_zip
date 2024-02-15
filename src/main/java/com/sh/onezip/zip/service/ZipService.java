@@ -29,8 +29,8 @@ public class ZipService {
         return zipRepository.findById(id);
     }
 
-    public Optional<Zip> findByMemberId(Member member){
-        return  zipRepository.findByMemberId(member);
+    public Optional<Zip> findByMemberId(String memberId){
+        return  zipRepository.findByMemberId(memberId);
     }
 
     public void zipCreate(ZipCreateDto zipCreateDto){

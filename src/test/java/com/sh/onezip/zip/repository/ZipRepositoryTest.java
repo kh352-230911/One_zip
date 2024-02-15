@@ -107,7 +107,7 @@ class ZipRepositoryTest {
 
         zipRepository.delete(zip2);
 
-        zipRepository.findByMemberId(member).orElse(null);
+//        zipRepository.findByMemberId(member).orElse(null);
         assertThat(zip.getId()).isNull();
         System.out.println(zip2);
     }

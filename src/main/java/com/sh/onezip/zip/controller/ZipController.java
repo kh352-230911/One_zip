@@ -53,6 +53,7 @@ public class ZipController {
         redirectAttributes.addFlashAttribute("msg", "집 생성을 축하합니다.");
         return "redirect:/";
     }
+
     @PostMapping("/zipUpdate.do")
     public String zipUpdate(@Valid ZipUpdateDto zipUpdateDto,
                             BindingResult bindingResult,
