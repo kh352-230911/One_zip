@@ -1,7 +1,10 @@
 package com.sh.onezip.member.controller;
 
+import com.sh.onezip.member.dto.MemberCreateDto;
+import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.service.MemberService;
 import jakarta.validation.Valid;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +29,37 @@ import java.util.Map;
 @Validated
 public class MemberController {
     @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
     MemberService memberService;
 
+
     @GetMapping("/createMember.do")
-    public void createMember(){}
+    public void createMember() {
+    }
+
+    @PostMapping("/createMember.do")
+    public String createMember(
+            @Valid MemberCreateDto memberCreateDto,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes){
+        if(bindingResult.hasErrors()) {
+            String message = bindingResult.getAllErrors().get(0).getDefaultMessage();
+            log.debug("message = {}", message);
+            throw new RuntimeException(message);
+        }
+        log.debug("memberCreateDto = {}", memberCreateDto);
+
+        // MemberCreateDto -> Member 변환
+        Member member = memberCreateDto.toMember();
+        String encodedPassword = passwordEncoder.encode(member.getPassword());
+        member.setPassword(encodedPassword);
+        // 업무로직
+        member = memberService.createMember(member);
+        // 리다이렉트후 메세지처리
+        redirectAttributes.addFlashAttribute("msg", "🎉🎉🎉 회원가입을 축하드립니다. 🎉🎉🎉");
+        return "redirect:/";
+    }
 
 //    @GetMapping("/memberDetail.do")
 //    public void memberDetail(Authentication authentication, @AuthenticationPrincipal MemberDetails memberDetails){
@@ -38,5 +68,4 @@ public class MemberController {
 //    }
 
 
-
-}
+    }
