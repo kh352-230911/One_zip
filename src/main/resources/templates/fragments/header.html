@@ -16,6 +16,34 @@
     <title>회원가입</title>
 </head>
 <header th:fragment="header">
+    <div id="header-container">
+        <h2>Hello Spring</h2>
+    </div>
+    <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img th:src="@{/images/logo-spring.png}" alt="스프링로고" width="50px"/>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/product/productList.do}">상품</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/memberList.do}">회원관리</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/community/home.do}">커뮤</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/zip/zipCreate.do}">집 생성</a></li>
+
+            </ul>
+            <!-- 인증 자체를 Security가 관리하므로 Security에게 물어봐야 함.-->
+            <!-- 다른 문자나 특수문자를 혼용할시 '| |'사용해야함.-->
+            <!-- sec:authorize="isAnonymous()"속성으로 로그인 하지 않은상태를 판별 -->
+            <th:block sec:authorize="isAnonymous()">
+                <button class="btn btn-outline-success my-2 my-sm-0 mr-3" type="button" th:onclick="|location.href='@{/auth/login.do}';|">로그인</button>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="button" th:onclick="|location.href='@{/member/createMember.do}';|">회원가입</button>
+            </th:block>
     <nav class="bg-white border-gray-200 dark:bg-gray-900" style="position: relative; z-index: 9999;">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a th:href="@{/}" class="flex items-center space-x-3 rtl:space-x-reverse">

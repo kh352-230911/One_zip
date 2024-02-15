@@ -1,5 +1,6 @@
 package com.sh.onezip.zip.controller;
 
+import com.sh.onezip.auth.vo.MemberDetails;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.repository.MemberRepository;
 import com.sh.onezip.zip.dto.ZipCreateDto;
@@ -39,19 +40,20 @@ public class ZipController {
     public String zipCreate(
             @Valid ZipCreateDto zipCreateDto,
             BindingResult bindingResult,
+            @AuthenticationPrincipal MemberDetails memberDetails,
             RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             String message = bindingResult.getAllErrors().get(0).getDefaultMessage();
             log.debug("message = {}", message);
             throw new RuntimeException(message);
         }
-        log.debug("zipCreateDto = {}", zipCreateDto);
+        zipCreateDto.setMemberId(memberDetails.getMember().getMemberId());
+        zipService.zipCreate(zipCreateDto);
 
-        Zip _zip = zipCreateDto.toZip();
-        _zip = zipService.zipCreate(_zip);
         redirectAttributes.addFlashAttribute("msg", "집 생성을 축하합니다.");
         return "redirect:/";
     }
+
     @PostMapping("/zipUpdate.do")
     public String zipUpdate(@Valid ZipUpdateDto zipUpdateDto,
                             BindingResult bindingResult,

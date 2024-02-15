@@ -284,3 +284,16 @@ body {
   color:navy;
   font-size: 10px;
 }
+.Room_box{
+  flex: 1;
+}
+.Room{
+  flex: 0.1;
+}
+.Room_image{
+  width: 80%;
+  height: 80%;
+
+  margin: 20px;
+  border-radius: 5px;
+}
