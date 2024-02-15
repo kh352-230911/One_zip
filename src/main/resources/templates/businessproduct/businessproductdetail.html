@@ -35,26 +35,14 @@
             </div>
 
             <!--            <textarea class="form-control  mb-3" name="content" placeholder="내용" required></textarea>-->
-            <input type="button"
-                   onclick="confirmEdit()"
-                   class="btn btn-outline-success d-inline-block mr-2" value="수정하기">
-        </form>
-<!--            <input type="button"-->
-<!--                   onclick="confirm('정말 삭제하시겠습니까? 😯') && document.querySelector('#bizProductDeleteFrm').submit()"-->
-<!--                   class="btn btn-outline-success d-inline-block mr-2" value="삭제하기">-->
-<!--            <input type="button"-->
-<!--                   onclick="confirm('이전페이지로 돌아가시겠습니까? 😯') && document.querySelector('#bizProductUpdateFrm').submit()"-->
-<!--                   class="btn btn-outline-success d-inline-block mr-2" value="뒤로가기">-->
+            <a href="javascript:confirm('정말 수정하시겠습니까? 😯') && document.businessFrm.submit();" class="btn btn-outline-success d-inline-block mr-2">수정하기</a>
+            <a href="javascript:confirm('이전으로 돌아가시겠습니까? 😲') && document.businessFrm.submit();" class="btn btn-outline-success d-inline-block mr-2">뒤로가기</a>
+            <a href="javascript:confirm('정말 삭제하시겠습니까? 😲') && document.businessFrm.submit();" class="btn btn-outline-success d-inline-block mr-2">삭제하기</a>
         </form>
     </div>
 </div>
 
 <script layout:fragment="script">
-    function confirmEdit() {
-        if (confirm('정말 수정하시겠습니까? 😯')) {
-            document.querySelector('form[name="businessFrm"]').submit();
-        }
-    }
 
 </script>
 </html>

@@ -144,6 +144,7 @@ public class BusinessProductController {
         redirectAttributes.addFlashAttribute("msg", "🎈🎈🎈 게시글을 성공적으로 수정했습니다. 🎈🎈🎈");
         return "redirect:/businessproduct/businessproductdetail.do?id=" + updateBizProduct.getId();
     }
+
 }
 //    @GetMapping("/businessproductupdate.do")
 //    public void businessproductupdate(){}
