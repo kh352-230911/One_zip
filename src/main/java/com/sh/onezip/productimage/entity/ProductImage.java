@@ -1,6 +1,5 @@
 package com.sh.onezip.productimage.entity;
 
-import com.sh.onezip.businessmember.entity.Businessmember;
 import com.sh.onezip.product.entity.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

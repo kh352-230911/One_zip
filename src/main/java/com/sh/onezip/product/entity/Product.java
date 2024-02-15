@@ -1,6 +1,6 @@
 package com.sh.onezip.product.entity;
 
-import com.sh.onezip.businessmember.entity.Businessmember;
+import com.sh.onezip.businessproduct.entity.Businessmember;
 import com.sh.onezip.productimage.entity.ProductImage;
 import com.sh.onezip.productoption.entity.ProductOption;
 import jakarta.persistence.*;
@@ -10,7 +10,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Data
@@ -30,7 +29,6 @@ public class Product implements Comparable<Product> {
             initialValue = 1,
             allocationSize = 1)
     private Long id;
-
     @Column
     private String productName;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -57,7 +55,7 @@ public class Product implements Comparable<Product> {
 
     @Override
     public int compareTo(Product other) {
-        return (int)(this.id - other.id);
+        return (int) (this.id - other.id);
     }
 
 }
