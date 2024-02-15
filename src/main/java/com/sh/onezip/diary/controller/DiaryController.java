@@ -43,7 +43,7 @@ public class DiaryController {
     }
 
     @PostMapping("/createDiary.do")
-    public String createBoard(
+    public String createDiary(
             @Valid DiaryCreateDto diaryCreateDto,
             BindingResult bindingResult,
             @AuthenticationPrincipal MemberDetails memberDetails,

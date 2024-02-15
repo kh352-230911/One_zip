@@ -16,4 +16,5 @@ public class TipDetailDto {
     private String content;
     private LocalDateTime createdAt;
     private List<AttachmentDetailDto> attachments = new ArrayList<>();
+    private List<TipCommentDto> comments = new ArrayList<>();
 }

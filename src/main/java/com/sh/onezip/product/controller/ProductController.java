@@ -65,7 +65,7 @@ public class ProductController {
 
     @GetMapping("/productDetail.do")
     public void productDetail(@RequestParam("id") Long id, Model model) {
-        ProductDetailDto productDetailDto = productService.ProductDetailDtofindById(id);
+        ProductDetailDto productDetailDto = productService.productdetailDtofindById(id);
         model.addAttribute("product", productDetailDto);
         log.debug("product = {}", productDetailDto);
     }

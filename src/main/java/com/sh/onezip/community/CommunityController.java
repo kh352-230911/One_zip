@@ -17,6 +17,4 @@ public class CommunityController {
     public void photo(){}
     @GetMapping("/visit.do")
     public void visit(){}
-
-
 }

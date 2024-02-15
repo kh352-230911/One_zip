@@ -1,4 +1,4 @@
-package com.sh.onezip.businessmember.entity;
+package com.sh.onezip.businessproduct.entity;
 
 public enum BizAccess {
 

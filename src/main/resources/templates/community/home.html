@@ -4,29 +4,31 @@
       layout:decorate="~{layout/community}">
 
 
+<link rel="stylesheet" href="../../static/css/visit.css">
 <div layout:fragment="content">
 
     <link rel="stylesheet" th:href="@{/css/home.css}" />
     <link rel="stylesheet" th:href="@{/css/font.css}" />
     <link rel="stylesheet" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" th:href="@{/css/zipRoom.css}">
 <head>
   <meta charset="UTF-8" />
-  <title>2021 MINI HOMEPAGE</title>
+  <title th:text="${#authentication.principal.member.name + '.zip'}"></title>
 </head>
 <body>
-<div class="bookcover">
+<div class="bookcover" th:style="'background-color:' + ${zipColorCode}">
   <div class="bookdot">
     <div class="page">
-      <div class="home">
+      <div class="home" >
         <div class="upside">
-          <br><strong>TODAY 28 | TOTAL 234918</strong>
+          <br><strong th:text="${'Today : ' + zipDayCount + ' | Total : ' + zipTotalCount}"></strong>
         </div>
         <div class="home_main">
           <div class="profile">
             <div class="profile_1">
               <img class="profile_image" th:src="@{/images/티벳토끼.jpg}"/>
             </div>
-            <div class="profile_2">안녕하세요.. 코딩하는 티벳토끼입니다. 웹 개발도 깊게 들어갈수록 어렵네요... <br><br>이게 맞나 싶으면서도 어떻게는 완성이 되는게 뭔가 모래성을 쌓는 기분입니다..^^</div>
+            <div class="profile_2" th:text="${zipContent}"></div>
             <div class="updated_news_title"><br><strong>Updated news</strong></div>
             <div class="updated_news_contents">
               <div class="updated_news_left">
@@ -52,12 +54,20 @@
           </div>
           <div class="home_contents">
 
-            <div class="miniroom_title">
-              <br>
-              <strong th:text="${#authentication.principal.member.name} + '의 잡동사니'"/>
-            </div>
+            <div class="miniroom_title"><br><strong th:text="${#authentication.principal.member.name + '님의 집 | 생성일 : ' + zipRegDate}"></strong></div>
             <div class="miniroom_contents">
-<!--              <img class="miniroom_gif" th:src="@{/images/viscacha.gif}">-->
+              <div class="row">
+                <div class="column" style="background-color:#aaa; height: 100%;">칸 1</div>
+                <div class="column" style="background-color:#bbb; height: 100%;">칸 2</div>
+                <div class="column" style="background-color:#ccc; height: 100%;">칸 3</div>
+                <div class="column" style="background-color:#ddd; height: 100%;">칸 4</div>
+              </div>
+              <div class="row">
+                <div class="column" style="background-color:#eee; height: 100%;">칸 5</div>
+                <div class="column" style="background-color:#fff; height: 100%;">칸 6</div>
+                <div class="column" style="background-color:#aaa; height: 100%;">칸 7</div>
+                <div class="column" style="background-color:#bbb; height: 100%;">칸 8</div>
+              </div>
             </div>
           </div>
         </div>

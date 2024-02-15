@@ -40,7 +40,7 @@ public class Tip {
     private String tipContent;
     private Long tipCount;
     @CreationTimestamp
-    private LocalDateTime date;
+    private LocalDateTime regDate;
     private String type;
     @OneToMany
     @JoinColumn(name = "ref_id") // attachment.board_id 컬럼 참조

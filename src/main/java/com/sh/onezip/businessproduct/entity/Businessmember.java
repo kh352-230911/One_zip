@@ -1,4 +1,4 @@
-package com.sh.onezip.businessmember.entity;
+package com.sh.onezip.businessproduct.entity;
 
 import com.sh.onezip.product.entity.Product;
 import jakarta.persistence.*;
@@ -8,7 +8,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
