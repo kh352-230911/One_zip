@@ -56,7 +56,7 @@ public class DiaryController {
         Member member = memberDetails.getMember();
 
         // DiaryService를 사용하여 다이어리를 생성합니다.
-        diaryService.createDiary(diaryCreateDto, member);
+        diaryService.createDiary(diaryCreateDto,member);
 
         // 리다이렉트후에 사용자피드백
         redirectAttributes.addFlashAttribute("msg", "🎈🎈🎈 게시글을 성공적으로 등록했습니다. 🎈🎈🎈");

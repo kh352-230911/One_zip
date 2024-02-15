@@ -14,5 +14,5 @@ public interface ZipRepository extends JpaRepository<Zip, Long> {
     Optional<Zip> findById(Long id);
 
     @Query("from Zip z join fetch z.member m where z.member = :member")
-    List<Zip> findByMemberId(Member member);
+    Optional<Zip> findByMemberId(Member member);
 }

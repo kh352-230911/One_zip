@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,12 +22,12 @@ public class ZipService {
         return zipRepository.findById(id);
     }
 
-    public Zip findByMemberId(Member member){
-        return (Zip) zipRepository.findByMemberId(member);
+    public Optional<Zip> findByMemberId(Member member){
+        return  zipRepository.findByMemberId(member);
     }
 
     public Zip zipCreate(Zip zip){
-        List<Zip> _zip = zipRepository.findByMemberId(zip.getMember());
+        Optional<Zip> _zip = zipRepository.findByMemberId(zip.getMember());
         return zipRepository.save(zip);
     }
 
