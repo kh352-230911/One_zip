@@ -151,6 +151,7 @@ class ProductRepositoryTest {
                 });
     }
 
+
     @DisplayName("상품별 상품 문의 글 페이징 처리")
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3, 4})
