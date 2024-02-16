@@ -1,13 +1,10 @@
 package com.sh.onezip.productquestion.entity;
 
-
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.product.entity.Product;
+import com.sh.onezip.productanswer.entity.ProductAnswer;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -18,7 +15,9 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "tb_pquestions")
-public class ProductQuestion {
+@ToString(exclude = "product")
+//@ToString(exclude = {"member", "product"})
+public class ProductQuestion implements Comparable<ProductQuestion>{
     @Id
     @GeneratedValue(generator = "seq_pquestions_generator")
     @SequenceGenerator(
@@ -28,16 +27,22 @@ public class ProductQuestion {
             allocationSize = 1)
     @Column
     private Long id;
-    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
-    private Member member;
-    @ManyToOne(fetch = FetchType.LAZY)
+    private String memberId;
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id2")
     private Product product;
+    @JoinColumn
     private String qContent;
     @CreationTimestamp
     @Column(name = "q_regdate")
     private LocalDate qRegdate;
+    @OneToOne(mappedBy = "productQuestion")
+    private ProductAnswer productAnswer;
 
+    @Override
+    public int compareTo(ProductQuestion other) {
+        return (int)(this.id - other.id);
+    }
 
 }

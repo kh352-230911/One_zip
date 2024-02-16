@@ -23,7 +23,7 @@ public class ProductAnswer {
     @SequenceGenerator(
             name = "seq_qanwers_generator",
             sequenceName = "seq_tb_qanwers",
-            initialValue = 1,
+            initialValue = 50,
             allocationSize = 1)
     @Column
     private Long id;

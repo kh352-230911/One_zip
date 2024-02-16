@@ -2,6 +2,7 @@ package com.sh.onezip.product.repository;
 
 import com.sh.onezip.businessproduct.entity.Businessmember;
 import com.sh.onezip.product.entity.Product;
+import com.sh.onezip.productquestion.entity.ProductQuestion;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,6 +31,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("from Product p left join fetch p.businessmember WHERE p.businessmember.bizMemberId = :bizMemberId order by p.productName desc")
     Page<Product> findAllBiz(Pageable pageable,String bizMemberId);
 
+    @Query("From ProductQuestion p where p.id = :id")
+    List<ProductQuestion> findByAllBusinessProductQuestion(Long id);
 
 //    @Query("FROM Product p WHERE p.businessmember.bizMemberId = :id")
 //    List<Product> findByIdBiz(Long id);
