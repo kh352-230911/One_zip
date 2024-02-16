@@ -3,6 +3,7 @@ package com.sh.onezip.product.entity;
 import com.sh.onezip.businessproduct.entity.Businessmember;
 import com.sh.onezip.productimage.entity.ProductImage;
 import com.sh.onezip.productoption.entity.ProductOption;
+import com.sh.onezip.productquestion.entity.ProductQuestion;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Data
@@ -53,9 +55,13 @@ public class Product implements Comparable<Product> {
     @Builder.Default
     private List<ProductOption> productOptions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<ProductQuestion> productQuestions = new ArrayList<>();
+
     @Override
     public int compareTo(Product other) {
-        return (int) (this.id - other.id);
+        return (int)(this.id - other.id);
     }
 
 }
