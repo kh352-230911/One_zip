@@ -176,10 +176,6 @@ public class ProductService {
         if((refPrice == 0) || (refPrice == 100001)){
             products = productRepository.findAllByPriceUpper(refPrice);
         }
-
-        if((refPrice == 0) || (refPrice == 100001)){
-            products = productRepository.findAllByPriceUpper(refPrice);
-        }
         else{
             products = productRepository.findAllByPriceUnder(refPrice);
         }

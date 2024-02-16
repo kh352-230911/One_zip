@@ -12,5 +12,4 @@ public class ProductReviewService {
     public void deleteById(Long reviewId) {
         productReviewRepository.deleteById(reviewId);
     }
-
 }
