@@ -3,10 +3,7 @@ package com.sh.onezip.productanswer.entity;
 import com.sh.onezip.businessproduct.entity.Businessmember;
 import com.sh.onezip.productquestion.entity.ProductQuestion;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -17,6 +14,7 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "tb_qanwers")
+@ToString(exclude = "productQuestion")
 public class ProductAnswer {
     @Id
     @GeneratedValue(generator = "seq_qanwers_generator")

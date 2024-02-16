@@ -107,7 +107,7 @@ class ProductRepositoryTest {
     @ValueSource(ints = {0, 1, 2, 3, 4})
     void test3(int page){
         // 한 페이지당 노출 상품 수
-        final int pageSize = 10;
+        final int pageSize = 5;
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by("id").descending());
 
         Page<Product> pageResult = productRepository.findAll(pageable);
@@ -125,8 +125,8 @@ class ProductRepositoryTest {
         int numberOfElements = pageResult.getNumberOfElements();
 
         assertThat(content).isSortedAccordingTo(Collections.reverseOrder());
-        assertThat(totalPages).isEqualTo(1);
-        assertThat(totalElements).isEqualTo(6);
+        assertThat(totalPages).isEqualTo(6);
+        assertThat(totalElements).isEqualTo(26);
         assertThat(number).isEqualTo(page);
         assertThat(numberOfElements)
                 .isEqualTo(content.size())

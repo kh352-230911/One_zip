@@ -38,7 +38,6 @@
 			<button onclick="submitTo('purchase')">구매하기</button>
 		</form>
 	</div>
-
 	<div class="text-center" style="padding: 0 50px; background-color: gray;">
 		<button id="product-detail-list" th:text="|상품 상세보기|" style="margin-right: 200px; width: 150px;"
 				th:onclick="|location.href = '@{productDetailList.do}?id=${product.id}';|"></button>
@@ -48,6 +47,5 @@
 				th:onclick="|location.href = '@{productQna.do}?id=${product.id}';|"></button>
 	</div>
 </div>
-
 <script layout:fragment="script" th:src="@{/js/product/productDetail.js}"></script>
 </html>

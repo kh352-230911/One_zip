@@ -50,6 +50,7 @@ public class ProductController {
     @GetMapping("/productList.do")
     public void productList(Model model, HttpServletRequest httpServletRequest){
         String url = httpServletRequest.getRequestURI();
+        System.out.println("List의 URL" + url);
         int realPage = 1;
         int limit = 5;
         try {
@@ -60,15 +61,13 @@ public class ProductController {
         List<ProductListDto> productListDtos = productService.productListDtoFindAll();
         // 1: 현재 페이지 번호
         // 2: 한 페이지당 표시할 개체 수
-        // 3: 전체페이지 수
+        // 3: 전체 개체수
         // 4: 요청 url
         String pagebar = HelloMvcUtils.getPagebar(
                 realPage, limit, productListDtos.size() , url);
-        System.out.println(pagebar + "pagebar");
         model.addAttribute("pagebar", pagebar);
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("totalCount", productListDtos.size());
-        System.out.println("productList");
     }
 
     @GetMapping("/productDetail.do")
@@ -85,7 +84,6 @@ public class ProductController {
             @RequestParam("productId") Long id,
             @RequestParam("productQuantity") int productQuantity,
             Model model){
-        System.out.println("productPurchaseInfo.do Controller 실행");
         Member member = memberDetails.getMember();
         ProductPurchaseInfoDto productPurchaseInfoDto = productService.productPurchaseInfoDtofindById(id);
         productPurchaseInfoDto.setMember(member);
@@ -129,9 +127,7 @@ public class ProductController {
         // 4: 요청 url
         String pagebar = HelloMvcUtils.getPagebar(
                 realPage, limit, productQuestions.size() , url);
-//        System.out.println(productQuestionDtos + "productQuestionDtos***");
         model.addAttribute("pagebar", pagebar);
-//        model.addAttribute("productQuestionDtos", productQuestionDtos);
         model.addAttribute("questions", productQuestionPage.getContent());
         model.addAttribute("productId", id);
         model.addAttribute("totalCount", productQuestionDtos.size());
@@ -150,7 +146,6 @@ public class ProductController {
         Product product = productOpt.orElse(null);
         int realPage = 1;
         int limit = 5;
-
         Member member = memberDetails.getMember();
 
         List<ProductReview> productReviews = productService.productReviewFindByProductid(product.getId());

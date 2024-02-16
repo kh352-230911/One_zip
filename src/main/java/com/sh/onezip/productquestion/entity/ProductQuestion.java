@@ -32,7 +32,6 @@ public class ProductQuestion implements Comparable<ProductQuestion>{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id2")
     private Product product;
-    //    private String productNo;
     @JoinColumn
     private String qContent;
     @CreationTimestamp

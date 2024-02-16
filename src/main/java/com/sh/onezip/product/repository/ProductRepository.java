@@ -1,7 +1,7 @@
 package com.sh.onezip.product.repository;
 
+
 import com.sh.onezip.businessproduct.entity.Businessmember;
-import com.sh.onezip.product.dto.ProductQuestionDto;
 import com.sh.onezip.product.entity.Product;
 import com.sh.onezip.productReview.entity.ProductReview;
 import com.sh.onezip.productquestion.entity.ProductQuestion;
@@ -63,6 +63,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("from ProductReview pr where pr.productNo = :id")
     List<ProductReview> productReviewFindByProductid(Long id);
 
+
     // 명준 작업 공간 end =================================================================
         
 
@@ -75,4 +76,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByProduct(Businessmember businessmember);
 
     // 보경 작업 공간 end =================================================================
+
+
+
 }

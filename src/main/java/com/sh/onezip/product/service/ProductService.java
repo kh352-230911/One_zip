@@ -186,12 +186,6 @@ public class ProductService {
         return productListDtos;
     }
 
-    public ProductDetailDto productdetailDtofindById(Long id) {
-        return productRepository.findById(id)
-                .map((product) -> convertToProductDetailDto(product))
-                .orElseThrow();
-    }
-
     // 명준 작업 공간 end
 
     // 보경 작업 공간 start =================================================================
