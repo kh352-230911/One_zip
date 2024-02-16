@@ -57,16 +57,28 @@ document.querySelector("#product-quantity").addEventListener('input', (e) => {
     }
 });
 
-function submitTo(destination) {
-    var form = document.querySelector('form[name="productFrm"]');
-    if (destination === 'gift') {
-        // form.action = '${contextPath}/product/productGiftInfo.do';
-        location.href = `${contextPath}/product/productGiftInfo.do`;
-    } else if (destination === 'purchase') {
-        // form.action = '${contextPath}/product/productPurchaseInfo.do';
-        location.href = `${contextPath}/product/productPurchaseInfo.do`;
-    }
-    form.method = 'POST'; // 명시적으로 POST 요청으로 설정
-    form.submit();
-}
+// function submitTo(destination) {
+//     const form = document.querySelector('form[name="productFrm"]');
+//     if (destination === 'gift') {
+//         form.action = '${contextPath}/product/productGiftInfo.do';
+//         // location.href = `${contextPath}/product/productGiftInfo.do`;
+//     } else if (destination === 'purchase') {
+//         form.action = '${contextPath}/product/productPurchaseInfo.do';
+//         // location.href = `${contextPath}/product/productPurchaseInfo.do`;
+//     }
+//     form.method = 'POST'; // 명시적으로 POST 요청으로 설정
+//     form.submit();
+// }
+
+// document.querySelector("#product-detail-list").addEventListener('click', (e) => {
+//     location.href = `${contextPath}product/productDetailList?${productId}`;
+// });
+//
+// document.querySelector("#product-review").addEventListener('click', (e) => {
+//     location.href = `${contextPath}product/productReview?${productId}`;
+// });
+//
+// document.querySelector("#product-qna").addEventListener('click', (e) => {
+//     location.href = `${contextPath}product/productQna?${productId}`;
+// });
 
