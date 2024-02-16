@@ -7,6 +7,7 @@ import com.sh.onezip.product.dto.ProductPurchaseInfoDto;
 import com.sh.onezip.product.entity.Product;
 import com.sh.onezip.product.repository.ProductRepository;
 import com.sh.onezip.productoption.repository.ProductOptionRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,7 @@ public class ProductService {
 
     @Autowired
     ModelMapper modelMapper;
+
 
 
     public Page<ProductListDto> findAll(Pageable pageable) {
@@ -126,5 +128,14 @@ public class ProductService {
     private Product convertTobusinessproductupdate(BusinessProductCreateDto businessProductCreateDto) {
         Product product = modelMapper.map(businessProductCreateDto, Product.class);
         return product;
+    }
+
+//    public void deleteproductlist(Long id) {
+//        productRepository.deleteById(id);
+//        System.out.println(id + " 삭제되는감?");
+//    }
+
+    public void deleteproductlist(Product product) {
+        productRepository.delete(product);
     }
 }

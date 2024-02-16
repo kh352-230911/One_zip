@@ -39,7 +39,7 @@ public class BusinessProductController {
     @Autowired
     ProductService productService;
 
-    @GetMapping("/businessproductlist.do")
+@GetMapping("/businessproductlist.do")
 // Model: Spring MVC에서 Controller에서 View로 데이터를 전달하는 데 사용되는 인터페이스
 // HttpServletRequest: HTTP 요청 정보를 제공하는 클래스
     public void businessproductlist(@RequestParam("bizMemberId") String bizMemberId, Model model, HttpServletRequest httpServletRequest) {
@@ -145,18 +145,35 @@ public class BusinessProductController {
         return "redirect:/businessproduct/businessproductdetail.do?id=" + updateBizProduct.getId();
     }
 
+    // 사업자 아이디(bizMemberId) 상품고유번호(id) moneylove사업자가 상품고유번호 11번 상품을 삭제하고 싶어한다.
+//    @PostMapping("/businessproductlist.do")
+//    public String businessproductlistdelete(@RequestParam("id") Long id, Model model,
+//                                            RedirectAttributes redirectAttributes){
+//        System.out.println(id + "상품고유번호 불러오나?");
+//        // 하드코딩 (사업자 아이디)
+//        Businessmember businessmember = new Businessmember();
+//        businessmember.setBizMemberId("moneylove");
+//        System.out.println(businessmember + "사업자 불러오나?");
+//        Product product = new Product();
+//        product.setId(139L);
+//        productService.deleteproductlist(id);
+//        System.out.println(id + "삭제 되는감?");
+//        redirectAttributes.addFlashAttribute("msg", "상품을 성공적으로 삭제했습니다.");
+//        return "redirect:/businessproduct/businessproductlist.do?bizMemberId=" + businessmember.getBizMemberId();
+//    }
+    // 삭제
+    @PostMapping("/businessproductlist.do")
+    public String businessproductlist (@RequestParam("id") Long id, @RequestParam("bizMemberId") String bizMemberId, Model model, RedirectAttributes redirectAttributes){
+    Businessmember businessmember = new Businessmember();
+        businessmember.setBizMemberId(bizMemberId);
+        System.out.println(businessmember);
+    Product product = new Product();
+        System.out.println(product);
+    product.setId(id);
+        System.out.println(id);
+    productService.deleteproductlist(product);
+        redirectAttributes.addFlashAttribute("msg", "상품을 성공적으로 삭제했습니다.");
+        return "redirect:/businessproduct/businessproductlist.do?bizMemberId=" + businessmember.getBizMemberId();
+    }
+
 }
-//    @GetMapping("/businessproductupdate.do")
-//    public void businessproductupdate(){}
-//    }
-
-//    @PostMapping("/businessproductcreate.do")
-//    public String businessproductcreate(){}
-//}
-//    @GetMapping("/businessproductdetail.do")
-//    public void businessproductdetail(@RequestParam("id")Long id, Model model){
-//
-//    }
-
-
-
