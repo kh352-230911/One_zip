@@ -49,16 +49,27 @@ public class ProductController {
 
     @GetMapping("/productList.do")
     public void productList(Model model, HttpServletRequest httpServletRequest){
-        String url = httpServletRequest.getRequestURI();
-        System.out.println("List의 URL" + url);
+
         int realPage = 1;
+        int refPrice = 0;
         int limit = 5;
+        try {
+            refPrice = Integer.parseInt(httpServletRequest.getParameter("price"));
+        } catch (NumberFormatException ignore) {}
         try {
             realPage = Integer.parseInt(httpServletRequest.getParameter("page"));
         } catch (NumberFormatException ignore) {}
         Pageable pageable = PageRequest.of(realPage - 1, limit);
-        Page<ProductListDto> productPage = productService.productListDtoFindAll(pageable);
-        List<ProductListDto> productListDtos = productService.productListDtoFindAll();
+
+        String url = httpServletRequest.getRequestURI() + "?price=" + refPrice;
+        System.out.println("List의 URL" + url);
+        
+//        Page<ProductListDto> productPage = productService.productListDtoFindAll(pageable); 기존 코드
+//        List<ProductListDto> productListDtos = productService.productListDtoFindAll(); 기존 코드
+
+        Page<ProductListDto> productPage = productService.productListDtoFindAllByPrice(pageable, refPrice);
+        List<ProductListDto> productListDtos = productService.productListDtoFindAllByPrice(refPrice);
+
         // 1: 현재 페이지 번호
         // 2: 한 페이지당 표시할 개체 수
         // 3: 전체 개체수
