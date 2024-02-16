@@ -145,22 +145,6 @@ public class BusinessProductController {
         return "redirect:/businessproduct/businessproductdetail.do?id=" + updateBizProduct.getId();
     }
 
-    // 사업자 아이디(bizMemberId) 상품고유번호(id) moneylove사업자가 상품고유번호 11번 상품을 삭제하고 싶어한다.
-//    @PostMapping("/businessproductlist.do")
-//    public String businessproductlistdelete(@RequestParam("id") Long id, Model model,
-//                                            RedirectAttributes redirectAttributes){
-//        System.out.println(id + "상품고유번호 불러오나?");
-//        // 하드코딩 (사업자 아이디)
-//        Businessmember businessmember = new Businessmember();
-//        businessmember.setBizMemberId("moneylove");
-//        System.out.println(businessmember + "사업자 불러오나?");
-//        Product product = new Product();
-//        product.setId(139L);
-//        productService.deleteproductlist(id);
-//        System.out.println(id + "삭제 되는감?");
-//        redirectAttributes.addFlashAttribute("msg", "상품을 성공적으로 삭제했습니다.");
-//        return "redirect:/businessproduct/businessproductlist.do?bizMemberId=" + businessmember.getBizMemberId();
-//    }
     // 삭제
     @PostMapping("/businessproductlist.do")
     public String businessproductlist (@RequestParam("id") Long id, @RequestParam("bizMemberId") String bizMemberId, Model model, RedirectAttributes redirectAttributes){
@@ -172,7 +156,7 @@ public class BusinessProductController {
     product.setId(id);
         System.out.println(id);
     productService.deleteproductlist(product);
-        redirectAttributes.addFlashAttribute("msg", "상품을 성공적으로 삭제했습니다.");
+        redirectAttributes.addFlashAttribute("msg", "상품을 성공적으로 삭제했습니다.🤠");
         return "redirect:/businessproduct/businessproductlist.do?bizMemberId=" + businessmember.getBizMemberId();
     }
 

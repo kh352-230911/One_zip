@@ -65,7 +65,7 @@ public class ProductService {
         }
         return productListDtos;
     }
-
+    // 사업자 - 보경
     public Page<ProductListDto> findAllBiz(Pageable pageable, String bizMemberId) {
         Page<Product> businessproductPage = productRepository.findAllBiz(pageable, bizMemberId);
         return businessproductPage.map((product) -> convertTobusinessproductList(product));
@@ -92,7 +92,7 @@ public class ProductService {
         Product product = productOptional.orElse(null);
         return product;
     }
-
+// 사업자 - 보경
     public void businessproductcreate(BusinessProductCreateDto businessProductCreateDto) {
         Product product1 = convertTobusinessproductcreate(businessProductCreateDto);
         System.out.println(product1 + "product1");
@@ -118,7 +118,7 @@ public class ProductService {
         return productPurchaseInfoDto;
 
     }
-
+// 사업자 - 보경
     public Product businessproductupdate(BusinessProductCreateDto businessProductCreateDto) {
         Product product1 = convertTobusinessproductupdate(businessProductCreateDto);
         System.out.println(product1 + "product1");
@@ -129,11 +129,6 @@ public class ProductService {
         Product product = modelMapper.map(businessProductCreateDto, Product.class);
         return product;
     }
-
-//    public void deleteproductlist(Long id) {
-//        productRepository.deleteById(id);
-//        System.out.println(id + " 삭제되는감?");
-//    }
 
     public void deleteproductlist(Product product) {
         productRepository.delete(product);
