@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layout/default}">
+<head>
+	<title>리뷰 작성 페이지</title>
+</head>
+<style layout:fragment="style"></style>
+
+<div layout:fragment="content">
+	<div id="board-container" class="w-50 mx-auto text-center">
+		<form name="productReviewCreateFrm"
+			  th:action="@{/product/productReviewCreate.do}"
+			  method="post"
+			  enctype="multipart/form-data">
+			<input type="text" class="form-control mb-3" th:value="${Member.memberId}" name="reviewer" id="reviewer" readonly>
+			<input type="text" class="form-control mb-3" placeholder="제목" name="reviewTitle" id="reviewTitle" required>
+			<input type="number" class="form-control mb-3" placeholder="별점" name="starPoint" id="starPoint" required>
+			<input type="hidden" name="productNo" id="productNo" th:value="${id}">
+			<!-- input:file소스 : https://getbootstrap.com/docs/4.1/components/input-group/#custom-file-input -->
+			<div class="input-group mb-3" style="padding:0px;">
+				<div class="input-group-prepend" style="padding:0px;">
+					<span class="input-group-text">리뷰 이미지</span>
+				</div>
+				<div class="custom-file">
+					<input type="file" class="custom-file-input" name="upFile" id="upFile" multiple>
+					<label class="custom-file-label" for="upFile">리뷰 이미지를 선택하세요</label>
+				</div>
+			</div>
+			<textarea class="form-control  mb-3" name="reviewContent" placeholder="내용" required></textarea>
+
+			<input type="submit" class="btn btn-block btn-outline-success" value="저장">
+		</form>
+	</div>
+</div>
+
+<script layout:fragment="script"></script>
+</html>

@@ -57,16 +57,11 @@ document.querySelector("#product-quantity").addEventListener('input', (e) => {
     }
 });
 
-function submitTo(destination) {
-    var form = document.querySelector('form[name="productFrm"]');
-    if (destination === 'gift') {
-        // form.action = '${contextPath}/product/productGiftInfo.do';
-        location.href = `${contextPath}/product/productGiftInfo.do`;
-    } else if (destination === 'purchase') {
-        // form.action = '${contextPath}/product/productPurchaseInfo.do';
-        location.href = `${contextPath}/product/productPurchaseInfo.do`;
-    }
-    form.method = 'POST'; // 명시적으로 POST 요청으로 설정
-    form.submit();
-}
-
+document.querySelectorAll("tr[data-product-id]").forEach((tr) => {
+    tr.addEventListener('click', (e) => {
+        const td = e.target;
+        const tr = td.parentElement;
+        const {productId} = tr.dataset;
+        location.href = `${contextPath}product/productQna.do?id=${productId}`;
+    });
+});

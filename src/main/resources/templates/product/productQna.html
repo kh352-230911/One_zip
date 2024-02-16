@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+<head>
+    <title>상품 질문과 답변</title>
+</head>
+<style layout:fragment="style"></style>
+
+<div layout:fragment="content">
+    <section>
+        <table>
+            <th:block th:each="question, status: ${questions}" style="padding-top: 60px; padding-bottom: 600px;">
+                <tr style="padding-top: 10px; padding-bottom: 10px;">
+                    <td th:text="|●${question.qContent}|"></td>
+                </tr>
+                <tr style="padding-top: 10px; padding-bottom: 10px;">
+                    <td>
+                        <div th:if="${question.productAnswer != null}" th:data-product-id="${question.product.id}">
+                            <span th:if="${question.productAnswer.aContent != null}" th:text="|답변: ${question.productAnswer.aContent}|"></span>
+                            <span th:if="${question.productAnswer.aContent == null}" th:text="|답변: 답변 대기 중입니다.|"></span>
+                        </div>
+                        <div th:if="${question.productAnswer == null}">
+                            <span>답변: 답변 대기 중입니다.</span>
+                        </div>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+        <button th:onclick="|location.href = '@{productQnaCreatePage.do}?id=${productId}';|">문의 작성</button>
+        <div id="pagebar">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <th:block th:utext="${pagebar}"/>
+                </ul>
+            </nav>
+        </div>
+    </section>
+</div>
+
+<script layout:fragment="script" th:src="@{/js/product/productQna.js}"></script>
+</html>

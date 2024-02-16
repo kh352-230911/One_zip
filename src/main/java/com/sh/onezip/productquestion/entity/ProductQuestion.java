@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Table(name = "tb_pquestions")
 @ToString(exclude = "product")
 //@ToString(exclude = {"member", "product"})
-public class ProductQuestion implements Comparable<ProductQuestion>{
+public class ProductQuestion implements Comparable<ProductQuestion> {
     @Id
     @GeneratedValue(generator = "seq_pquestions_generator")
     @SequenceGenerator(
@@ -42,7 +42,6 @@ public class ProductQuestion implements Comparable<ProductQuestion>{
 
     @Override
     public int compareTo(ProductQuestion other) {
-        return (int)(this.id - other.id);
+        return (int) (this.id - other.id);
     }
-
 }

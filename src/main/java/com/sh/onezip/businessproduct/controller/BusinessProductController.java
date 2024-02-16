@@ -110,7 +110,7 @@ public class BusinessProductController {
 
     @GetMapping("/businessproductdetail.do")
     public void businessproductdetail(@RequestParam("id") Long id, Model model) {
-        ProductDetailDto productDetailDto = productService.productdetailDtofindById(id);
+        ProductDetailDto productDetailDto = productService.productDetailDtofindById(id);
         model.addAttribute("businessproduct", productDetailDto);
     }
     @PostMapping("/businessproductdetail.do")
