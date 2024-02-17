@@ -1,6 +1,5 @@
 package com.sh.onezip.productquestion.entity;
 
-import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.product.entity.Product;
 import com.sh.onezip.productanswer.entity.ProductAnswer;
 import jakarta.persistence.*;
@@ -44,4 +43,5 @@ public class ProductQuestion implements Comparable<ProductQuestion> {
     public int compareTo(ProductQuestion other) {
         return (int) (this.id - other.id);
     }
+
 }

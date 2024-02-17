@@ -136,6 +136,7 @@ class BusinessmemberRepositoryTest {
         // 주문일자, 주문상품 정보, 상품 수량
 
     }
+
     @DisplayName("사업자는 고객이 작성한 문의글의 전체 내역을 볼 수 있습니다.")
     @Test
     public void test7(){
@@ -150,16 +151,14 @@ class BusinessmemberRepositoryTest {
     @DisplayName("사업자는 고객이 작성한 문의글에 답변을 달 수 있습니다.")
     @Test
     public void test8(){
-        // 사업자 로그인 했음 moneylove
+        // 사업자 로그인 했음 moneylove2
         String bizMemberId = "moneylove2";
         Businessmember businessmember = Businessmember.builder().bizMemberId(bizMemberId).build();
-        // moneylove가 등록한 상품고유번호는 152번이야.
-        Long id = 11L;
-        Product product = Product.builder().id(id).build();
-        // moneylove는 상품질문고유번호 19번에 답변을 달거야.
-        Long id2 =3L;
-        ProductQuestion productQuestion = productAnswerRepository.findByProductQuestionId(id2);
+        // moneylove2가 등록한 상품고유번호는 11번이야.(질문페이지)
+        Long id2 = 11L;
+        ProductQuestion productQuestion = productQuestionRepository.findByProductQuestionAnswerId(id2);
         System.out.println(productQuestion + "!!!");
+        // 답변을 달거야.
         ProductAnswer productAnswer = ProductAnswer.builder()
                 .productQuestion(productQuestion)
                 .businessmember(businessmember)
@@ -168,46 +167,30 @@ class BusinessmemberRepositoryTest {
                 .build();
         productAnswerRepository.save(productAnswer);
     }
-    //        Long id2 = 19L;
-//        ProductQuestion productQuestion = ProductQuestion.builder().id(id2).build();
-//
-////        ProductAnswer productAnswer = productAnswerRepository.findByBusinessProductQuestionAnswer(productQuestion.getId());
-//
-//    @DisplayName("사업자는 상품을 등록 할 수 있습니다.")
-//    @Test
-//    public void test2() {
-//        Businessmember businessmember = businessmemberRepository.findByBizMemberId("moneylove");
-//
-//        Product product = Product.builder()
-//                .businessmember(businessmember)
-//                .productName("깨강정")
-//                .productTypecode(ProductType.O)
-//                .productPrice(3_000)
-//                .discountRate(10)
-//                .build();
-//
-//        productRepository.save(product);
-//        Optional<Product> productOpt = productRepository.findById(product.getId());
-//        Product product2 = productOpt.orElse(null);
-//
-//        assertThat(product2.getId())
-//                .isNotNull()
-//                .isEqualTo(product.getId());
-//    }
+
     @DisplayName("사업자는 고객이 작성한 문의글에 답변을 수정 할 수 있습니다.")
     @Test
     public void test9(){
-
+    // 답변 고유번호는 11번이야.
+    Optional<ProductAnswer> optionalProductAnswer = productAnswerRepository.findById(11L);
+    optionalProductAnswer.ifPresent(productAnswer -> {
+       if ("152번에 대한 답변테스트".equals(productAnswer.getAContent())) {
+           productAnswer.setAContent("답변수정합니데이~");
+           productAnswerRepository.save(productAnswer);
+       }
+    });
     }
+
     @DisplayName("사업자는 상품을 구매한 고객이 작성한 리뷰글의 전체 내역을 볼 수 있습니다.")
     @Test
     public void test10(){
-
     }
+
     @DisplayName("사업자는 상품을 구매한 고객이 작성한 리뷰글에 댓글을 달 수 있습니다.")
     @Test
     public void test11(){
-
+//    String bizMemberId = "moneylove2"; // 사업자 로그인 했음 moneylove2
+//    Businessmember businessmember = Businessmember.builder().bizMemberId(bizMemberId).build();
     }
     @DisplayName("사업자는 상품을 구매한 고객이 작성한 리뷰글에 댓글을 수정 할 수 있습니다.")
     @Test
@@ -221,14 +204,3 @@ class BusinessmemberRepositoryTest {
     }
 }
 
-
-//    @DisplayName("사업자는 등록된 상품 개별 내역을 조회할 수 있습니다. - 사업자가 올린 상품 개별 조회") // 상품 bizmemberId랑 biz bizmemberId
-//    @Test
-//    public void test6(){
-//        Long id =22L;
-//        List<Product> products = productRepository.findByIdBiz(id);
-//        assertThat(products).allSatisfy(product -> {
-//            assertThat(product).isNotNull();
-//            assertThat(product.getBusinessmember().getBizMemberId()).isEqualTo(id);
-//        });
-//    }

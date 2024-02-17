@@ -6,8 +6,10 @@ import com.sh.onezip.productquestion.entity.ProductQuestion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface ProductAnswerRepository extends JpaRepository<ProductAnswer, Long> {
 
-    @Query("From ProductQuestion p where p.id =:id2")
-    ProductQuestion findByProductQuestionId(Long id2);
+//    @Query("From ProductAnswer p where p.id =:pquestionNo")
+//    List<ProductAnswer> findByQquestionNo(ProductAnswer pquestionNo);
 }
