@@ -35,7 +35,7 @@
             <tbody>
                 <!--  model.addAttribute("business", businessproductPage.getContent());          -->
             <tr th:each="businessproduct, status : ${business}" th:data-businessproduct-id="${businessproduct.id}">
-<!--           model.addAttribute("businessproduct", productDetailDto);           -->
+<!--           model.addAttribute("businessproduct", productDetailDto);    상세페이지       -->
                     <td th:text="${businessproduct.id}"></td>
                     <td th:text="${businessproduct.productName}"></td>
                     <td th:text="|${businessproduct.productPrice}원|"></td>

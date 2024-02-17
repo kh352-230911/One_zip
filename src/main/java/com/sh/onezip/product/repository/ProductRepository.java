@@ -66,19 +66,20 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 
     // 명준 작업 공간 end =================================================================
-        
 
     // 보경 작업 공간 start =================================================================
 
     @Query("from Product p left join fetch p.businessmember WHERE p.businessmember.bizMemberId = :bizMemberId order by p.productName desc")
     Page<Product> findAllBiz(Pageable pageable,String bizMemberId);
 
-
-    @Query("From ProductQuestion p where p.id = :id")
-    List<ProductQuestion> findByAllBusinessProductQuestion(Long id);
+    @Query("SELECT p FROM ProductQuestion p WHERE p.product.businessmember.bizMemberId = :bizMemberId")
+    List<ProductQuestion> findByAllBusinessProductQuestion(String bizMemberId);
 
     @Query("select p, b from Product p left join fetch p.businessmember b")
     Optional<Product> findByProduct(Businessmember businessmember);
+
+    @Query("SELECT p FROM ProductQuestion p LEFT JOIN FETCH p.product WHERE p.product.businessmember.bizMemberId = :bizMemberId ORDER BY p.qRegdate DESC")
+    Page<ProductQuestion> findAllQuestion(Pageable pageable, String bizMemberId);
 
     // 보경 작업 공간 end =================================================================
 

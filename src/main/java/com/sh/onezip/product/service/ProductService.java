@@ -189,8 +189,6 @@ public class ProductService {
     // 명준 작업 공간 end
 
     // 보경 작업 공간 start =================================================================
-
-
     private Product convertTobusinessproductcreate(BusinessProductCreateDto businessProductCreateDto) {
         System.out.println(businessProductCreateDto + "등록해줘~");
         Product product = modelMapper.map(businessProductCreateDto, Product.class);
@@ -244,4 +242,25 @@ public class ProductService {
     public void deleteproductlist(Product product) {
         productRepository.delete(product);
     }
+
+    public Page<ProductQuestionDto> findAllQuestion(Pageable pageable, String bizMemberId) {
+        Page<ProductQuestion> productQuestionPage = productRepository.findAllQuestion(pageable, bizMemberId);
+        return productQuestionPage.map((productQuestion) -> convertToProductQuestionList(productQuestion));
+    }
+
+    private ProductQuestionDto convertToProductQuestionList(ProductQuestion productQuestion) {
+        ProductQuestionDto productQuestionDto = modelMapper.map(productQuestion, ProductQuestionDto.class);
+        return productQuestionDto;
+    }
+
+    // ProductQuestionDto사용함 (사업자 문의 전체 조회 페이지)
+    public List<ProductQuestionDto> findByQuestion(String bizMemberId) {
+        List<ProductQuestion> productQuestions = productRepository.findByAllBusinessProductQuestion(bizMemberId);
+        List<ProductQuestionDto> productQuestionDtos = new ArrayList<>();
+        for(ProductQuestion productQuestion : productQuestions) {
+            productQuestionDtos.add(convertToProductQuestionList(productQuestion));
+        }
+        return productQuestionDtos;
+    }
+
 }
