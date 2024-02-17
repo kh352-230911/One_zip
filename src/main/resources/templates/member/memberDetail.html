@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+<head>
+    <title>회원 정보</title>
+</head>
+<style layout:fragment="style"></style>
+
+<div layout:fragment="content" class="mt-20 mx-36">
+	<div class="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
+		<div class="px-4 sm:px-0">
+			<h2 class="text-base font-semibold leading-7 text-gray-900">회원정보 수정</h2>
+			<p class="mt-1 text-sm leading-6 text-gray-600">회원정보를 수정하실 수 있습니다.</p>
+		</div>
+
+		<form th:action="@{/member/updateMember.do}" class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
+			<div class="px-4 py-6 sm:p-8">
+				<div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+
+
+					<div class="sm:col-span-4">
+						<label for="memberId" class="block text-sm font-medium leading-6 text-gray-900">아이디</label>
+						<div class="mt-2">
+							<input id="memberId" name="memberId" type="memberId" autocomplete="memberId" th:value="${#authentication.principal.member.memberId}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+						</div>
+					</div>
+					<div class="sm:col-span-4">
+						<label for="name" class="block text-sm font-medium leading-6 text-gray-900">이름</label>
+						<div class="mt-2">
+							<input id="name" name="name" type="name" autocomplete="name" th:value="${#authentication.principal.member.name}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+						</div>
+					</div>
+					<div class="sm:col-span-4">
+						<label for="memberAddr" class="block text-sm font-medium leading-6 text-gray-900">주소</label>
+						<div class="mt-2">
+							<input id="memberAddr" name="memberAddr" type="memberAddr" autocomplete="memberAddr" th:value="${#authentication.principal.member.memberAddr}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+						</div>
+					</div>
+					<button type="button" id="btn" class="rounded-md bg-indigo-100 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 mt-7 static">주소검색</button>
+					<div class="col-span-full">
+						<label for="memberDetailAddr" class="block text-sm font-medium leading-6 text-gray-900">상세 주소</label>
+						<div class="mt-2">
+							<input type="text" name="memberDetailAddr" id="memberDetailAddr" autocomplete="memberDetailAddr" th:value="${#authentication.principal.member.memberDetailAddr}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+						</div>
+					</div>
+
+					<div class="sm:col-span-2">
+						<label for="hobby" class="block text-sm font-medium leading-6 text-gray-900">취미</label>
+						<div class="mt-2">
+							<input type="text" name="hobby" id="hobby" autocomplete="hobby" th:value="${#authentication.principal.member.hobby}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+						</div>
+					</div>
+
+					<div class="sm:col-span-2">
+						<label for="mbti" class="block text-sm font-medium leading-6 text-gray-900">MBTI</label>
+						<select id="mbti" name="mbti" th:value="${#authentication.principal.member.mbti}" class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+						<option selected>MBTI를 선택해주세요</option>
+						<option value="INTJ">INTJ - Architect</option>
+						<option value="INTP">INTP - Logician</option>
+						<option value="ENTJ">ENTJ - Commander</option>
+						<option value="ENTP">ENTP - Debater</option>
+						<option value="INFJ">INFJ - Advocate</option>
+						<option value="INFP">INFP - Mediator</option>
+						<option value="ENFJ">ENFJ - Protagonist</option>
+						<option value="ENFP">ENFP - Campaigner</option>
+						<option value="ISTJ">ISTJ - Logistician</option>
+						<option value="ISFJ">ISFJ - Defender</option>
+						<option value="ESTJ">ESTJ - Executive</option>
+						<option value="ESFJ">ESFJ - Consul</option>
+						<option value="ISTP">ISTP - Virtuoso</option>
+						<option value="ISFP">ISFP - Adventurer</option>
+						<option value="ESTP">ESTP - Entrepreneur</option>
+						<option value="ESFP">ESFP - Entertainer</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
+				<button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
+				<button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+			</div>
+		</form>
+	</div>
+</div>
+<script layout:fragment="script" th:src="@{/js/member/memberAddr.js}"></script>
+<!--<script layout:fragment="script"></script>-->
+</html>

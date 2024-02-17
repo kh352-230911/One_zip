@@ -1,6 +1,9 @@
 package com.sh.onezip.member.controller;
 
+import com.sh.onezip.auth.service.AuthService;
+import com.sh.onezip.auth.vo.MemberDetails;
 import com.sh.onezip.member.dto.MemberCreateDto;
+import com.sh.onezip.member.dto.MemberUpdateDto;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.service.MemberService;
 import jakarta.validation.Valid;
@@ -33,6 +36,8 @@ public class MemberController {
     PasswordEncoder passwordEncoder;
     @Autowired
     MemberService memberService;
+    @Autowired
+    AuthService authService;
 
 
     @GetMapping("/createMember.do")
@@ -62,11 +67,41 @@ public class MemberController {
         return "redirect:/";
     }
 
-//    @GetMapping("/memberDetail.do")
-//    public void memberDetail(Authentication authentication, @AuthenticationPrincipal MemberDetails memberDetails){
-//        log.debug("authentication = {}", authentication);
-//        log.debug("memberDetails = {}", memberDetails);
-//    }
+    @GetMapping("/memberDetail.do")
+    public void memberDetail(Authentication authentication,
+                             @AuthenticationPrincipal MemberDetails memberDetails){
+        log.debug("authentication = {}", authentication);
+        log.debug("memberDetails = {}", memberDetails);
+    }
+    @PostMapping("/updateMember.do")
+    public String updateMember(@Valid MemberUpdateDto memberUpdateDto,
+                               BindingResult bindingResult,
+                               @AuthenticationPrincipal MemberDetails memberDetails,
+                               RedirectAttributes redirectAttributes) {
+        log.debug("memberUpdateDto = {}", memberUpdateDto);
+        if(bindingResult.hasErrors()) {
+            StringBuilder message = new StringBuilder();
+            bindingResult.getAllErrors().forEach((err) -> {
+                message.append(err.getDefaultMessage() + " ");
+            });
+            throw new RuntimeException(message.toString());
+        }
 
+        // entity 업데이트
+        Member member = memberDetails.getMember();
+        member.setName(memberUpdateDto.getName());
+        member.setMemberAddr(memberUpdateDto.getMemberAddr());
+        member.setHobby(memberUpdateDto.getHobby());
+        member.setMbti(memberUpdateDto.getMbti());
+
+        memberService.updateMember(member);
+
+        // security Authentication 갱신
+        authService.updateAuthentication(member.getMemberId());
+
+        redirectAttributes.addFlashAttribute("msg", "회원정보가 성공적으로 변경되었습니다. 🎊");
+
+        return "redirect:/member/memberDetail.do";
+    }
 
     }

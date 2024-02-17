@@ -18,7 +18,9 @@ public class MemberService {
     MemberRepository memberRepository;
     @Autowired
     AuthorityService authorityService;
-
+    public Member findByUsername(String memberId) {
+        return memberRepository.findByMemberId(memberId);
+    }
     public Member findByName(String username) {
         return memberRepository.findByName(username);
     }
@@ -36,5 +38,11 @@ public class MemberService {
         authorityService.createAuthority(authority);
         return member;
     }
-}
 
+
+
+    public Member updateMember(Member member) {
+        return memberRepository.save(member);
+    }
+
+}
