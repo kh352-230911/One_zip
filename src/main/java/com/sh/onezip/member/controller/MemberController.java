@@ -3,6 +3,7 @@ package com.sh.onezip.member.controller;
 import com.sh.onezip.auth.service.AuthService;
 import com.sh.onezip.auth.vo.MemberDetails;
 import com.sh.onezip.member.dto.MemberCreateDto;
+import com.sh.onezip.member.dto.MemberDetailDto;
 import com.sh.onezip.member.dto.MemberUpdateDto;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.service.MemberService;
@@ -38,6 +39,8 @@ public class MemberController {
     MemberService memberService;
     @Autowired
     AuthService authService;
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     @GetMapping("/createMember.do")
@@ -68,11 +71,32 @@ public class MemberController {
     }
 
     @GetMapping("/memberDetail.do")
-    public void memberDetail(Authentication authentication,
-                             @AuthenticationPrincipal MemberDetails memberDetails){
-        log.debug("authentication = {}", authentication);
+    public String memberDetail(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
         log.debug("memberDetails = {}", memberDetails);
+
+        Member member = memberDetails.getMember(); // 접속한 회원의 멤버 객체를 찾음.
+
+        MemberDetailDto memberDetailDto = modelMapper.map(member, MemberDetailDto.class);
+
+        // 상세 주소 처리 로직 필요
+        // 예를 들어, member.getMemberAddr()에서 상세 주소 정보를 추출하여 memberDetailDto에 설정
+        String fullAddress = member.getMemberAddr();
+        String detailAddress = extractDetailAddress(fullAddress); // 상세 주소 추출 메소드는 별도로 구현해야 함
+        memberDetailDto.setMemberDetailAddr(detailAddress);
+
+        model.addAttribute("member", memberDetailDto);
+        return "member/memberDetail"; // 뷰 이름 반환
     }
+
+    private String extractDetailAddress(String fullAddress) {
+        if (fullAddress == null || fullAddress.isEmpty()) {
+            return ""; // 빈 문자열 반환
+        }
+        String[] parts = fullAddress.split("#");
+        return parts.length > 1 ? parts[1] : ""; // 상세 주소 반환 또는 빈 문자열
+    }
+
+
     @PostMapping("/updateMember.do")
     public String updateMember(@Valid MemberUpdateDto memberUpdateDto,
                                BindingResult bindingResult,

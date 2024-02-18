@@ -35,14 +35,14 @@
 					<div class="sm:col-span-4">
 						<label for="memberAddr" class="block text-sm font-medium leading-6 text-gray-900">주소</label>
 						<div class="mt-2">
-							<input id="memberAddr" name="memberAddr" type="memberAddr" autocomplete="memberAddr" th:value="${#authentication.principal.member.memberAddr}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+							<input id="memberAddr" name="memberAddr" type="memberAddr" autocomplete="memberAddr" th:value="${#authentication.principal.member.memberAddr}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" readonly>
 						</div>
 					</div>
 					<button type="button" id="btn" class="rounded-md bg-indigo-100 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 mt-7 static">주소검색</button>
 					<div class="col-span-full">
 						<label for="memberDetailAddr" class="block text-sm font-medium leading-6 text-gray-900">상세 주소</label>
 						<div class="mt-2">
-							<input type="text" name="memberDetailAddr" id="memberDetailAddr" autocomplete="memberDetailAddr" th:value="${#authentication.principal.member.memberDetailAddr}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+							<input type="text" name="memberDetailAddr" id="memberDetailAddr" autocomplete="memberDetailAddr" th:value="${member.memberDetailAddr}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
 						</div>
 					</div>
 
@@ -57,22 +57,41 @@
 						<label for="mbti" class="block text-sm font-medium leading-6 text-gray-900">MBTI</label>
 						<select id="mbti" name="mbti" th:value="${#authentication.principal.member.mbti}" class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
 						<option selected>MBTI를 선택해주세요</option>
-						<option value="INTJ">INTJ - Architect</option>
-						<option value="INTP">INTP - Logician</option>
-						<option value="ENTJ">ENTJ - Commander</option>
-						<option value="ENTP">ENTP - Debater</option>
-						<option value="INFJ">INFJ - Advocate</option>
-						<option value="INFP">INFP - Mediator</option>
-						<option value="ENFJ">ENFJ - Protagonist</option>
-						<option value="ENFP">ENFP - Campaigner</option>
-						<option value="ISTJ">ISTJ - Logistician</option>
-						<option value="ISFJ">ISFJ - Defender</option>
-						<option value="ESTJ">ESTJ - Executive</option>
-						<option value="ESFJ">ESFJ - Consul</option>
-						<option value="ISTP">ISTP - Virtuoso</option>
-						<option value="ISFP">ISFP - Adventurer</option>
-						<option value="ESTP">ESTP - Entrepreneur</option>
-						<option value="ESFP">ESFP - Entertainer</option>
+
+							<option value="INTJ" th:selected="${member.mbti == 'INTJ'}">INTJ - 건축가</option>
+							<option value="INTP" th:selected="${member.mbti == 'INTP'}">INTP - 논리학자</option>
+							<option value="ENTJ" th:selected="${member.mbti == 'ENTJ'}">ENTJ - 지휘자</option>
+							<option value="ENTP" th:selected="${member.mbti == 'ENTP'}">ENTP - 변론가</option>
+							<option value="INFJ" th:selected="${member.mbti == 'INFJ'}">INFJ - 옹호자</option>
+							<option value="INFP" th:selected="${member.mbti == 'INFP'}">INFP - 중재자</option>
+							<option value="ENFJ" th:selected="${member.mbti == 'ENFJ'}">ENFJ - 선도자</option>
+							<option value="ENFP" th:selected="${member.mbti == 'ENFP'}">ENFP - 활동가</option>
+							<option value="ISTJ" th:selected="${member.mbti == 'ISTJ'}">ISTJ - 사무관</option>
+							<option value="ISFJ" th:selected="${member.mbti == 'ISFJ'}">ISFJ - 수호자</option>
+							<option value="ESTJ" th:selected="${member.mbti == 'ESTJ'}">ESTJ - 경영자</option>
+							<option value="ESFJ" th:selected="${member.mbti == 'ESFJ'}">ESFJ - 친선대사</option>
+							<option value="ISTP" th:selected="${member.mbti == 'ISTP'}">ISTP - 장인</option>
+							<option value="ISFP" th:selected="${member.mbti == 'ISFP'}">ISFP - 모험가</option>
+							<option value="ESTP" th:selected="${member.mbti == 'ESTP'}">ESTP - 사업가</option>
+							<option value="ESFP" th:selected="${member.mbti == 'ESFP'}">ESFP - 연예인</option>
+
+<!--							<option value="INTJ" th:selected="${member.mbti == 'INTJ'}">INTJ - Architect</option>-->
+<!--							<option value="INTP" th:selected="${member.mbti == 'INTP'}">INTP - Logician</option>-->
+<!--							<option value="ENTJ" th:selected="${member.mbti == 'ENTJ'}">ENTJ - Commander</option>-->
+<!--							<option value="ENTP" th:selected="${member.mbti == 'ENTP'}">ENTP - Debater</option>-->
+<!--							<option value="INFJ" th:selected="${member.mbti == 'INFJ'}">INFJ - Advocate</option>-->
+<!--							<option value="INFP" th:selected="${member.mbti == 'INFP'}">INFP - Mediator</option>-->
+<!--							<option value="ENFJ" th:selected="${member.mbti == 'ENFJ'}">ENFJ - Protagonist</option>-->
+<!--							<option value="ENFP" th:selected="${member.mbti == 'ENFP'}">ENFP - Campaigner</option>-->
+<!--							<option value="ISTJ" th:selected="${member.mbti == 'ISTJ'}">ISTJ - Logistician</option>-->
+<!--							<option value="ISFJ" th:selected="${member.mbti == 'ISFJ'}">ISFJ - Defender</option>-->
+<!--							<option value="ESTJ" th:selected="${member.mbti == 'ESTJ'}">ESTJ - Executive</option>-->
+<!--							<option value="ESFJ" th:selected="${member.mbti == 'ESFJ'}">ESFJ - Consul</option>-->
+<!--							<option value="ISTP" th:selected="${member.mbti == 'ISTP'}">ISTP - Virtuoso</option>-->
+<!--							<option value="ISFP" th:selected="${member.mbti == 'ISFP'}">ISFP - Adventurer</option>-->
+<!--							<option value="ESTP" th:selected="${member.mbti == 'ESTP'}">ESTP - Entrepreneur</option>-->
+<!--							<option value="ESFP" th:selected="${member.mbti == 'ESFP'}">ESFP - Entertainer</option>-->
+
 						</select>
 					</div>
 				</div>
