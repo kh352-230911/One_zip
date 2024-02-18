@@ -7,6 +7,8 @@ import com.sh.onezip.productanswer.entity.ProductAnswer;
 import com.sh.onezip.productquestion.entity.ProductQuestion;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 public class ProductQuestionDto{
     private Long id;

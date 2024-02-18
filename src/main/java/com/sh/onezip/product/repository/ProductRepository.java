@@ -5,6 +5,7 @@ import com.sh.onezip.businessproduct.entity.Businessmember;
 import com.sh.onezip.product.entity.Product;
 
 import com.sh.onezip.productReview.entity.ProductReview;
+import com.sh.onezip.productanswer.dto.ProductAnswerCreateDto;
 import com.sh.onezip.productquestion.entity.ProductQuestion;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -80,6 +81,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM ProductQuestion p LEFT JOIN FETCH p.product WHERE p.product.businessmember.bizMemberId = :bizMemberId ORDER BY p.qRegdate DESC")
     Page<ProductQuestion> findAllQuestion(Pageable pageable, String bizMemberId);
+
 
     // 보경 작업 공간 end =================================================================
 

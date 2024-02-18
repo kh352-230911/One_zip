@@ -8,6 +8,7 @@ import com.sh.onezip.productReview.dto.ProductReviewCreateDto;
 import com.sh.onezip.productReview.dto.ProductReviewDto;
 import com.sh.onezip.productReview.entity.ProductReview;
 import com.sh.onezip.productReview.repository.ProductReviewRepository;
+import com.sh.onezip.productanswer.dto.ProductAnswerCreateDto;
 import com.sh.onezip.productquestion.dto.ProductQuestionCreateDto;
 import com.sh.onezip.productquestion.dto.ProductQuestionDto;
 import com.sh.onezip.product.entity.Product;
@@ -55,7 +56,7 @@ public class ProductService {
     private ProductListDto convertToProductListDto(Product product) {
         ProductListDto productListDto = modelMapper.map(product, ProductListDto.class);
         productListDto.setBizName(product.getBusinessmember().getBizName());
-        productListDto.setSellPrice((int)(product.getProductPrice() * (1 - ((double)product.getDiscountRate() / 100))));
+        productListDto.setSellPrice((int) (product.getProductPrice() * (1 - ((double) product.getDiscountRate() / 100))));
         return productListDto;
     }
 
@@ -67,8 +68,7 @@ public class ProductService {
 
     private ProductDetailDto convertToProductDetailDto(Product product) {
         ProductDetailDto productDetailDto = modelMapper.map(product, ProductDetailDto.class);
-        productDetailDto.setSellPrice((int)(product.getProductPrice() * (1 - ((double)product.getDiscountRate() / 100))));
-
+        productDetailDto.setSellPrice((int) (product.getProductPrice() * (1 - ((double) product.getDiscountRate() / 100))));
 //        productOptionRepository.findByProductId(product.getId());
 //        productDetailDto.setOptionNames();
 //        productDetailDto.setOptionPrices();
@@ -79,7 +79,7 @@ public class ProductService {
     public List<ProductListDto> productListDtoFindAll() {
         List<Product> products = productRepository.findAll();
         List<ProductListDto> productListDtos = new ArrayList<>();
-        for(Product product : products){
+        for (Product product : products) {
             productListDtos.add(convertToProductListDto(product));
         }
         return productListDtos;
@@ -105,14 +105,8 @@ public class ProductService {
         return productRepository.productReviewFindByProductid(id);
     }
 
-
-
-
     private ProductQuestionDto convertToProductQuestionDto(ProductQuestion productQuestion) {
         ProductQuestionDto productQuestionDto = modelMapper.map(productQuestion, ProductQuestionDto.class);
-//        if(productQuestionDto.getProductAnswer() == null){
-//            productQuestionDto.getProductAnswer()
-//        }
         return productQuestionDto;
     }
 
@@ -124,7 +118,7 @@ public class ProductService {
     public List<ProductQuestionDto> productQuestionDtoFindAllByProductId(Long productId) {
         List<ProductQuestion> productQuestions = productRepository.productQuestionFindAllByProductId(productId);
         List<ProductQuestionDto> productQuestionDtos = new ArrayList<>();
-        for(ProductQuestion productQuestion : productQuestions){
+        for (ProductQuestion productQuestion : productQuestions) {
             productQuestionDtos.add(convertToProductQuestionDto(productQuestion));
         }
         return productQuestionDtos;
@@ -138,7 +132,7 @@ public class ProductService {
     public List<ProductReviewDto> productReviewDtoFindAllByProductId(Long productId) {
         List<ProductReview> productReviews = productRepository.productReviewFindAllByProductId(productId);
         List<ProductReviewDto> productReviewsDtos = new ArrayList<>();
-        for(ProductReview productReview : productReviews){
+        for (ProductReview productReview : productReviews) {
             productReviewsDtos.add(convertToProductReviewDto(productReview));
         }
         return productReviewsDtos;
@@ -161,10 +155,9 @@ public class ProductService {
 
     public Page<ProductListDto> productListDtoFindAllByPrice(Pageable pageable, int refPrice) {
         Page<Product> productPage = null;
-        if((refPrice == 0) || (refPrice == 100001)){
+        if ((refPrice == 0) || (refPrice == 100001)) {
             productPage = productRepository.findAllByPriceUpper(pageable, refPrice);
-        }
-        else{
+        } else {
             productPage = productRepository.findAllByPriceUnder(pageable, refPrice);
         }
 
@@ -173,14 +166,13 @@ public class ProductService {
 
     public List<ProductListDto> productListDtoFindAllByPrice(int refPrice) {
         List<Product> products = new ArrayList<>();
-        if((refPrice == 0) || (refPrice == 100001)){
+        if ((refPrice == 0) || (refPrice == 100001)) {
             products = productRepository.findAllByPriceUpper(refPrice);
-        }
-        else{
+        } else {
             products = productRepository.findAllByPriceUnder(refPrice);
         }
         List<ProductListDto> productListDtos = new ArrayList<>();
-        for(Product product : products){
+        for (Product product : products) {
             productListDtos.add(convertToProductListDto(product));
         }
         return productListDtos;
@@ -257,10 +249,10 @@ public class ProductService {
     public List<ProductQuestionDto> findByQuestion(String bizMemberId) {
         List<ProductQuestion> productQuestions = productRepository.findByAllBusinessProductQuestion(bizMemberId);
         List<ProductQuestionDto> productQuestionDtos = new ArrayList<>();
-        for(ProductQuestion productQuestion : productQuestions) {
+        for (ProductQuestion productQuestion : productQuestions) {
             productQuestionDtos.add(convertToProductQuestionList(productQuestion));
         }
         return productQuestionDtos;
     }
-
 }
+

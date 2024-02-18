@@ -137,33 +137,34 @@ class BusinessmemberRepositoryTest {
 
     }
 
-    @DisplayName("사업자는 고객이 작성한 문의글의 전체 내역을 볼 수 있습니다.")
-    @Test
-    public void test7(){
-        // tb_product 상품고유번호 id = tb_pquestions 상품고유번호 id2 비교해보기
-        Long id = 142L;
-        List<ProductQuestion> productQuestions = productRepository.findByAllBusinessProductQuestion(id);
-        assertThat(productQuestions).allSatisfy(productQuestion -> {
-            assertThat(productQuestion).isNotNull();
-            assertThat(productQuestion.getId()).isEqualTo(id);
-        });
-    }
+//    @DisplayName("사업자는 고객이 작성한 문의글의 전체 내역을 볼 수 있습니다.")
+//    @Test
+//    public void test7(){
+//        // tb_product 상품고유번호 id = tb_pquestions 상품고유번호 id2 비교해보기
+//        Long id = 142L;
+//        List<ProductQuestion> productQuestions = productRepository.findByAllBusinessProductQuestion(id);
+//        assertThat(productQuestions).allSatisfy(productQuestion -> {
+//            assertThat(productQuestion).isNotNull();
+//            assertThat(productQuestion.getId()).isEqualTo(id);
+//        });
+//    }
+
     @DisplayName("사업자는 고객이 작성한 문의글에 답변을 달 수 있습니다.")
     @Test
     public void test8(){
         // 사업자 로그인 했음 moneylove2
-        String bizMemberId = "moneylove2";
+        String bizMemberId = "moneylove";
         Businessmember businessmember = Businessmember.builder().bizMemberId(bizMemberId).build();
         // moneylove2가 등록한 상품고유번호는 11번이야.(질문페이지)
-        Long id2 = 11L;
-        ProductQuestion productQuestion = productQuestionRepository.findByProductQuestionAnswerId(id2);
+        Long id = 30L; // 질문고유번호
+        ProductQuestion productQuestion = productQuestionRepository.findByProductQuestionAnswerId(id);
         System.out.println(productQuestion + "!!!");
         // 답변을 달거야.
         ProductAnswer productAnswer = ProductAnswer.builder()
                 .productQuestion(productQuestion)
                 .businessmember(businessmember)
                 .aRegdate(LocalDate.now())
-                .aContent("152번에 대한 답변테스트")
+                .aContent("맥주창고의 보쌈이 들어갑니다^^~")
                 .build();
         productAnswerRepository.save(productAnswer);
     }

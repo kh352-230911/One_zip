@@ -31,6 +31,7 @@ public class ProductAnswer {
     @ManyToOne
     @JoinColumn(name = "biz_member_id")
     private Businessmember businessmember;
+    @Column
     private String aContent;
     @CreationTimestamp
     private LocalDate aRegdate;

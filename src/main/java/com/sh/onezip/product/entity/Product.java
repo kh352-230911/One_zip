@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@ToString(exclude = "productImages")
+@ToString(exclude = {"productImages", "productOptions"})
 public class Product implements Comparable<Product> {
     @Id
     @GeneratedValue(generator = "seq_tb_product_id_generator")

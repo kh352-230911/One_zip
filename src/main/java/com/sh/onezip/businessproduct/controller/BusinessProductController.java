@@ -83,12 +83,12 @@ public class BusinessProductController {
 
     @PostMapping("/businessproductcreate.do")
     public String businessproductcreate(
-            // 유효성검사를 위한 BusinessCreateDto
-            @Valid BusinessProductCreateDto businessProductCreateDto,
-            // 유효성 검사 결과를 담는 BindingResult 객체
-            BindingResult bindingResult,
-            // 리다이렉트 시 데이터 전달을 위한 RedirectAttributes 객체
-            RedirectAttributes redirectAttributes
+    // 유효성검사를 위한 BusinessCreateDto
+    @Valid BusinessProductCreateDto businessProductCreateDto,
+    // 유효성 검사 결과를 담는 BindingResult 객체
+    BindingResult bindingResult,
+    // 리다이렉트 시 데이터 전달을 위한 RedirectAttributes 객체
+    RedirectAttributes redirectAttributes
     ) throws IOException {
         if (bindingResult.hasErrors()) {
             // 첫 번째 오류 메시지를 가져와서 예외를 던짐
