@@ -32,8 +32,8 @@
 <!--                <li class="nav-item"><a class="nav-link" th:href="@{/zip/zipDetail.do}">커뮤</a></li>-->
 <!--                <li class="nav-item"><a class="nav-link" th:href="@{/zip/zipCreate.do}">집 생성</a></li>-->
                 <li class="nav-item">
-                    <a class="nav-link" th:if="${session.zip}" th:href="@{'/zip/zipDetail.do?id=' + ${session.zip.id}}">커뮤니티</a>
-                    <a class="nav-link" th:unless="${session.zip}" th:href="@{/zip/zipCreate.do}">커뮤니티</a>
+                    <a class="nav-link" th:if="${session.zip}" th:href="@{'/zip/zipDetail.do?id=' + ${session.zip.id}}">커뮤니티1</a>
+                    <a class="nav-link" th:unless="${session.zip}" th:href="@{/zip/zipCreate.do}">커뮤니티2</a>
                 </li>
 <!--                <li class="nav-item">-->
 <!--                    <a th:if="${zip}" class="nav-link" th:href="@{/zip/zipDetail.do(id=${zip.id})}">커뮤니티</a>-->
