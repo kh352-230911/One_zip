@@ -31,7 +31,8 @@ public class WebSecurityConfig {
                     .requestMatchers("/member/createMember.do","/member/checkIdDuplicate.do").anonymous()
                     .requestMatchers("/product/**").authenticated()
                     .requestMatchers("/board/**").authenticated()
-                    .requestMatchers("/community/**").authenticated()
+//                    .requestMatchers("/community/**").authenticated()
+                    .requestMatchers("/zip/**").authenticated()
                     .requestMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated();
         }));

@@ -8,8 +8,6 @@ import com.sh.onezip.auth.vo.MemberDetails;
 import com.sh.onezip.tip.dto.TipCreateDto;
 import com.sh.onezip.tip.dto.TipDetailDto;
 import com.sh.onezip.tip.dto.TipListDto;
-import com.sh.onezip.tip.entity.TipComment;
-import com.sh.onezip.tip.service.TipCommentService;
 import com.sh.onezip.tip.service.TipService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +39,6 @@ public class TipController {
     private S3FileService s3FileService;
     @Autowired
     AttachmentService attachmentService;
-    @Autowired
-    private TipCommentService tipCommentService;
 
 
     @GetMapping("/tipList.do")
@@ -100,31 +96,4 @@ public class TipController {
 
         return s3FileService.download(attachmentDetailDto);
     }
-
-    @PostMapping("/createComment.do")
-    public String createComment(
-            @Valid TipComment tipComment,
-            BindingResult bindingResult,
-            @AuthenticationPrincipal MemberDetails memberDetails,
-            RedirectAttributes redirectAttributes) {
-
-        if (bindingResult.hasErrors()) {
-            throw new RuntimeException(bindingResult.getAllErrors().get(0).getDefaultMessage());
-        }
-
-        tipComment.setMember(memberDetails.getMember());
-        tipCommentService.createComment(tipComment);
-        redirectAttributes.addFlashAttribute("msg", "댓글을 성공적으로 등록했습니다.");
-        return "redirect:/tipDetail.do?id=" + tipComment.getTip().getId(); // 댓글을 단 팁 상세보기 페이지로 리다이렉트
-    }
-
-    @PostMapping("/deleteComment.do")
-    public String deleteComment(@RequestParam("commentId") Long commentId,
-                                @RequestParam("tipId") Long tipId,
-                                RedirectAttributes redirectAttributes) {
-        tipCommentService.deleteComment(commentId);
-        redirectAttributes.addFlashAttribute("msg", "댓글을 성공적으로 삭제했습니다.");
-        return "redirect:/tipDetail.do?id=" + tipId; // 댓글이 삭제된 후의 팁 상세보기 페이지로 리다이렉트
-    }
-
 }

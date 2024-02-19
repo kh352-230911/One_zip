@@ -56,9 +56,7 @@ public class HelloMvcUtils {
         // /mvc/admin/memberList
         // /mvc/admin/searchMember?search-type=xxx&search-keyword=yyyy
         //http://localhost:8080/mvc/admin/memberList?search-type=id&search-keyword=a&page=2
-        System.out.println(url + "HelloMvcUtils 전 url입니다.");
         url += (url.contains("?")) ? "&page=" : "?page=" ;
-        System.out.println(url + "HelloMvcUtils 후 url입니다.");
         // 전체페이지수
         int totalPage = (int) Math.ceil((double) totalCount / limit);
         int pagebarSize = 5;
@@ -68,10 +66,6 @@ public class HelloMvcUtils {
         int pagebarStart = (page - 1) / pagebarSize * pagebarSize + 1;
         int pagebarEnd = pagebarStart + pagebarSize - 1;
         int pageNo = pagebarStart;
-
-        System.out.println("전체페이지 수 " + totalPage + "페이지 증감변수의 범위 시작"
-                + pagebarStart + "페이지 증감변수의 범위 끝" + pagebarEnd
-                + pageNo + "페이지 증감변수");
 
         // 1. 이전
         if(pageNo == 1) {
