@@ -101,9 +101,9 @@ public class ProductService {
         return productRepository.pquestionFindByProductid(id);
     }
 
-    public List<ProductReview> productReviewFindByProductid(Long id) {
-        return productRepository.productReviewFindByProductid(id);
-    }
+//    public List<ProductReview> productReviewFindByProductid(Long id) {
+//        return productRepository.productReviewFindByProductid(id);
+//    }
 
     private ProductQuestionDto convertToProductQuestionDto(ProductQuestion productQuestion) {
         ProductQuestionDto productQuestionDto = modelMapper.map(productQuestion, ProductQuestionDto.class);
@@ -124,19 +124,19 @@ public class ProductService {
         return productQuestionDtos;
     }
 
-    public Page<ProductReviewDto> productReviewFindAllByProductId(Pageable pageable, Long productId) {
-        Page<ProductReview> productReviewPage = productRepository.productReviewFindAllByProductId(pageable, productId);
-        return productReviewPage.map((productReview) -> convertToProductReviewDto(productReview));
-    }
-
-    public List<ProductReviewDto> productReviewDtoFindAllByProductId(Long productId) {
-        List<ProductReview> productReviews = productRepository.productReviewFindAllByProductId(productId);
-        List<ProductReviewDto> productReviewsDtos = new ArrayList<>();
-        for (ProductReview productReview : productReviews) {
-            productReviewsDtos.add(convertToProductReviewDto(productReview));
-        }
-        return productReviewsDtos;
-    }
+//    public Page<ProductReviewDto> productReviewFindAllByProductId(Pageable pageable, Long productId) {
+//        Page<ProductReview> productReviewPage = productRepository.productReviewFindAllByProductId(pageable, productId);
+//        return productReviewPage.map((productReview) -> convertToProductReviewDto(productReview));
+//    }
+//
+//    public List<ProductReviewDto> productReviewDtoFindAllByProductId(Long productId) {
+//        List<ProductReview> productReviews = productRepository.productReviewFindAllByProductId(productId);
+//        List<ProductReviewDto> productReviewsDtos = new ArrayList<>();
+//        for (ProductReview productReview : productReviews) {
+//            productReviewsDtos.add(convertToProductReviewDto(productReview));
+//        }
+//        return productReviewsDtos;
+//    }
 
     private ProductReviewDto convertToProductReviewDto(ProductReview productReview) {
         ProductReviewDto productReviewDto = modelMapper.map(productReview, ProductReviewDto.class);
@@ -251,5 +251,25 @@ public class ProductService {
         }
         return productQuestionDtos;
     }
+    public Page<ProductReviewDto> findAllReview(Pageable pageable, String bizMemberId) {
+        Page<ProductReview> productReviewDtoPage = productRepository.findAllReview(pageable, bizMemberId);
+        return productReviewDtoPage.map((productReview) -> convertToProductReviewList(productReview));
+    }
+
+    private ProductReviewDto convertToProductReviewList(ProductReview productReview) {
+        ProductReviewDto productReviewDto = modelMapper.map(productReview, ProductReviewDto.class);
+        return productReviewDto;
+    }
+
+    public List<ProductReviewDto> findByReview(String bizMemberId) {
+        List<ProductReview> productReviews = productRepository.findByAllReview(bizMemberId);
+        List<ProductReviewDto> productReviewDtos = new ArrayList<>();
+        for(ProductReview productReview : productReviews) {
+            productReviewDtos.add(convertToProductReviewList(productReview));
+        }
+        return productReviewDtos;
+    }
+
+
 }
 

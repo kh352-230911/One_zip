@@ -1,6 +1,7 @@
 package com.sh.onezip.product.entity;
 
 import com.sh.onezip.businessproduct.entity.Businessmember;
+import com.sh.onezip.productReview.entity.ProductReview;
 import com.sh.onezip.productimage.entity.ProductImage;
 import com.sh.onezip.productoption.entity.ProductOption;
 import com.sh.onezip.productquestion.entity.ProductQuestion;
@@ -21,7 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@ToString(exclude = {"productImages", "productOptions"})
+@ToString(exclude = {"productImages", "productOptions", "productReviews"})
 public class Product implements Comparable<Product> {
     @Id
     @GeneratedValue(generator = "seq_tb_product_id_generator")
@@ -58,6 +59,10 @@ public class Product implements Comparable<Product> {
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     @Builder.Default
     private List<ProductQuestion> productQuestions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<ProductReview> productReviews = new ArrayList<>();
 
     @Override
     public int compareTo(Product other) {

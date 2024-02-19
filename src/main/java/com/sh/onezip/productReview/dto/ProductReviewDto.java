@@ -1,5 +1,6 @@
 package com.sh.onezip.productReview.dto;
 
+import com.sh.onezip.product.entity.Product;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import lombok.Data;
@@ -15,4 +16,5 @@ public class ProductReviewDto {
     private String reviewContent;
     private LocalDate reviewRegdate;
     private int starPoint;
+    private Product product;
 }

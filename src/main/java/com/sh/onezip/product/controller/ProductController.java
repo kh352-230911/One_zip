@@ -145,44 +145,44 @@ public class ProductController {
 
     }
 
-    @GetMapping("/productReview.do")
-    public void productReview(@RequestParam("id") Long id,
-                              Model model,
-                              @AuthenticationPrincipal MemberDetails memberDetails,
-                              HttpServletRequest httpServletRequest){
-        try {
-            id = Long.parseLong(httpServletRequest.getParameter("id"));
-        } catch (NumberFormatException ignore) {}
-        Optional<Product> productOpt = productService.findById(id);
-        Product product = productOpt.orElse(null);
-        int realPage = 1;
-        int limit = 5;
-        Member member = memberDetails.getMember();
-
-        List<ProductReview> productReviews = productService.productReviewFindByProductid(product.getId());
-        String url = httpServletRequest.getRequestURI() + "?id=" +id;
-        try {
-            realPage = Integer.parseInt(httpServletRequest.getParameter("page"));
-        } catch (NumberFormatException ignore) {}
-
-        Pageable pageable = PageRequest.of(realPage - 1, limit);
-        Page<ProductReviewDto> productReviewPage = productService.productReviewFindAllByProductId(pageable, product.getId());
-        List<ProductReviewDto> productReviewDtos = productService.productReviewDtoFindAllByProductId(product.getId());
-
-        // 1: 현재 페이지 번호
-        // 2: 한 페이지당 표시할 개체 수
-        // 3: 전체 개체수
-        // 4: 요청 url
-        String pagebar = HelloMvcUtils.getPagebar(
-                realPage, limit, productReviews.size() , url);
-//        System.out.println(productQuestionDtos + "productQuestionDtos***");
-        model.addAttribute("pagebar", pagebar);
-//        model.addAttribute("productQuestionDtos", productQuestionDtos);
-        model.addAttribute("reviews", productReviewPage.getContent());
-        model.addAttribute("totalCount", productReviewDtos.size());
-        model.addAttribute("productId", id);
-        model.addAttribute("member", member);
-    }
+//    @GetMapping("/productReview.do")
+//    public void productReview(@RequestParam("id") Long id,
+//                              Model model,
+//                              @AuthenticationPrincipal MemberDetails memberDetails,
+//                              HttpServletRequest httpServletRequest){
+//        try {
+//            id = Long.parseLong(httpServletRequest.getParameter("id"));
+//        } catch (NumberFormatException ignore) {}
+//        Optional<Product> productOpt = productService.findById(id);
+//        Product product = productOpt.orElse(null);
+//        int realPage = 1;
+//        int limit = 5;
+//        Member member = memberDetails.getMember();
+//
+//        List<ProductReview> productReviews = productService.productReviewFindByProductid(product.getId());
+//        String url = httpServletRequest.getRequestURI() + "?id=" +id;
+//        try {
+//            realPage = Integer.parseInt(httpServletRequest.getParameter("page"));
+//        } catch (NumberFormatException ignore) {}
+//
+//        Pageable pageable = PageRequest.of(realPage - 1, limit);
+//        Page<ProductReviewDto> productReviewPage = productService.productReviewFindAllByProductId(pageable, product.getId());
+//        List<ProductReviewDto> productReviewDtos = productService.productReviewDtoFindAllByProductId(product.getId());
+//
+//        // 1: 현재 페이지 번호
+//        // 2: 한 페이지당 표시할 개체 수
+//        // 3: 전체 개체수
+//        // 4: 요청 url
+//        String pagebar = HelloMvcUtils.getPagebar(
+//                realPage, limit, productReviews.size() , url);
+////        System.out.println(productQuestionDtos + "productQuestionDtos***");
+//        model.addAttribute("pagebar", pagebar);
+////        model.addAttribute("productQuestionDtos", productQuestionDtos);
+//        model.addAttribute("reviews", productReviewPage.getContent());
+//        model.addAttribute("totalCount", productReviewDtos.size());
+//        model.addAttribute("productId", id);
+//        model.addAttribute("member", member);
+//    }
 
     @GetMapping("/productReviewCreatePage.do")
     public void productReviewCreatePage(@RequestParam("id") Long id,

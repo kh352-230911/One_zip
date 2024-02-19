@@ -53,17 +53,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("from ProductQuestion pq where pq.product.id = :productId")
     List<ProductQuestion> productQuestionFindAllByProductId(@Param("productId") Long productId);
 
-    @Query("from ProductReview pr where pr.productNo = :id")
-    List<ProductReview> reviewFindAllByProductId(Long id);
-
-    @Query("from ProductReview pr where pr.productNo = :productId order by pr.id desc")
-    Page<ProductReview> productReviewFindAllByProductId(Pageable pageable, Long productId);
-
-    @Query("from ProductReview pr where pr.productNo = :productId")
-    List<ProductReview> productReviewFindAllByProductId(@Param("productId") Long productId);
-
-    @Query("from ProductReview pr where pr.productNo = :id")
-    List<ProductReview> productReviewFindByProductid(Long id);
+//    @Query("from ProductReview pr where pr.productNo = :id")
+//    List<ProductReview> reviewFindAllByProductId(Long id);
+//
+//    @Query("from ProductReview pr where pr.productNo = :productId order by pr.id desc")
+//    Page<ProductReview> productReviewFindAllByProductId(Pageable pageable, Long productId);
+//
+//    @Query("from ProductReview pr where pr.productNo = :productId")
+//    List<ProductReview> productReviewFindAllByProductId(@Param("productId") Long productId);
+//
+//    @Query("from ProductReview pr where pr.productNo = :id")
+//    List<ProductReview> productReviewFindByProductid(Long id);
 
 
     // 명준 작업 공간 end =================================================================
@@ -82,6 +82,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM ProductQuestion p LEFT JOIN FETCH p.product WHERE p.product.businessmember.bizMemberId = :bizMemberId ORDER BY p.qRegdate DESC")
     Page<ProductQuestion> findAllQuestion(Pageable pageable, String bizMemberId);
 
+    @Query("SELECT p FROM ProductReview p LEFT JOIN FETCH p.product WHERE p.product.businessmember.bizMemberId = :bizMemberId ORDER BY p.reviewRegdate DESC")
+    Page<ProductReview> findAllReview(Pageable pageable, String bizMemberId);
+
+    @Query("SELECT p FROM ProductReview p WHERE p.product.businessmember.bizMemberId = :bizMemberId")
+    List<ProductReview> findByAllReview(String bizMemberId);
 
     // 보경 작업 공간 end =================================================================
 
