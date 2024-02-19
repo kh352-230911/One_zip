@@ -1,0 +1,131 @@
+ /*.updated_news_title{*/
+ /*   flex: 0.1;*/
+ /* */
+ /*   color:steelblue;*/
+ /*   font-family: 'PT Sans', sans-serif;*/
+ /* */
+ /*   border-bottom: 2px solid silver;*/
+ /*   margin-right: 20px;*/
+ /*   margin-left: 20px;*/
+ /* }*/
+ /* .updated_news_contents{*/
+ /*   display: flex;*/
+ /*   flex: 0.3;*/
+ /* */
+ /*   margin-right: 20px;*/
+ /*   margin-left:  20px;*/
+ /*   margin-top: 5px;*/
+ /*   margin-bottom: 20px;*/
+ /* */
+ /*   font-family: 'Nanum Gothic', sans-serif;*/
+ /* }*/
+ /* .updated_news_left{*/
+ /*   display: flex;*/
+ /*   flex-direction: column;*/
+ /*   flex: 1;*/
+ /* }*/
+ /* .updated_news_left1, .updated_news_left2, .updated_news_left3, .updated_news_left4{*/
+ /*   flex: 1;*/
+ /*   font-size: 13px;*/
+ /*   color: black;*/
+ /* }*/
+ /* .updated_news_red{*/
+ /*   color: whitesmoke;*/
+ /*   background-color:coral;*/
+ /* */
+ /*   font-size: 14px;*/
+ /*   border-radius: 3px;*/
+ /* }*/
+ /* .updated_news_blue{*/
+ /*   color: whitesmoke;*/
+ /*   background-color:#4F92CD;*/
+ /* */
+ /*   font-size: 14px;*/
+ /*   border-radius: 3px;*/
+ /* }*/
+ /* .updated_news_right{*/
+ /*   display: flex;*/
+ /*   flex-direction: column;*/
+ /*   flex: 1;*/
+ /* }*/
+ /* .updated_news_right1, .updated_news_right2{*/
+ /*   flex: 0.3;*/
+ /*   */
+ /*   color: black;*/
+ /*   font-size: 12px;*/
+ /*   line-height: 20px;*/
+ /* */
+ /*   border-bottom: 1px solid silver;*/
+ /*   border-bottom-style: dashed;*/
+ /* }*/
+ /* .updated_news_right3{*/
+ /*   flex: 1;*/
+ /* }*/
+ /* .updated_news_right_number{*/
+ /*   color:navy;*/
+ /*   font-size: 10px;*/
+ /* }*/
+
+ /*.miniroom_contents{*/
+ /*  flex: 0.1;*/
+ /*}*/
+ /*.miniroom_contents > div > div {*/
+ /*  width: calc(25% - 40px); !* 25%에서 여백(25px * 2)을 뺀 값 *!*/
+ /*  height: calc(33vh - 30px); !* 33vh에서 여백(15px * 2)을 뺀 값 *!*/
+ /*  margin-top: 15px;*/
+ /*  margin-left: 25px;*/
+ /*  border-radius: 5px;*/
+ /*  box-sizing: border-box; !* 내부 여백과 테두리를 요소의 크기에 포함하도록 설정 *!*/
+ /*  display: inline-block; !* 인라인 블록 요소로 설정 *!*/
+ /*}*/
+
+  .miniroom_title{
+    flex: 0.1;
+
+    color: steelblue;
+    font-family: 'PT Sans', sans-serif;
+
+    border-bottom: 2px solid silver;
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+
+ .miniroom_contents {
+     width: calc(100% - 20px);
+     height: calc(100% - 100px);
+     padding: 0px 0 0 20px;
+ }
+ .miniroom_contents table {
+     width: 100%;
+     height: 100%;
+ }
+
+ .row1, .row2{
+     height: 50%;
+ }
+ .box1 {
+     row-span: 2;
+     padding: 10px;
+     display: table-cell;
+     width: 50%;
+     height: 100%;
+ }
+ .box3, .box4{
+     padding: 10px;
+     display: inline-block;
+     margin: 0px 0px 5px 5px;
+     width: 47.5%;
+     height: 100%;
+ }
+
+ .box7, .box8{
+     padding: 10px;
+     display: inline-block;
+     margin: 2px 0px 5px 5px;
+     width: 47.5%;
+     height: 100%;
+ }
+
+ .miniroom_contents table td {
+     background-color: #898686;
+ }

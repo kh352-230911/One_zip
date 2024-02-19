@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">One.zip</title>
+</head>
+
+<body>
+<div id="container">
+    <header th:insert="~{fragments/header::header}" >
+
+    </header>
+    <section id="content">
+        <div layout:fragment="content"></div>
+    </section>
+    <footer th:insert="~{fragments/footer::footer}" >
+
+    </footer>
+</div>
+<th:block layout:fragment="script">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/zip/zipList.js}"></script>
+    <script th:src="@{/js/neighbor/neighborAdd.js}"></script>
+</th:block>
+
+</body>
+</html>

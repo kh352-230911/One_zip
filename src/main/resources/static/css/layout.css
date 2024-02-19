@@ -69,7 +69,7 @@ body {
   flex:1;
 }
 
-.home_contents{
+.home_contents {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -97,8 +97,20 @@ body {
   border-radius: 9px;
 
   background-color: white;
+  color: black;
 
   font-family: 'Nanum Gothic', sans-serif;
+}
+
+.search_form_title{
+  flex: 0.1;
+
+  color:steelblue;
+  font-family: 'PT Sans', sans-serif;
+
+  /*border-bottom: 2px solid silver;*/
+  margin-right: 20px;
+  /*margin-left: 20px;*/
 }
 
 .profile_1{
@@ -120,6 +132,18 @@ body {
   margin-right: 20px;
   margin-left: 20px;
 }
+
+.content_title{
+  flex: 0.1;
+
+  color:steelblue;
+  font-family: 'PT Sans', sans-serif;
+
+  border-bottom: 2px solid silver;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
 .profile_3{
   flex:0.1;
 
