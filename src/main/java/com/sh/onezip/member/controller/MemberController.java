@@ -74,18 +74,41 @@ public class MemberController {
     public String memberDetail(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
         log.debug("memberDetails = {}", memberDetails);
 
-        Member member = memberDetails.getMember(); // 접속한 회원의 멤버 객체를 찾음.
+        Member member = memberDetails.getMember(); // 접속한 회원의 멤버 객체
 
+        // ModelMapper 또는 다른 매핑 방식을 사용하여 Member 엔티티를 MemberDetailDto로 변환
         MemberDetailDto memberDetailDto = modelMapper.map(member, MemberDetailDto.class);
 
-        // 상세 주소 처리 로직 필요
-        // 예를 들어, member.getMemberAddr()에서 상세 주소 정보를 추출하여 memberDetailDto에 설정
+        // 전체 주소에서 기본 주소와 상세 주소 추출
         String fullAddress = member.getMemberAddr();
-        String detailAddress = extractDetailAddress(fullAddress); // 상세 주소 추출 메소드는 별도로 구현해야 함
-        memberDetailDto.setMemberDetailAddr(detailAddress);
+        String baseAddress = extractBaseAddress(fullAddress); // 기본 주소 추출
+        String detailAddress = extractDetailAddress(fullAddress); // 상세 주소 추출
 
+        // 추출된 기본 주소와 상세 주소를 MemberDetailDto 객체에 설정
+        memberDetailDto.setMemberAddr(baseAddress); // 기본 주소 설정
+        memberDetailDto.setMemberDetailAddr(detailAddress); // 상세 주소 설정
+
+        // 모델에 MemberDetailDto 객체 추가
         model.addAttribute("member", memberDetailDto);
+
         return "member/memberDetail"; // 뷰 이름 반환
+    }
+
+
+//    private String extractDetailAddress(String fullAddress) {
+//        if (fullAddress == null || fullAddress.isEmpty()) {
+//            return ""; // 빈 문자열 반환
+//        }
+//        String[] parts = fullAddress.split("#");
+//        return parts.length > 1 ? parts[1] : ""; // 상세 주소 반환 또는 빈 문자열
+//    }
+
+    private String extractBaseAddress(String fullAddress) {
+        if (fullAddress == null || fullAddress.isEmpty()) {
+            return ""; // 빈 문자열 반환
+        }
+        String[] parts = fullAddress.split("#");
+        return parts.length > 0 ? parts[0] : ""; // 기본 주소 반환 또는 빈 문자열
     }
 
     private String extractDetailAddress(String fullAddress) {
@@ -95,6 +118,7 @@ public class MemberController {
         String[] parts = fullAddress.split("#");
         return parts.length > 1 ? parts[1] : ""; // 상세 주소 반환 또는 빈 문자열
     }
+
 
 
     @PostMapping("/updateMember.do")
@@ -126,6 +150,15 @@ public class MemberController {
         redirectAttributes.addFlashAttribute("msg", "회원정보가 성공적으로 변경되었습니다. 🎊");
 
         return "redirect:/member/memberDetail.do";
+    }
+
+    @PostMapping("/checkIdDuplicate.do")
+    public ResponseEntity<?> checkIdDuplicate(@RequestParam("memberId") String memberId) {
+        Map<String, Object> resultMap = Map.of(
+                "available",
+                memberService.findByUsername(memberId) == null
+        );
+        return ResponseEntity.ok(resultMap);
     }
 
     }
