@@ -33,6 +33,7 @@
           <!--           model.addAttribute("question", 문의상세페이지Dto);           -->
           <td th:text="${question.id}"></td>
           <td th:text="${question.memberId}"></td>
+                <!-- ProductQuestionDto-> Product -> productName(상품명)  -->
           <td th:text="${question.product.productName}"></td>
           <td th:text="${question.qContent}"></td>
 <!--          <td th:text="${#temporals.format(question.qRegdate, 'yyyy/MM/dd')}"></td>-->

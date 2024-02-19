@@ -181,22 +181,19 @@ public class ProductService {
     // 명준 작업 공간 end
 
     // 보경 작업 공간 start =================================================================
+    public void businessproductcreate(BusinessProductCreateDto businessProductCreateDto) {
+        Product product1 = convertTobusinessproductcreate(businessProductCreateDto);
+        System.out.println(product1 + "product1");
+
+        Product product2 = productRepository.save(product1);
+        System.out.println(businessProductCreateDto + "id~~");
+//        businessProductCreateDto.setBizMemberId(product.getBusinessmember().getBizMemberId());
+    }
     private Product convertTobusinessproductcreate(BusinessProductCreateDto businessProductCreateDto) {
         System.out.println(businessProductCreateDto + "등록해줘~");
         Product product = modelMapper.map(businessProductCreateDto, Product.class);
         System.out.println(product + "flag의 product");
         return product;
-    }
-
-
-    public void businessproductcreate(BusinessProductCreateDto businessProductCreateDto) {
-        Product product1 = convertTobusinessproductcreate(businessProductCreateDto);
-        System.out.println(product1 + "product1");
-
-
-        Product product2 = productRepository.save(product1);
-        System.out.println(businessProductCreateDto + "id~~");
-//        businessProductCreateDto.setBizMemberId(product.getBusinessmember().getBizMemberId());
     }
 
     public Page<ProductListDto> findAllBiz(Pageable pageable, String bizMemberId) {

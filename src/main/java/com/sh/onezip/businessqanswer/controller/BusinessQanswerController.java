@@ -5,6 +5,7 @@ import com.sh.onezip.businessproduct.service.BusinessmemberService;
 import com.sh.onezip.common.HelloMvcUtils;
 import com.sh.onezip.product.dto.ProductDetailDto;
 import com.sh.onezip.product.dto.ProductListDto;
+import com.sh.onezip.product.entity.Product;
 import com.sh.onezip.product.service.ProductService;
 import com.sh.onezip.productanswer.dto.ProductAnswerCreateDto;
 import com.sh.onezip.productanswer.entity.ProductAnswer;
@@ -46,6 +47,8 @@ public class BusinessQanswerController {
     ProductService productService;
     @Autowired
     ProductQuestionService productQuestionService;
+    @Autowired
+    ProductAnswerService productAnswerService;
 
     @GetMapping("/businessqanswerlist.do")
     public void businessqanswerlist(@RequestParam("bizMemberId") String bizMemberId, Model model, HttpServletRequest httpServletRequest) {
@@ -88,23 +91,52 @@ public class BusinessQanswerController {
         ProductQuestionDto productQuestionDto = productQuestionService.findByProductQuestionAnswerId(id);
         model.addAttribute("question", productQuestionDto);
     }
+
+    @PostMapping("/businessqanswerdetail.do")
+    public String businessqanswerdetail(@RequestParam("id") Long id, Model model,
+                                        @Valid ProductQuestion productQuestion,
+                                        @RequestParam("aContent") String aContent,
+                                        BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
+        Businessmember businessmember = new Businessmember();
+        businessmember.setBizMemberId("moneylove");
+        // 답변을 초기 설정을 해볼게
+        ProductAnswer productAnswer = new ProductAnswer();
+        productAnswer.setAContent(aContent);
+        productAnswer.setProductQuestion(productQuestion);
+        productAnswer.setBusinessmember(businessmember);
+        System.out.println(productAnswer + "11111");
+
+        // 질문 고유번호를 찾아볼게
+        Optional<ProductQuestion> productQuestionOptional = productQuestionService.findById(id);
+        ProductQuestion productQuestion1 = productQuestionOptional.orElse(null);
+        // 질문 고유번호를 가지고 질문의 답변을 달아볼게
+        productAnswerService.createAnswer(productAnswer);
+
+        // 리다이렉트 후 사용자 피드백 설정
+        redirectAttributes.addFlashAttribute("msg", "🎈🎈🎈 답글을 성공적으로 등록했습니다. 🎈🎈🎈");
+        return "redirect:/businessmanagement/businessqanswerdetail.do?id=" + id;
+    }
 }
 //    @PostMapping("/businessqanswerdetail.do")
-//    public String businessqanswerdetail(@RequestParam("id") Long id, Model model,
-//                                        @Valid ProductQuestionCreateDto productQuestionCreateDto,
+//    public String businessqanswerdetail(@RequestParam("id") Long aid, Model model,
+//                                        @Valid ProductAnswer productAnswer,
+//                                        @RequestParam("aContent") String aContent,
 //                                        BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
+//        Businessmember businessmember = new Businessmember();
+//        businessmember.setBizMemberId("moneylove");
+//        productAnswer.setBusinessmember(businessmember);
+//        productAnswer.setAContent(aContent);
+//        productAnswer.setARegdate(LocalDate.now());
+//        Optional<ProductAnswer> productAnswerOptional = productAnswerService.findById(aid);
+//        ProductAnswer productAnswer1 = productAnswerOptional.orElse(null);
 //
-//        if (bindingResult.hasErrors()) {
-//            throw new RuntimeException(bindingResult.getAllErrors().get(0).getDefaultMessage());
-//        }
-////        productQuestionService.findByProductQuestionAnswerId(id);
-//        ProductQuestion productQuestion = new ProductQuestion();
-//        productQuestionCreateDto.setProductAnswer(productQuestion.getProductAnswer());
-//        productQuestionService.createAnswer(productQuestionCreateDto);
+//        ProductAnswer update = productAnswerService.updateAnswer(productAnswer);
+//
 //        // 리다이렉트 후 사용자 피드백 설정
-//        redirectAttributes.addFlashAttribute("msg", "🎈🎈🎈 답글을 성공적으로 등록했습니다. 🎈🎈🎈");
-//        return "redirect:/businessmanagement/businessqanswerdetail.do?id=" + id;
+//        redirectAttributes.addFlashAttribute("msg", "🎈🎈🎈 답글을 성공적으로 수정했습니다. 🎈🎈🎈");
+//        return "redirect:/businessmanagement/businessqanswerdetail.do?id=" + update.getId();
 //    }
+//}
 
 //    @PostMapping("/businessqanswerdetail.do")
 //    public String businessqanswerdetail(@RequestParam("id") Long id, Model model,

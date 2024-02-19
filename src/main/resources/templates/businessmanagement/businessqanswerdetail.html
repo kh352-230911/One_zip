@@ -21,7 +21,9 @@
         </thead>
         <tbody>
           <!--   질문고유번호    -->
-          <input type="hidden" name="id" th:if="${question.productAnswer != null}" th:value="${question.productAnswer.id}">
+<!--          <input type="hidden" name="id" th:if="${question.productAnswer != null}" th:value="${question.productAnswer.id}">-->
+          <!--   질문고유번호    -->
+          <input type="hidden" name="id" th:value="${question.id}">
 <!--          <input type="hidden" name="id" th:value="${question.productAnswer.id}">-->
           <td th:text="${question.id}"></td>
           <td th:text="${question.memberId}"></td>
@@ -38,15 +40,17 @@
         </tr>
         </thead>
         <tbody>
-        <!--   답변고유번호    -->
-<!--        <input type="hidden" name="id" th:value="${question.productAnswer.id}">-->
           <td>
-            <input type="text" class="form-control mb-3" placeholder="답변해주세요!" name="aContent" id="aContent" th:if="${question.productAnswer != null}" th:value="${question.productAnswer.aContent}" required>
+<!--            <input type="text" class="form-control mb-3" placeholder="답변해주세요!" name="aContent" id="aContent" th:unless="${question.productAnswer == null}" th:value="${question.productAnswer.aContent}" required>-->
+            <input type="text" class="form-control mb-3" placeholder="답변해주세요!" name="aContent" id="aContent" th:value="${question.productAnswer != null ? question.productAnswer.aContent : ''}" required>
+<!--            <input type="text" class="form-control mb-3" placeholder="답변해주세요!" name="aContent" id="aContent" th:if="${question.productAnswer != null}" th:value="${question.productAnswer.aContent}" required></td>-->
 <!--                  <td th:text="${#temporals.format(question.productAnswer.aRegdate, 'yyyy/MM/dd')}"></td> </td>-->
-      </tbody>
+            <!-- 등록된 답변이 있을 경우 답변하기 버튼 숨김 -->
+            <button type="submit" class="btn btn-outline-success d-inline-block mr-2" th:if="${question.productAnswer == null}">등록하기</button>
+        <button >
+        </tbody>
       </table>
 
-      <input type="submit" class="btn btn-outline-success d-inline-block mr-2" value="등록하기">
       <a href="javascript:confirm('정말 수정하시겠습니까? 😯') && document.businessFrm.submit();" class="btn btn-outline-success d-inline-block mr-2">수정하기</a>
       <a href="javascript:if(confirm('이전으로 돌아가시겠습니까? 😲')) window.location.href='businessqanswerlist.do?bizMemberId=moneylove';" class="btn btn-outline-success d-inline-block mr-2">목록</a>
 

@@ -2,7 +2,6 @@ package com.sh.onezip.productquestion.service;
 
 import com.sh.onezip.productanswer.entity.ProductAnswer;
 import com.sh.onezip.productanswer.repository.ProductAnswerRepository;
-import com.sh.onezip.productquestion.dto.ProductQuestionCreateDto;
 import com.sh.onezip.productquestion.dto.ProductQuestionDto;
 import com.sh.onezip.productquestion.entity.ProductQuestion;
 import com.sh.onezip.productquestion.repository.ProductQuestionRepository;
@@ -38,10 +37,32 @@ public class ProductQuestionService {
         return productQuestionDto;
     }
 
-//    public void createAnswer(ProductQuestionCreateDto productQuestionCreateDto) {
-//        ProductAnswer productAnswer = modelMapper.map(productQuestionCreateDto, ProductAnswer.class);
-//        productAnswerRepository.save(productAnswer);
+    public Optional<ProductQuestion> findById(Long id) {
+        return productQuestionRepository.findById(id);
+    }
+
+
+
+//    public void saveAnswer(ProductAnswer productAnswer) {
+//        try {
+//            ProductAnswer savedAnswer = productAnswerRepository.save(productAnswer);
+//            if (savedAnswer != null) {
+//                // 답변이 성공적으로 저장된 경우 처리
+//            } else {
+//                // 답변 저장에 실패한 경우 처리
+//            }
+//        } catch (Exception e) {
+//            // 데이터베이스 작업 중 예외 발생 시 처리
+//            e.printStackTrace();
+//            // 예외 처리 로직 추가
+//        }
 //    }
+//    public void createAnswer(Optional<ProductQuestion> productQuestion) {
+//        productQuestionRepository.save();
+//        ProductAnswer productAnswer = modelMapper.map(productQuestion, ProductAnswer.class);
+//        productAnswerRepository.save(productAnswer);
+    }
+
 
 //    public Optional<ProductQuestion> findByDetailProductQuestionAnswerId(Long id) {
 //        return productQuestionRepository.findById(id);
@@ -68,4 +89,4 @@ public class ProductQuestionService {
 //
 //    private ProductQuestion convertToanswercreate(ProductQuestionDto productQuestionDto) {
 //    }
-}
+
