@@ -264,5 +264,9 @@ public class ProductController {
         }
         return "redirect:/product/productList.do?id=" + productId;
     }
+    @GetMapping("/cart.do")
+    private void cart(){
+
+    }
 
 }

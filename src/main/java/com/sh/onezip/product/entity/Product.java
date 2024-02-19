@@ -1,6 +1,7 @@
 package com.sh.onezip.product.entity;
 
 import com.sh.onezip.businessproduct.entity.Businessmember;
+import com.sh.onezip.cart.entity.Cart;
 import com.sh.onezip.productReview.entity.ProductReview;
 import com.sh.onezip.productimage.entity.ProductImage;
 import com.sh.onezip.productoption.entity.ProductOption;
@@ -63,6 +64,10 @@ public class Product implements Comparable<Product> {
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     @Builder.Default
     private List<ProductReview> productReviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<Cart> cart = new ArrayList<>();
 
     @Override
     public int compareTo(Product other) {
