@@ -56,13 +56,11 @@ public class Member {
     @JoinColumn(name = "member_id")
     private List<Authority> authorities;
 
-<<<<<<< HEAD
+
     @OneToOne(mappedBy = "member")
     private Cart cart;
-//    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
-//    private Zip zip;
-=======
+
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Zip zip;
->>>>>>> 44317184f2de6724210264309930931209d8b668
+
 }
