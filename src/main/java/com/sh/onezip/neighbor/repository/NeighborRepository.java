@@ -16,4 +16,5 @@ public interface NeighborRepository extends JpaRepository<Neighbor, Long> {
     boolean existsByMember1AndMember2(Member member1, Member member2);
     @Query("FROM Neighbor  n WHERE n.member1 = :member OR n.member2 = :member")
     List<Neighbor> findNeighborsByMember(Member member);
+
 }

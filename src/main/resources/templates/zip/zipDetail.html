@@ -11,10 +11,11 @@
     <link rel="stylesheet" th:href="@{/css/font.css}" />
     <link rel="stylesheet" th:href="@{/css/layout.css}" />
     <link rel="stylesheet" th:href="@{/css/zipRoom.css}">
+    <link rel="stylesheet" th:href="@{/css/neighborList.css}" />
 <head>
   <meta charset="UTF-8" />
   <title th:text="${memberName} + ${zip.id} + '.zip'"></title>
-
+  <script src="NeighborList.js" defer></script>
 </head>
 <body>
 <div class="bookcover" th:style="'background-color:' + ${zipColorCode}">
@@ -35,6 +36,8 @@
               <button type="submit">검색</button>
             </form>
           </div>
+          <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button">이웃 목록</button>
+
 <!--          <form id="searchForm" method="post">-->
 <!--            <input type="text" id="memberId" name="memberId" required>-->
 <!--            <input type="hidden" id="csrf" th:value="${_csrf.token}" />-->
@@ -64,16 +67,20 @@
                 <span class="updated_news_left4"><span class="updated_news_red">사진첩</span> 아빠가 왕도마뱀이면?</span>
               </div>
             </div>
-            <div class="profile_3">*사실 토끼가 아니라 비스카차
+            <div class="profile_3">
               <div class="profile-dropdown">
                 <div class="dropdown-btn">
                   <div class="dropdown-title">Related Link</div>
                   <div class="triangle-down"></div>
                 </div>
-                <div class="dropdown-content">
-                  <a href="https://programming-oddments.tistory.com/" target="_blank">Devlog</a>
-                  <a href="https://github.com/joseph-106" target="_blank">Github</a>
-                  <a href="https://www.instagram.com/ksj_106/" target="_blank">Instagram</a>
+                <div class="dropdown-content" th:each="neighbor : ${neighbors}">
+                  <a th:href="@{|http://localhost:8080/onezip/zip/zipDetail.do?id=${zipId}|}"  th:text="${memberName}"></a>
+<!--                  <a href="https://github.com/joseph-106" target="_blank">Github</a>-->
+<!--                  <a href="https://www.instagram.com/ksj_106/" target="_blank">Instagram</a>-->
+<!--                  <a th:href="${neighbor}"><strong th:text="${neighbor}"></strong></a>-->
+<!--                    <a th:href="${neighbor.url}">-->
+<!--                      <strong th:text="${neighbor.name}"></strong>-->
+<!--                    </a>-->
                 </div>
               </div>
             </div>
@@ -88,6 +95,7 @@
                   <input type="hidden" id="memberId2" name="memberId2" th:value="${memberId}" />
                   <button type="submit" >이웃 신청</button>
                 </form>
+                <button th:unless="${session.zip.id} == ${zipId}" onclick="deleteNeighbor(${neighborId})">이웃 삭제</button>
               </div>
             </div>
 <!--              <div id="neighborForm">-->
@@ -125,6 +133,30 @@
   </div>
 </div>
 
+<div id="neighborModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>이웃 목록</h2>
+    <!-- 이웃 목록을 표시할 테이블 -->
+    <table id="neighborTable">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Member 1</th>
+        <th>Member 2</th>
+        <th>Status</th>
+        <th>Requested At</th>
+        <th>Accepted At</th>
+      </tr>
+      </thead>
+      <tbody id="neighborList">
+      <!-- 여기에 이웃 목록이 동적으로 추가될 예정 -->
+      </tbody>
+    </table>
+  </div>
+<!-- JavaScript 파일 연결 -->
+<script th:src="@{/js/neighbor/neighborList.js}"></script>
+<script th:src="@{/js/neighbor/neighborDelete.js}"></script>
 </body>
 </div>
 

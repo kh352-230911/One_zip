@@ -2,6 +2,7 @@ package com.sh.onezip.zip.controller;
 
 import com.sh.onezip.auth.vo.MemberDetails;
 import com.sh.onezip.member.entity.Member;
+import com.sh.onezip.neighbor.entity.Neighbor;
 import com.sh.onezip.neighbor.service.NeighborService;
 import com.sh.onezip.zip.dto.ZipCreateDto;
 import com.sh.onezip.zip.dto.ZipDetailDto;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -52,10 +54,13 @@ public class ZipController {
             if (member != null) {
                 String memberName = member.getName(); // 회원의 이름 가져오기
                 String memberId = member.getMemberId();
+
                 model.addAttribute("memberName", memberName); // 모델에 회원의 이름 추가
                 model.addAttribute("memberId", memberId);
-            }
 
+                List<Neighbor> neighbors = member.getNeighbor(); // zip 객체와 관련된 회원의 이웃 정보
+                model.addAttribute("neighbors", neighbors);
+            }
             log.debug("ZipDetailDto object added to the model: {}", zipDetailDto);
         }
     }
@@ -88,7 +93,6 @@ public class ZipController {
         redirectAttributes.addFlashAttribute("msg", "집 생성을 축하합니다.");
         return "redirect:/";
     }
-
 
     @RequestMapping(value = "/zipSearch", method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
