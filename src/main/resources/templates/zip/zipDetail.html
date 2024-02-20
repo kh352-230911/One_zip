@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/zip}">
+
+
+<link rel="stylesheet" href="../../static/css/visit.css">
+<div layout:fragment="content">
+
+    <link rel="stylesheet" th:href="@{/css/zipDetail.css}" />
+    <link rel="stylesheet" th:href="@{/css/font.css}" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" th:href="@{/css/zipRoom.css}">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="${memberName} + ${zip.id} + '.zip'"></title>
+
+</head>
+<body>
+<div class="bookcover" th:style="'background-color:' + ${zipColorCode}">
+  <div class="bookdot">
+    <div class="page">
+      <div class="home" >
+        <div class="upside">
+          <br><strong th:text="${'Today : ' + zipDayCount + ' | Total : ' + zipTotalCount}"></strong>
+<!--          <form id="searchForm" method="post">-->
+<!--            <input type="text" id="memberId" name="memberId" required>-->
+<!--            <input type="hidden" id="csrf" th:value="${_csrf.token}" />-->
+<!--            <button type="submit">검색</button>-->
+<!--          </form>-->
+          <div class="search_form_title"><strong>회원 아이디</strong>
+            <form id="searchForm" method="post">
+              <input type="text" id="memberId" name="memberId" required>
+              <input type="hidden" id="csrf" th:value="${_csrf.token}" />
+              <button type="submit">검색</button>
+            </form>
+          </div>
+<!--          <form id="searchForm" method="post">-->
+<!--            <input type="text" id="memberId" name="memberId" required>-->
+<!--            <input type="hidden" id="csrf" th:value="${_csrf.token}" />-->
+<!--            <button type="submit">검색</button>-->
+<!--          </form>-->
+        </div>
+        <div class="home_main">
+          <div class="profile">
+            <div class="profile_1">
+              <img class="profile_image" th:src="@{/images/아이유.jpg}"/>
+            </div>
+<!--            <div class="search_form_title"><strong>회원 아이디</strong><br></div>-->
+<!--            <form id="searchForm" method="post">-->
+<!--              <input type="text" id="memberId" name="memberId" required>-->
+<!--              <input type="hidden" id="csrf" th:value="${_csrf.token}" />-->
+<!--              <button type="submit">검색</button>-->
+<!--            </form>-->
+
+              <div class="content_title"><strong>소개글</strong><br></div>
+            <div class="profile_2" th:text="${zipContent}"></div>
+            <div class="updated_news_title"><br><strong>Updated news</strong></div>
+            <div class="updated_news_contents">
+              <div class="updated_news_left">
+                <span class="updated_news_left1"><span class="updated_news_red">사진첩</span> 아기하마</span>
+                <span class="updated_news_left2"><span class="updated_news_blue">게시판</span> 티벳토끼의 잡동사니입니다</span>
+                <span class="updated_news_left3"><span class="updated_news_blue">게시판</span> 둘러보고 가세요~</span>
+                <span class="updated_news_left4"><span class="updated_news_red">사진첩</span> 아빠가 왕도마뱀이면?</span>
+              </div>
+            </div>
+            <div class="profile_3">*사실 토끼가 아니라 비스카차
+              <div class="profile-dropdown">
+                <div class="dropdown-btn">
+                  <div class="dropdown-title">Related Link</div>
+                  <div class="triangle-down"></div>
+                </div>
+                <div class="dropdown-content">
+                  <a href="https://programming-oddments.tistory.com/" target="_blank">Devlog</a>
+                  <a href="https://github.com/joseph-106" target="_blank">Github</a>
+                  <a href="https://www.instagram.com/ksj_106/" target="_blank">Instagram</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="home_contents">
+
+            <div class="miniroom_title"><strong th:text="${memberName} + '님의 집 | 생성일 : ' + ${zipRegDate}"></strong>
+              <div id="neighborForm">
+                <form id="addNeighborForm" th:unless="${session.zip.id} == ${zipId}" method="post">
+                  <input type="hidden" id="nCsrf" name="nCsrf" th:value="${_csrf.token}" />
+                  <input type="hidden" id="memberId1" name="memberId1" th:value="${#authentication.principal.member.memberId}" />
+                  <input type="hidden" id="memberId2" name="memberId2" th:value="${memberId}" />
+                  <button type="submit" >이웃 신청</button>
+                </form>
+              </div>
+            </div>
+<!--              <div id="neighborForm">-->
+<!--                  <form id="addNeighborForm" th:unless="${session.zip.id} == ${zipId}" method="post">-->
+<!--                      <input type="hidden" id="nCsrf" name="nCsrf" th:value="${_csrf.token}" />-->
+<!--                      <input type="hidden" id="memberId1" name="memberId1" th:value="${#authentication.principal.member.memberId}" />-->
+<!--                      <input type="hidden" id="memberId2" name="memberId2" th:value="${memberId}" />-->
+<!--                      <button type="submit" >이웃 신청</button>-->
+<!--                  </form>-->
+<!--              </div>-->
+            <div class="miniroom_contents">
+              <table>
+                <tr class="row1">
+                  <td class="box1" th:rowspan="2">내 방</td>
+                  <td class="box3">프로필</td>
+                  <td class="box4">이웃, 일정, 선물박스</td>
+                </tr>
+                <tr class="row2">
+                  <td class="box7">스토리</td>
+                  <td class="box8">목표 가구</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="menu_bar">
+        <a th:href="@{'/zip/zipDetail.do?id=' + ${zip.id}}" class="menu_button1">홈</a>
+        <a th:href="@{/zip/photo.do}" class="menu_button3">팁공유</a>
+        <a th:href="@{/zip/diary.do}" class="menu_button2">다이어리</a>
+        <a th:href="@{/zip/visit.do}" class="menu_button4">방명록</a>
+        <a th:href="@{/zip/visit.do}" class="menu_button4">채팅</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</div>
+
+</html>
