@@ -16,6 +16,7 @@ spring:
 #    password: ziptest
   profiles:
     default: test
+    active: prod
 
   jpa:
     generate-ddl: true
