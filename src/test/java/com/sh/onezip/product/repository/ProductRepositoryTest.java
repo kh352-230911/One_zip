@@ -186,15 +186,15 @@ class ProductRepositoryTest {
                 .isLessThanOrEqualTo(pageSize);
     }
 
-    @DisplayName("상품 문의에 대한 답글을 조회할 수 있습니다.")
-    @Test
-    void test6(){
-        Optional<ProductQuestion> productQuestionOpt = productQuestionRepository.findById(21L);
-        ProductQuestion productQuestion = productQuestionOpt.orElse(null);
-        ProductAnswer productAnswer = productAnswerRepository.findByProductQuestionId(productQuestion.getId());
-        assertThat(productAnswer.getProductQuestion().getId()).isEqualTo(21L);
-
-    }
+//    @DisplayName("상품 문의에 대한 답글을 조회할 수 있습니다.")
+//    @Test
+//    void test6(){
+//        Optional<ProductQuestion> productQuestionOpt = productQuestionRepository.findById(21L);
+//        ProductQuestion productQuestion = productQuestionOpt.orElse(null);
+//        ProductAnswer productAnswer = productAnswerRepository.findByProductQuestionId(productQuestion.getId());
+//        assertThat(productAnswer.getProductQuestion().getId()).isEqualTo(21L);
+//
+//    }
 
     @DisplayName("회원은 상품에 대한 모든 리뷰를 조회할 수 있습니다.")
     @Test

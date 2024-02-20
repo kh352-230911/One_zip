@@ -1,5 +1,6 @@
 package com.sh.onezip.productReview.entity;
 
+import com.sh.onezip.product.entity.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,9 +28,12 @@ public class ProductReview {
     @Column(name = "member_id")
     @JoinColumn(name = "member_id")
     private String memberId;
-    @Column(name = "product_no")
+//    @Column(name = "product_no")
+//    @JoinColumn(name = "product_no")
+//    private Long productNo;
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_no")
-    private Long productNo;
+    private Product product;
     @Column(name = "reviewContent")
     private String reviewContent;
     @Column(name = "review_regdate")

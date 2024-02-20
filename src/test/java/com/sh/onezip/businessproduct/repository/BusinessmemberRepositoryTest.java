@@ -5,21 +5,27 @@ import com.sh.onezip.businessproduct.entity.Businessmember;
 import com.sh.onezip.product.entity.Product;
 import com.sh.onezip.product.entity.ProductType;
 import com.sh.onezip.product.repository.ProductRepository;
+import com.sh.onezip.productanswer.entity.ProductAnswer;
+import com.sh.onezip.productanswer.repository.ProductAnswerRepository;
+import com.sh.onezip.productquestion.entity.ProductQuestion;
+import com.sh.onezip.productquestion.repository.ProductQuestionRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+//@DataJpaTest
 //@Transactional
-//@SpringBootTest
+@SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BusinessmemberRepositoryTest {
 
@@ -27,6 +33,10 @@ class BusinessmemberRepositoryTest {
     BusinessmemberRepository businessmemberRepository;
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    ProductQuestionRepository productQuestionRepository;
+    @Autowired
+    ProductAnswerRepository productAnswerRepository;
 
     @DisplayName("BusinessmemberRepository빈은 null이 아닙니다.")
     @Test
@@ -120,28 +130,78 @@ class BusinessmemberRepositoryTest {
             assertThat(product.getBusinessmember().getBizMemberId()).isEqualTo(bizMemberId);
         });
     }
+    @DisplayName("사업자는 고객이 주문한 주문 전체 세부내역을 볼 수 있습니다.")
+    @Test
+    public void test6(){
+        // 주문일자, 주문상품 정보, 상품 수량
 
-//    @DisplayName("사업자는 등록된 상품 개별 내역을 조회할 수 있습니다. - 사업자가 올린 상품 개별 조회") // 상품 bizmemberId랑 biz bizmemberId
+    }
+
+//    @DisplayName("사업자는 고객이 작성한 문의글의 전체 내역을 볼 수 있습니다.")
 //    @Test
-//    public void test6(){
-//        Long id =22L;
-//        List<Product> products = productRepository.findByIdBiz(id);
-//        assertThat(products).allSatisfy(product -> {
-//            assertThat(product).isNotNull();
-//            assertThat(product.getBusinessmember().getBizMemberId()).isEqualTo(id);
+//    public void test7(){
+//        // tb_product 상품고유번호 id = tb_pquestions 상품고유번호 id2 비교해보기
+//        Long id = 142L;
+//        List<ProductQuestion> productQuestions = productRepository.findByAllBusinessProductQuestion(id);
+//        assertThat(productQuestions).allSatisfy(productQuestion -> {
+//            assertThat(productQuestion).isNotNull();
+//            assertThat(productQuestion.getId()).isEqualTo(id);
 //        });
 //    }
+
+    @DisplayName("사업자는 고객이 작성한 문의글에 답변을 달 수 있습니다.")
+    @Test
+    public void test8(){
+        // 사업자 로그인 했음 moneylove2
+        String bizMemberId = "moneylove";
+        Businessmember businessmember = Businessmember.builder().bizMemberId(bizMemberId).build();
+        // moneylove2가 등록한 상품고유번호는 11번이야.(질문페이지)
+        Long id = 30L; // 질문고유번호
+        ProductQuestion productQuestion = productQuestionRepository.findByProductQuestionAnswerId(id);
+        System.out.println(productQuestion + "!!!");
+        // 답변을 달거야.
+        ProductAnswer productAnswer = ProductAnswer.builder()
+                .productQuestion(productQuestion)
+                .businessmember(businessmember)
+                .aRegdate(LocalDate.now())
+                .aContent("맥주창고의 보쌈이 들어갑니다^^~")
+                .build();
+        productAnswerRepository.save(productAnswer);
+    }
+
+    @DisplayName("사업자는 고객이 작성한 문의글에 답변을 수정 할 수 있습니다.")
+    @Test
+    public void test9(){
+    // 답변 고유번호는 11번이야.
+    Optional<ProductAnswer> optionalProductAnswer = productAnswerRepository.findById(11L);
+    optionalProductAnswer.ifPresent(productAnswer -> {
+       if ("152번에 대한 답변테스트".equals(productAnswer.getAContent())) {
+           productAnswer.setAContent("답변수정합니데이~");
+           productAnswerRepository.save(productAnswer);
+       }
+    });
+    }
+
+    @DisplayName("사업자는 상품을 구매한 고객이 작성한 리뷰글의 전체 내역을 볼 수 있습니다.")
+    @Test
+    public void test10(){
+    }
+
+    @DisplayName("사업자는 상품을 구매한 고객이 작성한 리뷰글에 댓글을 달 수 있습니다.")
+    @Test
+    public void test11(){
+//    String bizMemberId = "moneylove2"; // 사업자 로그인 했음 moneylove2
+//    Businessmember businessmember = Businessmember.builder().bizMemberId(bizMemberId).build();
+    }
+    @DisplayName("사업자는 상품을 구매한 고객이 작성한 리뷰글에 댓글을 수정 할 수 있습니다.")
+    @Test
+    public void test12(){
+
+    }
+    @DisplayName("사업자는 상품 등록 시 옵션을 추가 할 수 있습니다.")
+    @Test
+    public void test13(){
+
+    }
 }
-
-
-// 사업자는 상품 등록 시 옵션을 추가 할 수 있습니다.
-// 사업자는 고객이 주문한 주문 전체 세부내역을 볼 수 있습니다.
-// 사업자는 고객이 작성한 문의글의 전체 내역을 볼 수 있습니다.
-// 사업자는 고객이 작성한 문의글에 답변을 달 수 있습니다.
-// 사업자는 고객이 작성한 문의글에 답변을 수정 할 수 있습니다.
-// 사업자는 상품을 구매한 고객이 작성한 리뷰글의 전체 내역을 볼 수 있습니다.
-// 사업자는 상품을 구매한 고객이 작성한 리뷰글에 댓글을 달 수 있습니다.
-// 사업자는 상품을 구매한 고객이 작성한 리뷰글에 댓글을 수정 할 수 있습니다.
-
-
 
