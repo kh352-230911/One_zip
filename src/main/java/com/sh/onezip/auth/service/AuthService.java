@@ -5,6 +5,10 @@ import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,5 +29,15 @@ public class AuthService implements UserDetailsService{
         }
         return new MemberDetails(member);
     }
-
+    public void updateAuthentication(String memberId) {
+        Member newMember = memberService.findByMemberId(memberId);
+        MemberDetails newMemberDetails = new MemberDetails(newMember);
+        Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
+                newMemberDetails,
+                newMemberDetails.getPassword(),
+                newMemberDetails.getAuthorities()
+        );
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(newAuthentication);
+    }
 }
