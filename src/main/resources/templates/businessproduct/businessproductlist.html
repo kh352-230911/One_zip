@@ -42,14 +42,7 @@
                     <td th:text="|${businessproduct.sellPrice}원|"></td>
                     <td th:text="${#temporals.format(businessproduct.regDate, 'yyyy/MM/dd')}"></td>
                 <td>
-<!--                    <form th:action="@{/businessproductlist.do}" method="post">-->
-<!--                        &lt;!&ndash; CSRF 토큰 추가 &ndash;&gt;-->
-<!--                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
-<!--                        &lt;!&ndash; 상품 고유번호를 파라미터로 전달 &ndash;&gt;-->
-<!--                        <input type="hidden" name="id" value="139"/> &lt;!&ndash; 여기서 139는 하드코딩된 값입니다. &ndash;&gt;-->
-<!--                        &lt;!&ndash; 삭제 확인 다이얼로그 &ndash;&gt;-->
-<!--                        <button type="submit" onclick="return confirm('정말 삭제하시겠습니까? 😲')" class="btn btn-outline-success d-inline-block mr-2">삭제하기</button>-->
-<!--                    </form>-->
+
                         <!--   사업자 로그인 구현 완료 되면 안써도 될듯 ? (아직 값 전달 안돼서 하드코딩 후 hidden처리함)   -->
                     <input type="hidden" name="id" value="152"/>
                     <input type="hidden" name="bizMemberId" value="moneylove" />
