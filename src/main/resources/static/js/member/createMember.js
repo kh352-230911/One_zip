@@ -1,20 +1,24 @@
 $(document).ready(function() {
-    // 비밀번호 확인 일치 검사
-    $("#passwordConfirmation").blur(function() {
-        const password = $("#password").val();
-        const passwordConfirmation = $(this).val();
-        if (password !== passwordConfirmation) {
-            alert("패스워드가 일치하지 않습니다.");
-            $("#password").select();
-        }
-    });
+    // 페이지 진입 시 "이 아이디는 사용가능합니다."와 "이 아이디는 사용할 수 없습니다." 메세지 숨김처리
+    $(".guide.ok, .guide.error").hide();
+});
+
+document.querySelector("#passwordConfirmation").onblur = (e) => {
+    const password = document.querySelector("#password");
+    const passwordConfirmation = e.target;
+    if (password.value !== passwordConfirmation.value) {
+        alert("패스워드가 일치하지 않습니다.");
+        password.select();
+    }
+};
 
     // 폼 제출 시 유효성 검사
-    $("form[name='memberCreateFrm']").submit(function(e) {
-        const memberId = $("#memberId").val().trim();
-        const idDuplicateCheck = $("#idDuplicateCheck").val();
-        const password = $("#password").val();
-        const passwordConfirmation = $("#passwordConfirmation").val();
+        document.memberCreateFrm.onsubmit = (e) => {
+        const frm = e.target;
+        const memberId = frm.memberId;
+        const idDuplicateCheck = frm.idDuplicateCheck;
+        const password = frm.password;
+         const passwordConfirmation = frm.passwordConfirmation;
         const name = $("#name").val();
 
         if (!/^\w{4,}$/.test(memberId)) {
@@ -41,76 +45,78 @@ $(document).ready(function() {
             e.preventDefault(); // 폼 제출 방지
             return false;
         }
-    });
+    };
 
     // 아이디 중복 검사
-    $("#memberId").keyup(function() {
-        const memberId = $(this).val().trim();
-        const guideOk = $(".guide.ok");
-        const guideError = $(".guide.error");
+    document.querySelector("#memberId").onkeyup = (e) => {
+        const memberId = e.target;
+        const guideOk = document.querySelector(".guide.ok");
+        const guideError = document.querySelector(".guide.error");
+        const idDuplicateCheck = document.querySelector("#idDuplicateCheck");
 
-        if (!/^\w{4,}$/.test(memberId)) {
-            guideError[0].style.display = "none"; // jQuery 객체에서 첫 번째 DOM 엘리먼트를 참조
-            guideOk[0].style.display = "none";    // jQuery 객체에서 첫 번째 DOM 엘리먼트를 참조
-            $("#idDuplicateCheck").val("0");
+        if (!/^\w{4,}$/.test(memberId.value.trim())) {
+            guideError.style.display = "none";
+            guideOk.style.display = "none";
+            idDuplicateCheck.value = 0
             return;
         }
 
         $.ajax({
-            url: `${contextPath}/member/checkIdDuplicate.do`,
+            url: `${contextPath}member/checkIdDuplicate.do`,
             method: 'post',
             headers: {
                 [csrfHeaderName]: csrfToken
             },
             data: {
-                memberId: memberId
+                memberId: memberId.value.trim()
             },
-            success: function(response) {
-                console.log(response); // 예: {"available": true}
-                if (response.available) {
-                    guideError.hide();
-                    guideOk.show();
-                    $("#idDuplicateCheck").val("1");
+            success(response) {
+                console.log(response); // {"available" : true}
+                const {available} = response;
+                if (available) {
+                    guideError.style.display = "none";
+                    guideOk.style.display = "inline";
+                    idDuplicateCheck.value = 1;
                 } else {
-                    guideError.show();
-                    guideOk.hide();
-                    $("#idDuplicateCheck").val("0");
+                    guideError.style.display = "inline";
+                    guideOk.style.display = "none";
+                    idDuplicateCheck.value = 0;
                 }
             }
         });
-    });
-});
+
+    };
 
 //주소검색 api
 
-const btn = document.querySelector("#btn");
-btn.addEventListener("click", () => {
-    new daum.Postcode({
-        oncomplete: function(data) {
-            console.log(data);
-
-            let fullAddr = '';
-            let extraAddr = '';
-
-            if(data.userSelectedType === 'R') {
-                fullAddr = data.roadAddress;
-            } else {
-                fullAddr = data.jibunAddress;
-            }
-
-            if(data.userSelectedType == 'R') {
-                if(data.bname !== '') {
-                    extraAddr += data.bname;
-                }
-                if(data.buildingName !== '') {
-                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
-            }
-
-            document.memberCreateFrm.memberAddr.value = fullAddr;
-
-        }
-    }).open();
-});
-
+        //
+        // const btn = document.querySelector("#btn");
+        // btn.addEventListener("click", () => {
+        //     new daum.Postcode({
+        //         oncomplete: function(data) {
+        //             console.log(data);
+        //
+        //             let fullAddr = '';
+        //             let extraAddr = '';
+        //
+        //             if(data.userSelectedType === 'R') {
+        //                 fullAddr = data.roadAddress;
+        //             } else {
+        //                 fullAddr = data.jibunAddress;
+        //             }
+        //
+        //             if(data.userSelectedType == 'R') {
+        //                 if(data.bname !== '') {
+        //                     extraAddr += data.bname;
+        //                 }
+        //                 if(data.buildingName !== '') {
+        //                     extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+        //                 }
+        //                 fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
+        //             }
+        //
+        //             document.memberCreateFrm.memberAddr.value = fullAddr;
+        //
+        //         }
+        //     }).open();
+        // });}

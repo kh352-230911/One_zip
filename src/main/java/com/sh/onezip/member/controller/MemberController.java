@@ -156,9 +156,10 @@ public class MemberController {
     public ResponseEntity<?> checkIdDuplicate(@RequestParam("memberId") String memberId) {
         Map<String, Object> resultMap = Map.of(
                 "available",
-                memberService.findByUsername(memberId) == null
+                memberService.findByMemberId(memberId) == null
         );
         return ResponseEntity.ok(resultMap);
     }
+
 
     }
