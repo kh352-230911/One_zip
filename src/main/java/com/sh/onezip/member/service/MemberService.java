@@ -6,6 +6,7 @@ import com.sh.onezip.authority.service.AuthorityService;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +20,17 @@ public class MemberService {
     @Autowired
     AuthorityService authorityService;
 
-    public Member findByName(String username) {
-        return memberRepository.findByName(username);
-    }
+
+
     public Member findByMemberId(String memberId) {
         return memberRepository.findByMemberId(memberId);
     }
+    public Member findByName(String username) {
+        return memberRepository.findByName(username);
+    }
+//    public Member findByMemberId(String memberId) {
+//        return memberRepository.findByMemberId(memberId);
+//    }
 
 
     public Member createMember(Member member) {
@@ -36,5 +42,11 @@ public class MemberService {
         authorityService.createAuthority(authority);
         return member;
     }
-}
 
+
+
+    public Member updateMember(Member member) {
+        return memberRepository.save(member);
+    }
+
+}
