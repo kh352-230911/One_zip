@@ -45,7 +45,8 @@
             <!-- sec:authorize="isAnonymous()"속성으로 로그인 하지 않은상태를 판별 -->
             <th:block sec:authorize="isAnonymous()">
                 <button class="btn btn-outline-success my-2 my-sm-0 mr-3" type="button" th:onclick="|location.href='@{/auth/login.do}';|">로그인</button>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="button" th:onclick="|location.href='@{/member/createMember.do}';|">회원가입</button>
+                <button class="btn btn-outline-success my-2 my-sm-0 mr-3" type="button" th:onclick="|location.href='@{/member/createMember.do}';|">회원가입</button>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="button" th:onclick="|location.href='@{/business/createbusiness.do}';|">사업자회원가입</button>
             </th:block>
             <th:block sec:authorize="isAuthenticated()">
                 <a th:href="@{/member/memberDetail.do}">

@@ -29,6 +29,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/", "/templates/index.html").permitAll()
                     .requestMatchers("/auth/**").permitAll()
                     .requestMatchers("/member/createMember.do","/member/checkIdDuplicate.do").anonymous()
+                    .requestMatchers("/business/createbusiness.do","/member/checkIdDuplicate.do").anonymous()
                     .requestMatchers("/product/**").authenticated()
                     .requestMatchers("/board/**").authenticated()
 //                    .requestMatchers("/community/**").authenticated()
