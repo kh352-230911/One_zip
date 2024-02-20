@@ -39,7 +39,7 @@ public class BusinessProductController {
     @Autowired
     ProductService productService;
 
-    @GetMapping("/businessproductlist.do")
+@GetMapping("/businessproductlist.do")
 // Model: Spring MVC에서 Controller에서 View로 데이터를 전달하는 데 사용되는 인터페이스
 // HttpServletRequest: HTTP 요청 정보를 제공하는 클래스
     public void businessproductlist(@RequestParam("bizMemberId") String bizMemberId, Model model, HttpServletRequest httpServletRequest) {
@@ -83,12 +83,12 @@ public class BusinessProductController {
 
     @PostMapping("/businessproductcreate.do")
     public String businessproductcreate(
-            // 유효성검사를 위한 BusinessCreateDto
-            @Valid BusinessProductCreateDto businessProductCreateDto,
-            // 유효성 검사 결과를 담는 BindingResult 객체
-            BindingResult bindingResult,
-            // 리다이렉트 시 데이터 전달을 위한 RedirectAttributes 객체
-            RedirectAttributes redirectAttributes
+    // 유효성검사를 위한 BusinessCreateDto
+    @Valid BusinessProductCreateDto businessProductCreateDto,
+    // 유효성 검사 결과를 담는 BindingResult 객체
+    BindingResult bindingResult,
+    // 리다이렉트 시 데이터 전달을 위한 RedirectAttributes 객체
+    RedirectAttributes redirectAttributes
     ) throws IOException {
         if (bindingResult.hasErrors()) {
             // 첫 번째 오류 메시지를 가져와서 예외를 던짐
@@ -110,7 +110,7 @@ public class BusinessProductController {
 
     @GetMapping("/businessproductdetail.do")
     public void businessproductdetail(@RequestParam("id") Long id, Model model) {
-        ProductDetailDto productDetailDto = productService.productdetailDtofindById(id);
+        ProductDetailDto productDetailDto = productService.productDetailDtofindById(id);
         model.addAttribute("businessproduct", productDetailDto);
     }
     @PostMapping("/businessproductdetail.do")
@@ -145,18 +145,19 @@ public class BusinessProductController {
         return "redirect:/businessproduct/businessproductdetail.do?id=" + updateBizProduct.getId();
     }
 
+    // 삭제
+    @PostMapping("/businessproductlist.do")
+    public String businessproductlist (@RequestParam("id") Long id, @RequestParam("bizMemberId") String bizMemberId, Model model, RedirectAttributes redirectAttributes){
+    Businessmember businessmember = new Businessmember();
+        businessmember.setBizMemberId(bizMemberId);
+        System.out.println(businessmember);
+    Product product = new Product();
+        System.out.println(product);
+    product.setId(id);
+        System.out.println(id);
+    productService.deleteproductlist(product);
+        redirectAttributes.addFlashAttribute("msg", "상품을 성공적으로 삭제했습니다.🤠");
+        return "redirect:/businessproduct/businessproductlist.do?bizMemberId=" + businessmember.getBizMemberId();
+    }
+
 }
-//    @GetMapping("/businessproductupdate.do")
-//    public void businessproductupdate(){}
-//    }
-
-//    @PostMapping("/businessproductcreate.do")
-//    public String businessproductcreate(){}
-//}
-//    @GetMapping("/businessproductdetail.do")
-//    public void businessproductdetail(@RequestParam("id")Long id, Model model){
-//
-//    }
-
-
-

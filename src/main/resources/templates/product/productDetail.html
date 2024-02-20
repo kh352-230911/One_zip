@@ -34,17 +34,19 @@
 			<br>
 			<!--			<button id="gift-btn" type="button" >선물하기</button>-->
 			<!--			<button id="purchase-btn" type="submit">구매하기</button>-->
-			<button onclick="submitTo('gift')">선물하기</button>
+<!--			<button onclick="submitTo('gift')">선물하기</button>-->
 			<button onclick="submitTo('purchase')">구매하기</button>
+			<button onclick="submitTo('cart')">장바구니</button>
 		</form>
 	</div>
-
 	<div class="text-center" style="padding: 0 50px; background-color: gray;">
-		<button th:text="|상품 상세보기|" style="margin-right: 200px; width: 150px;"></button>
-		<button th:text="|리뷰 상세보기|" style="margin-right: 200px; width: 150px;"></button>
-		<button th:text="|Q&A|" style="width: 150px;"></button>
+		<button id="product-detail-list" th:text="|상품 상세보기|" style="margin-right: 200px; width: 150px;"
+				th:onclick="|location.href = '@{productDetailList.do}?id=${product.id}';|"></button>
+		<button id="product-review" th:text="|리뷰 상세보기|" style="margin-right: 200px; width: 150px;"
+				th:onclick="|location.href = '@{productReview.do}?id=${product.id}';|"></button>
+		<button id="product-qna" th:text="|Q&A|" style="width: 150px;"
+				th:onclick="|location.href = '@{productQna.do}?id=${product.id}';|"></button>
 	</div>
 </div>
-
 <script layout:fragment="script" th:src="@{/js/product/productDetail.js}"></script>
 </html>

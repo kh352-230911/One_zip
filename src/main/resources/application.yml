@@ -69,7 +69,3 @@ cloud:
       secret-key: ${AWS_S3_SECRET_ACCESS_KEY}
     region:
       static: ap-northeast-2
-
-      spring:
-        thymeleaf:
-          mode=HTML5:

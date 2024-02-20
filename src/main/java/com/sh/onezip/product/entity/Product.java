@@ -1,8 +1,11 @@
 package com.sh.onezip.product.entity;
 
 import com.sh.onezip.businessproduct.entity.Businessmember;
+import com.sh.onezip.cart.entity.Cart;
+import com.sh.onezip.productReview.entity.ProductReview;
 import com.sh.onezip.productimage.entity.ProductImage;
 import com.sh.onezip.productoption.entity.ProductOption;
+import com.sh.onezip.productquestion.entity.ProductQuestion;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Data
@@ -19,7 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@ToString(exclude = "productImages")
+@ToString(exclude = {"productImages", "productOptions", "productReviews"})
 public class Product implements Comparable<Product> {
     @Id
     @GeneratedValue(generator = "seq_tb_product_id_generator")
@@ -53,9 +57,21 @@ public class Product implements Comparable<Product> {
     @Builder.Default
     private List<ProductOption> productOptions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<ProductQuestion> productQuestions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<ProductReview> productReviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<Cart> cart = new ArrayList<>();
+
     @Override
     public int compareTo(Product other) {
-        return (int) (this.id - other.id);
+        return (int)(this.id - other.id);
     }
 
 }

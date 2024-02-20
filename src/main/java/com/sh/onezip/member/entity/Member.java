@@ -1,8 +1,10 @@
 package com.sh.onezip.member.entity;
 
 import com.sh.onezip.authority.entity.Authority;
+import com.sh.onezip.cart.entity.Cart;
 import com.sh.onezip.member.entity.Gender;
-//import com.sh.onezip.zip.entity.Zip;
+import com.sh.onezip.neighbor.entity.Neighbor;
+import com.sh.onezip.zip.entity.Zip;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,6 +57,14 @@ public class Member {
     @JoinColumn(name = "member_id")
     private List<Authority> authorities;
 
-//    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
-//    private Zip zip;
+
+    @OneToOne(mappedBy = "member")
+    private Cart cart;
+
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private Zip zip;
+    
+    @OneToMany(mappedBy = "member2")
+    private List<Neighbor> neighbor;
+
 }

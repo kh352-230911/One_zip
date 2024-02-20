@@ -1,5 +1,6 @@
 package com.sh.onezip.auth.handler;
 
+import com.sh.onezip.auth.vo.MemberDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,10 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         }
 
         log.debug("targetUrl = {}", targetUrl);
+
+        if(authentication.getPrincipal() instanceof MemberDetails) {
+            request.getSession().setAttribute("zip", ((MemberDetails)authentication.getPrincipal()).getMember().getZip());
+        }
 
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }

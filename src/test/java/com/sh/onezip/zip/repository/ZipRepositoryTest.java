@@ -30,7 +30,7 @@ class ZipRepositoryTest {
         assertThat(zipRepository).isNotNull();
     }
 
-//    @Disabled
+    //    @Disabled
     @DisplayName("집 등록 및 조회")
     @Test
     @Transactional

@@ -23,15 +23,14 @@ import java.util.Optional;
 @Builder
 public class Zip {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO,
-            generator = "seq_tb_zip_id_generator")
+    @GeneratedValue(generator = "seq_tb_zip_id_generator")
     @SequenceGenerator(
             name = "seq_tb_zip_id_generator",
             sequenceName = "seq_tb_zip_id",
             initialValue = 1,
             allocationSize = 1)
     private Long id;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member member;
     private String content;
@@ -44,4 +43,8 @@ public class Zip {
     private String colorCode;
     private int dayCount;
     private int totalCount;
+    @Enumerated(EnumType.STRING)
+    private Type type;
+    @Column(name = "last_viewed_at")
+    private LocalDateTime lastViewedAt; // 마지막 조회 시간
 }
