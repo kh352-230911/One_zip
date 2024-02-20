@@ -3,7 +3,9 @@ package com.sh.onezip.product.repository;
 
 import com.sh.onezip.businessproduct.entity.Businessmember;
 import com.sh.onezip.product.entity.Product;
+
 import com.sh.onezip.productReview.entity.ProductReview;
+import com.sh.onezip.productanswer.dto.ProductAnswerCreateDto;
 import com.sh.onezip.productquestion.entity.ProductQuestion;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,32 +53,41 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("from ProductQuestion pq where pq.product.id = :productId")
     List<ProductQuestion> productQuestionFindAllByProductId(@Param("productId") Long productId);
 
-    @Query("from ProductReview pr where pr.productNo = :id")
-    List<ProductReview> reviewFindAllByProductId(Long id);
-
-    @Query("from ProductReview pr where pr.productNo = :productId order by pr.id desc")
-    Page<ProductReview> productReviewFindAllByProductId(Pageable pageable, Long productId);
-
-    @Query("from ProductReview pr where pr.productNo = :productId")
-    List<ProductReview> productReviewFindAllByProductId(@Param("productId") Long productId);
-
-    @Query("from ProductReview pr where pr.productNo = :id")
-    List<ProductReview> productReviewFindByProductid(Long id);
+//    @Query("from ProductReview pr where pr.productNo = :id")
+//    List<ProductReview> reviewFindAllByProductId(Long id);
+//
+//    @Query("from ProductReview pr where pr.productNo = :productId order by pr.id desc")
+//    Page<ProductReview> productReviewFindAllByProductId(Pageable pageable, Long productId);
+//
+//    @Query("from ProductReview pr where pr.productNo = :productId")
+//    List<ProductReview> productReviewFindAllByProductId(@Param("productId") Long productId);
+//
+//    @Query("from ProductReview pr where pr.productNo = :id")
+//    List<ProductReview> productReviewFindByProductid(Long id);
 
 
     // 명준 작업 공간 end =================================================================
-        
 
     // 보경 작업 공간 start =================================================================
 
     @Query("from Product p left join fetch p.businessmember WHERE p.businessmember.bizMemberId = :bizMemberId order by p.productName desc")
     Page<Product> findAllBiz(Pageable pageable,String bizMemberId);
 
+    @Query("SELECT p FROM ProductQuestion p WHERE p.product.businessmember.bizMemberId = :bizMemberId")
+    List<ProductQuestion> findByAllBusinessProductQuestion(String bizMemberId);
+
     @Query("select p, b from Product p left join fetch p.businessmember b")
     Optional<Product> findByProduct(Businessmember businessmember);
 
+    @Query("SELECT p FROM ProductQuestion p LEFT JOIN FETCH p.product WHERE p.product.businessmember.bizMemberId = :bizMemberId ORDER BY p.qRegdate DESC")
+    Page<ProductQuestion> findAllQuestion(Pageable pageable, String bizMemberId);
+
+    @Query("SELECT p FROM ProductReview p LEFT JOIN FETCH p.product WHERE p.product.businessmember.bizMemberId = :bizMemberId ORDER BY p.reviewRegdate DESC")
+    Page<ProductReview> findAllReview(Pageable pageable, String bizMemberId);
+
+    @Query("SELECT p FROM ProductReview p WHERE p.product.businessmember.bizMemberId = :bizMemberId")
+    List<ProductReview> findByAllReview(String bizMemberId);
+
     // 보경 작업 공간 end =================================================================
-
-
 
 }
