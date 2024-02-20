@@ -3,7 +3,8 @@ name: Docker Image CI
 on:
   pull_request_target:
     branches:
-      - master
+#      - master
+      - develop
     types:
       - closed
 
