@@ -3,6 +3,7 @@ package com.sh.onezip.member.entity;
 import com.sh.onezip.authority.entity.Authority;
 import com.sh.onezip.cart.entity.Cart;
 import com.sh.onezip.member.entity.Gender;
+import com.sh.onezip.neighbor.entity.Neighbor;
 import com.sh.onezip.zip.entity.Zip;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -63,4 +64,9 @@ public class Member {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Zip zip;
 
+<<<<<<< HEAD
+=======
+    @OneToMany(mappedBy = "member2")
+    private List<Neighbor> neighbor;
+>>>>>>> 30f24e54f3f2aea09d2eb5221d3af20ff4916d4c
 }

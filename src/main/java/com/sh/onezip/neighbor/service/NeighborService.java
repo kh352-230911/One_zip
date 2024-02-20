@@ -4,6 +4,7 @@ import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.neighbor.entity.Neighbor;
 import com.sh.onezip.neighbor.repository.NeighborRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +20,12 @@ public class NeighborService {
         return neighborRepository.findNeighborsByMember(member);
     }
 
-//    public List<Neighbor> findNeighborsByMember(String memberId) {
-//        // memberId에 해당하는 Member 객체를 찾아서 그 회원의 이웃 목록 조회
-//        Member member = new Member();
-//        member.setMemberId(memberId);
-//        return neighborRepository.findNeighborsByMember(member);
-//    }
+    public List<Neighbor> findNeighborsByMember(String memberId) {
+        // memberId에 해당하는 Member 객체를 찾아서 그 회원의 이웃 목록 조회
+        Member member = new Member();
+        member.setMemberId(memberId);
+        return neighborRepository.findNeighborsByMember(member);
+    }
 
     // 이미 이웃인지 확인하는 메서드
     public boolean areNeighbors(Member member1, Member member2) {
@@ -54,5 +55,10 @@ public class NeighborService {
         neighbor.setMember1(member1);
         neighbor.setMember2(member2);
         neighborRepository.save(neighbor);
+    }
+
+    @Transactional
+    public void deleteNeighbor(Long id) {
+        neighborRepository.deleteById(id);
     }
 }

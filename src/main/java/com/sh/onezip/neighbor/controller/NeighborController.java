@@ -11,10 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,8 +29,8 @@ public class NeighborController {
             @AuthenticationPrincipal MemberDetails memberDetails) {
         Member member = memberDetails.getMember();
         List<Neighbor> neighbors = neighborService.findNeighborsByMember(member);
-        model.addAttribute("neighbors", neighbors);
-        return "neighbor/list";
+        model.addAttribute("neighbors", neighbors); // 모델에 neighbors 추가
+        return "/list"; // 이웃 목록을 보여줄 뷰로 이동
     }
 
     @PostMapping("/add")
@@ -43,6 +40,17 @@ public class NeighborController {
         try {
             neighborService.addNeighbor(memberId1, memberId2);
             return ResponseEntity.ok().body("이웃 관계가 추가되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    // 이웃 삭제
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteNeighbor(@PathVariable("id") Long id) {
+        try {
+            neighborService.deleteNeighbor(id);
+            return ResponseEntity.ok().body("이웃 관계가 삭제되었습니다.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
