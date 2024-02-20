@@ -1,19 +1,17 @@
 package com.sh.onezip.member.dto;
 
-import com.sh.onezip.neighbor.entity.Neighbor;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
-
-import java.util.List;
 
 @Data
-public class MemberDetailDto {
+public class MemberUpdateDto {
+    @NotNull(message = "id는 필수 입력값입니다.")
     private String memberId;
+    @NotNull
     private String name;
     private String memberAddr;
     private String memberDetailAddr;
     private String hobby;
     private String mbti;
-
 
 }
