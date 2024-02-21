@@ -32,39 +32,20 @@
       <div class="home" >
         <div class="upside">
           <br><strong th:text="${'Today : ' + zipDayCount + ' | Total : ' + zipTotalCount}"></strong>
-<!--          <form id="searchForm" method="post">-->
-<!--            <input type="text" id="memberId" name="memberId" required>-->
-<!--            <input type="hidden" id="csrf" th:value="${_csrf.token}" />-->
-<!--            <button type="submit">검색</button>-->
-<!--          </form>-->
           <div class="search_form_title">
             <form id="searchForm" method="post">
               <input type="text" id="memberId" name="memberId" placeholder="회원 아이디" required>
               <input type="hidden" id="csrf" th:value="${_csrf.token}" />
               <button type="submit">검색</button>
             </form>
-            <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button">이웃 목록</button>
+            <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button">내 이웃</button>
           </div>
-
-
-<!--          <form id="searchForm" method="post">-->
-<!--            <input type="text" id="memberId" name="memberId" required>-->
-<!--            <input type="hidden" id="csrf" th:value="${_csrf.token}" />-->
-<!--            <button type="submit">검색</button>-->
-<!--          </form>-->
         </div>
         <div class="home_main">
           <div class="profile">
             <div class="profile_1">
               <img class="profile_image" th:src="@{/images/아이유.jpg}"/>
             </div>
-<!--            <div class="search_form_title"><strong>회원 아이디</strong><br></div>-->
-<!--            <form id="searchForm" method="post">-->
-<!--              <input type="text" id="memberId" name="memberId" required>-->
-<!--              <input type="hidden" id="csrf" th:value="${_csrf.token}" />-->
-<!--              <button type="submit">검색</button>-->
-<!--            </form>-->
-
               <div class="content_title"><strong>소개글</strong><br></div>
             <div class="profile_2" th:text="${zipContent}"></div>
             <div class="updated_news_title"><br><strong>Updated news</strong></div>
@@ -79,17 +60,11 @@
             <div class="profile_3">
               <div class="profile-dropdown">
                 <div class="dropdown-btn">
-                  <div class="dropdown-title">Related Link</div>
+                  <div class="dropdown-title">이웃 목록</div>
                   <div class="triangle-down"></div>
                 </div>
                 <div class="dropdown-content">
                   <a th:each="neighbor : ${neighbors}" th:href="@{|http://localhost:8080/onezip/zip/zipDetail.do?id=${neighbor.get('member_zip_id')}|}"  th:text="${neighbor.get('memberId') + '(' + neighbor.get('memberName') + ')'}"></a>
-<!--                  <a href="https://github.com/joseph-106" target="_blank">Github</a>-->
-<!--                  <a href="https://www.instagram.com/ksj_106/" target="_blank">Instagram</a>-->
-<!--                  <a th:href="${neighbor}"><strong th:text="${neighbor}"></strong></a>-->
-<!--                    <a th:href="${neighbor.url}">-->
-<!--                      <strong th:text="${neighbor.name}"></strong>-->
-<!--                    </a>-->
                 </div>
               </div>
             </div>
@@ -97,7 +72,7 @@
           <div class="home_contents">
 
             <div class="miniroom_title"><strong th:text="${memberName} + '님의 집 | 생성일 : ' + ${zipRegDate}"></strong>
-              <div id="neighborForm" >
+              <div id="neighborForm">
                 <form id="addNeighborForm" th:unless="${session.zip.id} == ${zipId}" method="post">
                   <input type="hidden" id="nCsrf" name="nCsrf" th:value="${_csrf.token}" />
                   <input type="hidden" id="memberId1" name="memberId1" th:value="${#authentication.principal.member.memberId}" />
@@ -107,14 +82,6 @@
                 <button th:unless="${session.zip.id} == ${zipId}" onclick="deleteNeighbor(${neighborId})">이웃 삭제</button>
               </div>
             </div>
-<!--              <div id="neighborForm">-->
-<!--                  <form id="addNeighborForm" th:unless="${session.zip.id} == ${zipId}" method="post">-->
-<!--                      <input type="hidden" id="nCsrf" name="nCsrf" th:value="${_csrf.token}" />-->
-<!--                      <input type="hidden" id="memberId1" name="memberId1" th:value="${#authentication.principal.member.memberId}" />-->
-<!--                      <input type="hidden" id="memberId2" name="memberId2" th:value="${memberId}" />-->
-<!--                      <button type="submit" >이웃 신청</button>-->
-<!--                  </form>-->
-<!--              </div>-->
             <div class="miniroom_contents">
               <table>
                 <tr class="row1">
@@ -134,7 +101,35 @@
                       </div>
                     </div>
                   </td>
-                  <td class="box3">프로필</td>
+                    <td class="box3">
+                        <div class="flex justify-center items-center h-screen">
+                            <div class="bg-white shadow-lg rounded-lg p-6">
+                                <div class="border-b-2 pb-2">
+                                    <h4 class="text-xl font-semibold">.Profile</h4>
+                                </div>
+                                <div>
+                                    <!-- 프로필 정보 -->
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">닉네임 : </label>
+                                    <span th:text="${session.zip.member.nickname != null ? session.zip.member.nickname : '미작성'}"></span>
+                                    <br>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">생일 : </label>
+                                    <span th:text="${session.zip.member.birthday != null ? session.zip.member.birthday : '미작성'}"></span>
+                                    <br>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">성별 : </label>
+                                    <span th:text="${session.zip.member.gender != null ? session.zip.member.gender : '미작성'}"></span>
+                                    <br>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">취미 : </label>
+                                    <span th:text="${session.zip.member.hobby != null ? session.zip.member.hobby : '미작성'}"></span>
+                                    <br>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">MBTI : </label>
+                                    <span th:text="${session.zip.member.mbti != null ? session.zip.member.mbti : '미작성'}"></span>
+                                    <br>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">주소 : </label>
+                                    <span th:text="${session.zip.member.memberAddr != null ? session.zip.member.memberAddr : '미작성'}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                   <td class="box4">이웃, 일정, 선물박스</td>
                 </tr>
                 <tr class="row2">
@@ -160,7 +155,7 @@
 <div id="neighborModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <h2>이웃 목록</h2>
+    <h2>내 이웃</h2>
     <!-- 이웃 목록을 표시할 테이블 -->
     <table id="neighborTable">
       <thead>
