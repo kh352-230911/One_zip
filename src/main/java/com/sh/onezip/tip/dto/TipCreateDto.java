@@ -11,7 +11,6 @@ import java.util.List;
 public class TipCreateDto {
     @NotEmpty(message = "제목은 필수 입력 사항입니다.")
     private String tipTitle;
-    private String  memberId;
     @NotEmpty(message = "제목은 필수 입력 사항입니다.")
     private String tipContent;
     private List<AttachmentCreateDto> attachments = new ArrayList<>();

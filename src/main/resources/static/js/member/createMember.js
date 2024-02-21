@@ -16,7 +16,6 @@ document.querySelector("#passwordConfirmation").onblur = (e) => {
 
 // 폼 제출 시 유효성 검사
 document.memberCreateFrm.onsubmit = (e) => {
-    // html5 추가된 속성 pattern을 활용해 정규식 검사도 가능하지만, 구체적인 피드백제공하지는 못한다.
     const frm = e.target;
     const memberId = frm.memberId;
     const idDuplicateCheck = frm.idDuplicateCheck;
@@ -42,6 +41,7 @@ document.memberCreateFrm.onsubmit = (e) => {
     if (!/^[\w가-힣]{2,}$/.test(name.value)) {
         alert("이름을 2글자 이상 입력하세요.");
         name.select();
+
         return false;
     }
 };
@@ -118,4 +118,5 @@ document.querySelector("#memberId").onkeyup = (e) => {
 //
 //         }
 //     }).open();
-// });
+
+// });}

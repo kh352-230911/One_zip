@@ -6,14 +6,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.repository.query.Param;
+import java.util.Optional;
 
-import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member, String> {
-
-
-
     Member findByName(String name);
     @Query("FROM Member m JOIN FETCH m.authorities WHERE m.memberId = :memberId")
     Member findByMemberId(String memberId);
+
+    @Query("FROM Member m JOIN FETCH m.authorities WHERE m.memberId = :memberId")
+    Optional<Member> findByMemberIdOptional(String memberId);
+
+
 }

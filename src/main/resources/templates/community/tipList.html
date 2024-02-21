@@ -49,22 +49,44 @@
           </div>
           <div class="home_contents">
             <div class="photo_contents">
-              <div class="photo_title">&emsp;&nbsp;아빠가 왕 도마뱀이면?<span class="photo_title_date"> (2021. 03. 30 10:02)</span></div>
-              <img class="photo" th:src="@{/images/코모도왕도마뱀.jpg}">
-              <div class="photo_text">고모도 왕 도마뱀</div>
-              <div class="photo_title">&emsp;&nbsp;아기하마<span class="photo_title_date"> (2021. 03. 30 10:02)</span></div>
-              <img class="photo" th:src="@{/images/아기하마.jpg}">
-              <div class="photo_text">뚜루루뚜루~♬ 귀여운~ 뚜루루뚜루~♬ 아기하마!</div>
-              <div class="photo_title">&emsp;&nbsp;"어쩔 수 없군. 이번만 임시 동맹이다."<span class="photo_title_date"> (2021. 03. 30 10:02)</span></div>
-              <img class="photo" th:src="@{/images/임시동맹.jpg}">
-              <div class="photo_text">"난 아직 네놈을 용서하지 않았다."<br>"그런 자잘한 건 나중에 얘기하고... 온다!"</div>
+              <div class="tip" style="color: black;">
+                <div class="write-button-container">
+                  <input type="button" value="글쓰기" id="btn-add" class="btn btn-outline-success d-block my-3 ml-auto"
+                         th:onclick="|location.href = '@{/community/createTip.do}';|"/>
+                </div>
+                <p>전체 게시물 수: <span th:text="${totalCount}"></span></p>
+                <h2>팁공유</h2>
+                <ul>
+                  <li th:each="tip : ${tips}" >
+                    <a th:href="@{/community/tipDetail.do(id=${tip.id})}" th:text="${tip.tipTitle}">제목</a>
+                    <p th:text="${tip.regDate}">등록 날짜</p>
+                    <br>
+                  </li>
+                </ul>
+              </div>
+              <div id="pagebar">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${tipPage.number == 0 ? 'disabled' : ''}">
+                      <a class="page-link" th:href="${tipPage.number > 0} ? @{/community/tipList.do(page=${tipPage.number - 1})} : '#'" aria-label="Previous">&laquo;</a>
+                    </li>
+                    <li th:each="pageNum : ${#numbers.sequence(0, tipPage.totalPages - 1)}" class="page-item"
+                        th:classappend="${pageNum == tipPage.number ? 'active' : ''}">
+                      <a class="page-link" th:href="@{/community/tipList.do(page=${pageNum})}" th:text="${pageNum + 1}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${tipPage.number + 1 >= tipPage.totalPages ? 'disabled' : ''}">
+                      <a class="page-link" th:href="${tipPage.number + 1 < tipPage.totalPages} ? @{/community/tipList.do(page=${tipPage.number + 1})} : '#'" aria-label="Next">&raquo;</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
           </div>
       </div>
       </div>
       <div class="menu_bar">
         <a th:href="@{/community/home.do}" class="menu_button1">홈</a>
-        <a th:href="@{/community/photo.do}" class="menu_button3">팁공유</a>
+        <a th:href="@{/community/tipList.do}" class="menu_button3">팁공유</a>
         <a th:href="@{/community/diary.do}" class="menu_button2">다이어리</a>
         <a th:href="@{/community/visit.do}" class="menu_button4">방명록</a>
         <a th:href="@{/community/visit.do}" class="menu_button4">채팅</a>

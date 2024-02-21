@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
     const btn = document.querySelector("#addrBtn");
     if (btn) {
@@ -8,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     let fullAddr = '';
                     let extraAddr = '';
+
 
                     if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
                         fullAddr = data.roadAddress;
