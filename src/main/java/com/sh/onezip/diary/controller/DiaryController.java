@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,13 +27,14 @@ import java.io.IOException;
 import java.util.List;
 @Controller
 @Slf4j
+@RequestMapping("/community")
 public class DiaryController {
 
     @Autowired
     private DiaryService diaryService;
 
-    @GetMapping("/diaryList.do")
-    public void diaryList(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) {
+    @GetMapping("/diary.do")
+    public void diary(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) {
         log.info("diaryService={}",diaryService.getClass());
 
         log.debug("pageable = {}", pageable);
@@ -41,9 +43,17 @@ public class DiaryController {
         model.addAttribute("diaries", diaryPage.getContent());
         model.addAttribute("totalCount", diaryPage.getTotalElements()); // 전체 게시물수
     }
+//    @GetMapping("/createDiary.do")
+//    public void createDiary(){}
+
+    @GetMapping("/createDiary.do")
+    public String showCreateDiaryForm(Model model) {
+        model.addAttribute("diaryCreateDto", new DiaryCreateDto());
+        return "community/createDiary";
+    }
 
     @PostMapping("/createDiary.do")
-    public String createBoard(
+    public String createDiary(
             @Valid DiaryCreateDto diaryCreateDto,
             BindingResult bindingResult,
             @AuthenticationPrincipal MemberDetails memberDetails,
@@ -56,10 +66,10 @@ public class DiaryController {
         Member member = memberDetails.getMember();
 
         // DiaryService를 사용하여 다이어리를 생성합니다.
-//        diaryService.createDiary(diaryCreateDto,member);
+        diaryService.createDiary(diaryCreateDto,member);
 
         // 리다이렉트후에 사용자피드백
         redirectAttributes.addFlashAttribute("msg", "🎈🎈🎈 게시글을 성공적으로 등록했습니다. 🎈🎈🎈");
-        return "redirect:/";
+        return "redirect:/community/diary.do";
     }
 }

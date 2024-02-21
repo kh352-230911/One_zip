@@ -49,6 +49,7 @@ public class TipController {
     @Autowired
     private TipCommentService tipCommentService;
 
+
     @GetMapping("/tipList.do")
     public String tipList(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) {
         log.info("tipService={}",tipService.getClass());
@@ -104,7 +105,6 @@ public class TipController {
         return s3FileService.download(attachmentDetailDto);
     }
 
-
     @PostMapping("/createComment.do")
     public String createComment(
             @Valid TipComment tipComment,
@@ -132,6 +132,5 @@ public class TipController {
         redirectAttributes.addFlashAttribute("msg", "댓글을 성공적으로 삭제했습니다.");
         return "redirect:/tipDetail.do?id=" + tipId; // 댓글이 삭제된 후의 팁 상세보기 페이지로 리다이렉트
     }
-
 
 }
