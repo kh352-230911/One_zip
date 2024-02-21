@@ -10,6 +10,6 @@ public class TipListDto {
     private String tipTitle;
     private String memberId; // Member#username
     private String tipContent;
-    private LocalDateTime createdAt;
+    private LocalDateTime regDate;
     private int attachCount;
 }
