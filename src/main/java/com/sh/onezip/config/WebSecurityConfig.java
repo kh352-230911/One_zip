@@ -27,7 +27,7 @@ public class WebSecurityConfig {
         httpSecurity.authorizeHttpRequests((authorizeRequest -> {
             authorizeRequest
                     .requestMatchers("/", "/templates/index.html").permitAll()
-                    .requestMatchers("/auth/**").permitAll()
+                    .requestMatchers("/auth/**","/member/list.do").permitAll()
                     .requestMatchers("/member/createMember.do","/member/checkIdDuplicate.do").anonymous()
                     .requestMatchers("/business/createbusiness.do","/business/checkIdDuplicate.do").anonymous()
                     .requestMatchers("/product/**").authenticated()

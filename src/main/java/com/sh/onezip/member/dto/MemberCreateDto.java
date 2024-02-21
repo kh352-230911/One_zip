@@ -32,6 +32,7 @@ public class MemberCreateDto {
                 .birthday(birthday)
                 .phone(phone)
                 .hobby(hobby)
+                .nickname(nickname)
                 .mbti(mbti)
                 .memberAddr(memberAddr)
                 .build();

@@ -53,7 +53,7 @@ public class Member {
     @Column(nullable = false)
     private String memberAddr;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private List<Authority> authorities;
 
