@@ -1,6 +1,5 @@
-
-const btn = document.querySelector("#btn");
-btn.addEventListener("click", () => {
+const btn1 = document.querySelector("#btn1");
+btn1.addEventListener("click", () => {
     new daum.Postcode({
         oncomplete: function(data) {
             console.log(data);
@@ -24,7 +23,7 @@ btn.addEventListener("click", () => {
                 fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
             }
 
-            document.memberCreateFrm.memberAddr.value = fullAddr;
+            document.bizMemberCreateFrm.bizAddr.value = fullAddr;
 
         }
     }).open();

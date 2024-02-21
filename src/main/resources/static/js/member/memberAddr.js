@@ -1,6 +1,5 @@
-
-    const btn = document.querySelector("#btn");
-    btn.addEventListener("click", () => {
+const btn = document.querySelector("#btn");
+btn.addEventListener("click", () => {
     new daum.Postcode({
         oncomplete: function(data) {
             console.log(data);
@@ -29,4 +28,3 @@
         }
     }).open();
 });
-
