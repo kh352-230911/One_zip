@@ -1,5 +1,6 @@
 package com.sh.onezip.product.service;
 
+import com.sh.onezip.cart.entity.Cart;
 import com.sh.onezip.product.dto.BusinessProductCreateDto;
 import com.sh.onezip.product.dto.ProductDetailDto;
 import com.sh.onezip.product.dto.ProductListDto;

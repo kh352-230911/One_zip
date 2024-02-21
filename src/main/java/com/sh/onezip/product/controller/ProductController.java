@@ -1,7 +1,9 @@
 package com.sh.onezip.product.controller;
 
 import com.sh.onezip.auth.vo.MemberDetails;
+import com.sh.onezip.cart.entity.Cart;
 import com.sh.onezip.member.entity.Member;
+import com.sh.onezip.member.service.MemberService;
 import com.sh.onezip.product.dto.ProductDetailDto;
 import com.sh.onezip.product.dto.ProductListDto;
 import com.sh.onezip.product.dto.ProductPurchaseInfoDto;
@@ -46,6 +48,9 @@ public class ProductController {
     ProductService productService;
     @Autowired
     ProductReviewService productReviewService;
+
+    @Autowired
+    MemberService memberService;
 
     @GetMapping("/productList.do")
     public void productList(Model model, HttpServletRequest httpServletRequest){
@@ -264,9 +269,7 @@ public class ProductController {
         }
         return "redirect:/product/productList.do?id=" + productId;
     }
-    @GetMapping("/cart.do")
-    private void cart(){
 
     }
 
-}
+
