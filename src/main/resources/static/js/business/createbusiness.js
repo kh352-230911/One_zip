@@ -1,86 +1,86 @@
 $(document).ready(function() {
     // 페이지 진입 시 "이 아이디는 사용가능합니다."와 "이 아이디는 사용할 수 없습니다." 메세지 숨김처리
-    $(".guide.ok, .guide.error").hide();
+    $(".biz.guide.ok, .biz.guide.error").hide();
 });
 
-document.querySelector("#passwordConfirmation").onblur = (e) => {
-    const password = document.querySelector("#password");
-    const passwordConfirmation = e.target;
-    if (password.value !== passwordConfirmation.value) {
+document.querySelector("#bizpasswordConfirmation").onblur = (e) => {
+    const bizPassword = document.querySelector("#bizPassword");
+    const bizpasswordConfirmation = e.target;
+    if (bizPassword.value !== bizpasswordConfirmation.value) {
         alert("패스워드가 일치하지 않습니다.");
-        password.select();
+        bizPassword.select();
     }
 };
 
 // 폼 제출 시 유효성 검사
-document.memberCreateFrm.onsubmit = (e) => {
+document.bizMemberCreateFrm.onsubmit = (e) => {
     const frm = e.target;
-    const memberId = frm.memberId;
-    const idDuplicateCheck = frm.idDuplicateCheck;
-    const password = frm.password;
-    const passwordConfirmation = frm.passwordConfirmation;
-    const name = $("#name").val();
+    const bizMemberId = frm.bizMemberId;
+    const bizMemberIdDuplicateCheck = frm.bizMemberIdDuplicateCheck;
+    const bizPassword = frm.bizPassword;
+    const bizpasswordConfirmation = frm.bizpasswordConfirmation;
+    const bizName = $("#bizName").val();
 
-    if (!/^\w{4,}$/.test(memberId)) {
+    if (!/^\w{4,}$/.test(bizMemberId)) {
         alert("아이디는 영문자, 숫자, _ 4자리이상 입력하세요.");
-        $("#memberId").select();
+        $("#bizMemberId").select();
         e.preventDefault(); // 폼 제출 방지
         return false;
     }
-    if (idDuplicateCheck == "0") {
+    if (bizMemberIdDuplicateCheck == "0") {
         alert("사용 가능한 아이디를 입력해주세요.");
-        $("#memberId").select();
+        $("#bizMemberId").select();
         e.preventDefault(); // 폼 제출 방지
         return false;
     }
-    if (password !== passwordConfirmation) {
+    if (bizPassword !== bizpasswordConfirmation) {
         alert("패스워드가 일치하지 않습니다.");
-        $("#password").select();
+        $("#bizPassword").select();
         e.preventDefault(); // 폼 제출 방지
         return false;
     }
-    if (!/^[\w가-힣]{2,}$/.test(name)) {
+    if (!/^[\w가-힣]{2,}$/.test(bizName)) {
         alert("이름을 2글자 이상 입력하세요.");
-        $("#name").select();
+        $("#bizName").select();
         e.preventDefault(); // 폼 제출 방지
         return false;
     }
 };
 
 // 아이디 중복 검사
-document.querySelector("#memberId").onkeyup = (e) => {
-    const memberId = e.target;
-    const guideOk = document.querySelector(".guide.ok");
-    const guideError = document.querySelector(".guide.error");
-    const idDuplicateCheck = document.querySelector("#idDuplicateCheck");
+document.querySelector("#bizMemberId").onkeyup = (e) => {
+    const bizMemberId = e.target;
+    const BizguideOk = document.querySelector(".biz.guide.ok");
+    const BizguideError = document.querySelector(".biz.guide.error");
+    const bizMemberIdDuplicateCheck = document.querySelector("#bizMemberIdDuplicateCheck");
 
-    if (!/^\w{4,}$/.test(memberId.value.trim())) {
-        guideError.style.display = "none";
-        guideOk.style.display = "none";
-        idDuplicateCheck.value = 0
+    if (!/^\w{4,}$/.test(bizMemberId.value.trim())) {
+        BizguideError.style.display = "none";
+        BizguideOk.style.display = "none";
+        bizMemberIdDuplicateCheck.value = 0
         return;
     }
 
     $.ajax({
-        url: `${contextPath}member/checkIdDuplicate.do`,
+        url: `${contextPath}business/checkIdDuplicate.do`,
         method: 'post',
         headers: {
             [csrfHeaderName]: csrfToken
         },
         data: {
-            memberId: memberId.value.trim()
+            bizMemberId: bizMemberId.value.trim()
         },
         success(response) {
             console.log(response); // {"available" : true}
             const {available} = response;
             if (available) {
-                guideError.style.display = "none";
-                guideOk.style.display = "inline";
-                idDuplicateCheck.value = 1;
+                BizguideError.style.display = "none";
+                BizguideOk.style.display = "inline";
+                bizMemberIdDuplicateCheck.value = 1;
             } else {
-                guideError.style.display = "inline";
-                guideOk.style.display = "none";
-                idDuplicateCheck.value = 0;
+                BizguideError.style.display = "inline";
+                BizguideOk.style.display = "none";
+                bizMemberIdDuplicateCheck.value = 0;
             }
         }
     });

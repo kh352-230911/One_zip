@@ -30,21 +30,22 @@ public class Cart {
     @Column
     private String productName;
     @Column
-    private int cartQuantity;
+    private int cartQuantity; // 수량
     @Column
-    private String cartStatus;
+    private String cartStatus; // Y / N
     @Column
-    private int totalStock;
+    private int totalStock; // 재고
     @Column
-    private String poptionName;
+    private String poptionName; // 옵션명
     @Column
-    private int optionCost;
+    private int optionCost; // 옵션 추가 가격
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_no")
     private Product product;
     @OneToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
 
 
 }

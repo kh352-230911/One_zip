@@ -23,6 +23,17 @@
             <!--            <input type="text" class="form-control mb-3" placeholder="옵션명" name="optionName" id="optionName" required>-->
             <!--            <input type="text" class="form-control mb-3" placeholder="옵션금액(추가요금)" name="optionCost" id="optionCost" required>-->
             <input type="text" class="form-control mb-3" placeholder="상품분류코드" name="productTypecode" id="productTypecode" th:value="${businessproduct.productTypeCode}"required>
+            <br>
+            <span th:text="|재고수량:|"><span th:style="'margin-right: 10px;'"></span></span>
+            <span><button id="plus-btn" class="quantity-btn">+</button></span>
+            <input id="product-quantity" name="productQuantity" type="text" value='1' style="width: 45px; border: none; outline: none; text-align: center;">
+            <span><button id="minus-btn" class="quantity-btn">-</button></span>
+            <br>
+<!--            <br>-->
+<!--            <span th:text="|최종 가격:|" th:style="'color: red;'"></span>-->
+<!--            <input id="product-totalPrice" name="totalPrice" type="number" th:value="${businessproduct.productPrice}" style="width: 100px; border: none; outline: none; text-align: center; color: red;" disabled readonly>-->
+<!--            <span th:text="|원|" th:style="'color: red; margin-right: 50px;'"></span>-->
+<!--            </br>-->
             <!-- input:file소스 : https://getbootstrap.com/docs/4.1/components/input-group/#custom-file-input -->
             <div class="input-group mb-3" style="padding:0px;">
                 <div class="input-group-prepend" style="padding:0px;">
@@ -42,6 +53,6 @@
         </form>
     </div>
 </div>
-<script layout:fragment="script">
+<script layout:fragment="script" th:src="@{/js/businessProduct/businessProductDetail.js}">
 </script>
 </html>
