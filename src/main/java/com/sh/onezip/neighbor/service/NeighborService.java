@@ -3,6 +3,7 @@ package com.sh.onezip.neighbor.service;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.neighbor.entity.Neighbor;
 import com.sh.onezip.neighbor.repository.NeighborRepository;
+import jakarta.persistence.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,11 @@ public class NeighborService {
     @Autowired
     private NeighborRepository neighborRepository;
 
-    public List<Neighbor> findNeighborsByMember(Member member) {
+    public List<Tuple> findNeighborsByMember(Member member) {
         return neighborRepository.findNeighborsByMember(member);
     }
 
-    public List<Neighbor> findNeighborsByMember(String memberId) {
+    public List<Tuple> findNeighborsByMember(String memberId) {
         // memberId에 해당하는 Member 객체를 찾아서 그 회원의 이웃 목록 조회
         Member member = new Member();
         member.setMemberId(memberId);

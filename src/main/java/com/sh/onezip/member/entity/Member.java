@@ -63,8 +63,4 @@ public class Member {
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Zip zip;
-    
-    @OneToMany(mappedBy = "member2")
-    private List<Neighbor> neighbor;
-
 }

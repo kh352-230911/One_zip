@@ -1,8 +1,11 @@
 // 이웃 삭제 함수
-function deleteNeighbor(id) {
+function deleteNeighbor(id, idx) {
     // 이웃 삭제 요청을 보냄
-    fetch('/neighbors/delete/' + id, {
-        method: 'DELETE'
+    fetch('/onezip/neighbors/delete/' + id, {
+        headers : {
+            'X-CSRF-TOKEN' : $('#csrf').val()
+        },
+        method: 'POST'
     })
         .then(response => {
             if (!response.ok) {
@@ -10,6 +13,7 @@ function deleteNeighbor(id) {
             }
             // 성공적으로 삭제되었을 때 할 작업
             console.log('Neighbor successfully deleted');
+            $('#neighborList').find('tr').eq(idx).remove();
             // 이웃 목록 갱신 또는 화면에서 삭제한 이웃 제거 등의 작업을 수행할 수 있습니다.
         })
         .catch(error => {

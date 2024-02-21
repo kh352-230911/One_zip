@@ -1,14 +1,10 @@
 package com.sh.onezip.zip.service;
 
-import com.sh.onezip.member.entity.Member;
-import com.sh.onezip.member.repository.MemberRepository;
 import com.sh.onezip.zip.dto.ZipCreateDto;
 import com.sh.onezip.zip.dto.ZipDetailDto;
 import com.sh.onezip.zip.entity.Zip;
 import com.sh.onezip.zip.repository.ZipRepository;
 import com.sh.onezip.attachment.repository.AttachmentRepository;
-import org.modelmapper.AbstractConverter;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

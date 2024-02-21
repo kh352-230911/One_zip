@@ -19,8 +19,8 @@
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <script>
         const contextPath = '[[@{/}]]'; // /spring/
-        const csrfHeaderName = `[[${_csrf.headerName}]]`;
-        const csrfToken = `[[${_csrf.token}]]`;
+        const csrfHeaderName = '[[${_csrf.headerName}]]';
+        const csrfToken = '[[${_csrf.token}]]';
     </script>
     <script th:if="${msg != null}">
         alert('[[${msg}]]');

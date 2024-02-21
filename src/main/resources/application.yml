@@ -3,6 +3,11 @@ server:
   servlet:
     context-path: /onezip
 spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
     url: ${PROD_DB_URL}

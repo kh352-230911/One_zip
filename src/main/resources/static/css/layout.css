@@ -104,13 +104,13 @@ body {
 
 .search_form_title{
   flex: 0.1;
-
   color:steelblue;
   font-family: 'PT Sans', sans-serif;
-
-  /*border-bottom: 2px solid silver;*/
   margin-right: 20px;
-  /*margin-left: 20px;*/
+
+  position: absolute;
+  top: 2%;
+  right: 0;
 }
 
 .profile_1{
@@ -320,4 +320,10 @@ body {
 
   margin: 20px;
   border-radius: 5px;
+}
+
+#neighborForm{
+  position: absolute;
+  right: -1.5%;
+  top: -1.5%;
 }

@@ -9,6 +9,7 @@ import com.sh.onezip.zip.dto.ZipDetailDto;
 import com.sh.onezip.zip.dto.ZipUpdateDto;
 import com.sh.onezip.zip.entity.Zip;
 import com.sh.onezip.zip.service.ZipService;
+import jakarta.persistence.Tuple;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +59,7 @@ public class ZipController {
                 model.addAttribute("memberName", memberName); // 모델에 회원의 이름 추가
                 model.addAttribute("memberId", memberId);
 
-                List<Neighbor> neighbors = member.getNeighbor(); // zip 객체와 관련된 회원의 이웃 정보
+                List<Tuple> neighbors = neighborService.findNeighborsByMember(memberId); // zip 객체와 관련된 회원의 이웃 정보
                 model.addAttribute("neighbors", neighbors);
             }
             log.debug("ZipDetailDto object added to the model: {}", zipDetailDto);
@@ -73,7 +74,10 @@ public class ZipController {
         log.debug("zip = {}", zipDetailDto);
     }
     @GetMapping("/zipCreate.do")
-    public void zipCreate(){}
+    public String zipCreate(@AuthenticationPrincipal MemberDetails memberDetails){
+        Optional<Zip> optZip = zipService.findByMemberId(memberDetails.getMember().getMemberId());
+        return optZip.map(zip -> "redirect:/zip/zipDetail.do?id=" + zip.getId()).orElse("redirect:/");
+    }
 
     @PostMapping("/zipCreate.do")
     public String zipCreate(
