@@ -1,6 +1,8 @@
-$(document).ready(function() {
+document.addEventListener("DOMContentLoaded", function() {
     // 페이지 진입 시 "이 아이디는 사용가능합니다."와 "이 아이디는 사용할 수 없습니다." 메세지 숨김처리
-    $(".guide.ok, .guide.error").hide();
+    document.querySelectorAll(".guide.ok, .guide.error").forEach(function(element) {
+        element.style.display = 'none';
+    });
 });
 
 document.querySelector("#passwordConfirmation").onblur = (e) => {
@@ -19,30 +21,27 @@ document.memberCreateFrm.onsubmit = (e) => {
     const idDuplicateCheck = frm.idDuplicateCheck;
     const password = frm.password;
     const passwordConfirmation = frm.passwordConfirmation;
-    const name = $("#name").val();
+    const name = frm.name;
 
-    if (!/^\w{4,}$/.test(memberId)) {
+    if (!/^\w{4,}$/.test(memberId.value)) {
         alert("아이디는 영문자, 숫자, _ 4자리이상 입력하세요.");
-        $("#memberId").select();
-        e.preventDefault(); // 폼 제출 방지
+        username.select();
         return false;
     }
-    if (idDuplicateCheck == "0") {
-        alert("사용 가능한 아이디를 입력해주세요.");
-        $("#memberId").select();
-        e.preventDefault(); // 폼 제출 방지
+    if(idDuplicateCheck.value == 0) {
+        alert("사용가능한 아이디를 입력해주세요.");
+        username.select();
         return false;
     }
-    if (password !== passwordConfirmation) {
+    if (password.value !== passwordConfirmation.value) {
         alert("패스워드가 일치하지 않습니다.");
-        $("#password").select();
-        e.preventDefault(); // 폼 제출 방지
+        password.select();
         return false;
     }
-    if (!/^[\w가-힣]{2,}$/.test(name)) {
+    if (!/^[\w가-힣]{2,}$/.test(name.value)) {
         alert("이름을 2글자 이상 입력하세요.");
-        $("#name").select();
-        e.preventDefault(); // 폼 제출 방지
+        name.select();
+
         return false;
     }
 };
@@ -87,7 +86,7 @@ document.querySelector("#memberId").onkeyup = (e) => {
 
 };
 
-//주소검색 api
+// 주소검색 api
 
 //
 // const btn = document.querySelector("#btn");
@@ -119,4 +118,5 @@ document.querySelector("#memberId").onkeyup = (e) => {
 //
 //         }
 //     }).open();
+
 // });}
