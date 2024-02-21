@@ -1,6 +1,8 @@
-$(document).ready(function() {
+document.addEventListener("DOMContentLoaded", function() {
     // 페이지 진입 시 "이 아이디는 사용가능합니다."와 "이 아이디는 사용할 수 없습니다." 메세지 숨김처리
-    $(".guide.ok, .guide.error").hide();
+    document.querySelectorAll(".guide.ok, .guide.error").forEach(function(element) {
+        element.style.display = 'none';
+    });
 });
 
 document.querySelector("#passwordConfirmation").onblur = (e) => {
@@ -14,35 +16,32 @@ document.querySelector("#passwordConfirmation").onblur = (e) => {
 
 // 폼 제출 시 유효성 검사
 document.memberCreateFrm.onsubmit = (e) => {
+    // html5 추가된 속성 pattern을 활용해 정규식 검사도 가능하지만, 구체적인 피드백제공하지는 못한다.
     const frm = e.target;
     const memberId = frm.memberId;
     const idDuplicateCheck = frm.idDuplicateCheck;
     const password = frm.password;
     const passwordConfirmation = frm.passwordConfirmation;
-    const name = $("#name").val();
+    const name = frm.name;
 
-    if (!/^\w{4,}$/.test(memberId)) {
+    if (!/^\w{4,}$/.test(memberId.value)) {
         alert("아이디는 영문자, 숫자, _ 4자리이상 입력하세요.");
-        $("#memberId").select();
-        e.preventDefault(); // 폼 제출 방지
+        username.select();
         return false;
     }
-    if (idDuplicateCheck == "0") {
-        alert("사용 가능한 아이디를 입력해주세요.");
-        $("#memberId").select();
-        e.preventDefault(); // 폼 제출 방지
+    if(idDuplicateCheck.value == 0) {
+        alert("사용가능한 아이디를 입력해주세요.");
+        username.select();
         return false;
     }
-    if (password !== passwordConfirmation) {
+    if (password.value !== passwordConfirmation.value) {
         alert("패스워드가 일치하지 않습니다.");
-        $("#password").select();
-        e.preventDefault(); // 폼 제출 방지
+        password.select();
         return false;
     }
-    if (!/^[\w가-힣]{2,}$/.test(name)) {
+    if (!/^[\w가-힣]{2,}$/.test(name.value)) {
         alert("이름을 2글자 이상 입력하세요.");
-        $("#name").select();
-        e.preventDefault(); // 폼 제출 방지
+        name.select();
         return false;
     }
 };
@@ -87,36 +86,36 @@ document.querySelector("#memberId").onkeyup = (e) => {
 
 };
 
-//주소검색 api
+// 주소검색 api
 
-
-const btn = document.querySelector("#btn");
-btn.addEventListener("click", () => {
-    new daum.Postcode({
-        oncomplete: function(data) {
-            console.log(data);
-
-            let fullAddr = '';
-            let extraAddr = '';
-
-            if(data.userSelectedType === 'R') {
-                fullAddr = data.roadAddress;
-            } else {
-                fullAddr = data.jibunAddress;
-            }
-
-            if(data.userSelectedType == 'R') {
-                if(data.bname !== '') {
-                    extraAddr += data.bname;
-                }
-                if(data.buildingName !== '') {
-                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
-            }
-
-            document.memberCreateFrm.memberAddr.value = fullAddr;
-
-        }
-    }).open();
-});
+//
+// const btn = document.querySelector("#btn");
+// btn.addEventListener("click", () => {
+//     new daum.Postcode({
+//         oncomplete: function(data) {
+//             console.log(data);
+//
+//             let fullAddr = '';
+//             let extraAddr = '';
+//
+//             if(data.userSelectedType === 'R') {
+//                 fullAddr = data.roadAddress;
+//             } else {
+//                 fullAddr = data.jibunAddress;
+//             }
+//
+//             if(data.userSelectedType == 'R') {
+//                 if(data.bname !== '') {
+//                     extraAddr += data.bname;
+//                 }
+//                 if(data.buildingName !== '') {
+//                     extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+//                 }
+//                 fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
+//             }
+//
+//             document.memberCreateFrm.memberAddr.value = fullAddr;
+//
+//         }
+//     }).open();
+// });
