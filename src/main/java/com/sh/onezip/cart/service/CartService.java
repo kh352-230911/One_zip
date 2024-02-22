@@ -4,6 +4,11 @@ import com.sh.onezip.cart.dto.CartDto;
 import com.sh.onezip.cart.entity.Cart;
 import com.sh.onezip.cart.repository.CartRepository;
 import com.sh.onezip.member.entity.Member;
+import com.sh.onezip.product.dto.ProductCartCreateDto;
+import com.sh.onezip.product.entity.Product;
+import com.sh.onezip.product.repository.ProductRepository;
+import com.sh.onezip.productoption.entity.ProductOption;
+import com.sh.onezip.productoption.repository.ProductOptionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +26,8 @@ public class CartService {
 
     @Autowired
     ModelMapper modelMapper;
+
+    // 한보경 코드 start
 
     public List<CartDto> findAllCartlist(Cart cart) {
         List<Cart> carts = cartRepository.findAllCartlist(cart);
@@ -51,6 +58,38 @@ public class CartService {
 //    }
 //    public Cart cartView(String productName) {
 //    }
+
+    // 한보경 코드 end
+
+    // 김명준 코드 start
+
+    @Autowired
+    ProductOptionRepository productOptionRepository;
+
+    @Autowired
+    ProductRepository productRepository;
+
+    public List<Cart> findAllByMemberId(String memberId) {
+        return cartRepository.findAllByMember(memberId);
+    }
+
+    public Cart convertToCart(ProductCartCreateDto productCartCreateDto) {
+        Cart cart = modelMapper.map(productCartCreateDto, Cart.class);
+        cart.setProduct(productRepository.findById(productCartCreateDto.getId()).orElse(null));
+        ProductOption productOption =
+                productOptionRepository.findById(
+                        Long.parseLong(productCartCreateDto.getSelectOption().split("#")[0])).orElse(null);
+        Product product = productRepository.findById(productCartCreateDto.getId()).orElse(null);
+        cart.setOptionCost(productOption.getOptionCost());
+        cart.setPoptionName(productOption.getOptionName());
+        cart.setTotalStock(productOption.getTotalStock());
+        cart.setCartQuantity(productCartCreateDto.getProductQuantity());
+        cart.setCartStatus("N");
+        cart.setProductName(product.getProductName());
+        return cart;
+    }
+
+    // 김명준 코드 end
 
 }
 //        List<CartDto> cartList = new ArrayList<>();

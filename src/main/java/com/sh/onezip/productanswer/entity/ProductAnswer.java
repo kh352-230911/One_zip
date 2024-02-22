@@ -37,3 +37,4 @@ public class ProductAnswer {
     private LocalDate aRegdate;
 
 }
+

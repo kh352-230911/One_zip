@@ -14,6 +14,7 @@ public class ProductQuestionCreateDto {
     private String memberId;
     private Product product;
     private String qContent;
+    private Long questionId;
     private LocalDate qRegdate;
     private ProductAnswer productAnswer;
 }

@@ -24,6 +24,17 @@
                         <div th:if="${question.productAnswer == null}">
                             <span>답변: 답변 대기 중입니다.</span>
                         </div>
+                        <span th:if="${question.memberId == member.memberId}">
+							<form th:action="@{/product/qnafurcate.do}" name="qnafurcateFrm" method="post">
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+								<input type="hidden" th:name="questionerId" th:value="${question.memberId}"/>
+								<input type="hidden" th:name="questionId" th:value="${question.id}"/>
+								<input th:if="${productId != null}" type="hidden" th:name="productId" th:value="${productId}"/>
+								<button type="submit" name="action" value="update">수정</button>
+								<button type="submit" name="action" value="delete">삭제</button>
+<!--                                <a name="action" href="javascript:confirm('정말 삭제하시겠습니까? 😲') && document.qnafurcateFrm.submit();">삭제</a>-->
+							</form>
+						</span>
                     </td>
                 </tr>
             </th:block>

@@ -5,9 +5,6 @@
 		layout:decorate="~{layout/default}">
 <head>
 	<title>게시글 상세보기</title>
-	<script>
-		const contextPath = `[[@{/}]]`;
-	</script>
 </head>
 <style layout:fragment="style"></style>
 
@@ -15,7 +12,7 @@
 	<div id="product-container" class="w-50 mx-auto text-center">
 		<form name="productFrm"
 			  method="post">
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="|${_csrf.token}|" />
 			<p th:text="${product.productName}" th:style="'font-size: 40px;'"></p>
 			<span th:text="|할인 전: ${product.productPrice}원|" th:style="'text-decoration:line-through; margin-right: 10px;'"></span>
 			<input id="product-id" name="productId" type="hidden" th:value='${product.id}'>
@@ -23,6 +20,16 @@
 			<span id="product-sellPrice" th:style="'color: red;'">[[${product.sellPrice}]]</span>
 			<span th:text="|원|" th:style="'color: red;'"></span>
 			<br>
+			<div th:if="!${#lists.isEmpty(product.productOptions)}">
+				<select name="selectOption" id="selectOption">
+						<span th:each="productOption : ${product.productOptions}">
+							<option
+									th:value="|${productOption.id}#${productOption.optionCost}|"
+									th:text="|${productOption.optionName} +${productOption.optionCost}원|">
+							</option>
+						</span>
+				</select>
+			</div>
 			<span th:text="|구매수량:|"><span th:style="'margin-right: 10px;'"></span></span>
 			<span><button id="plus-btn" class="quantity-btn">+</button></span>
 			<input id="product-quantity" name="productQuantity" type="text" value='1' style="width: 45px; border: none; outline: none; text-align: center;">
@@ -32,11 +39,8 @@
 			<input id="product-totalPrice" name="totalPrice" type="number" th:value="${product.sellPrice}" style="width: 100px; border: none; outline: none; text-align: center; color: red;" disabled readonly>
 			<span th:text="|원|" th:style="'color: red; margin-right: 50px;'"></span>
 			<br>
-			<!--			<button id="gift-btn" type="button" >선물하기</button>-->
-			<!--			<button id="purchase-btn" type="submit">구매하기</button>-->
-<!--			<button onclick="submitTo('gift')">선물하기</button>-->
-			<button onclick="submitTo('purchase')">구매하기</button>
-<!--			<button onclick="submitTo('cart')" th:onclick="|location.href ='@{cart.do}?memberId=${cart.member.memberId}';|">장바구니 </button>-->
+			<button name="productPurchase" id="productPurchase" value="purchase" onclick="productPurchase()">구매하기</button>
+			<button name="productCart" id="productCart" value="productCart" onclick="productCart()">장바구니</button>
 		</form>
 	</div>
 	<div class="text-center" style="padding: 0 50px; background-color: gray;">
@@ -47,6 +51,7 @@
 		<button id="product-qna" th:text="|Q&A|" style="width: 150px;"
 				th:onclick="|location.href = '@{productQna.do}?id=${product.id}';|"></button>
 	</div>
+	<input type="hidden" id="refOptionCost" th:value="0">
 </div>
 <script layout:fragment="script" th:src="@{/js/product/productDetail.js}"></script>
 </html>

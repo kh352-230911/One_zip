@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+<head>
+    <title>구매 정보 확인</title>
+</head>
+<style layout:fragment="style"></style>
+
+<div layout:fragment="content">
+    <form
+        name="cartForm"
+        th:action="@{/product/productPurchaseInfo.do}"
+        method="post">
+
+        <table>
+            <tbody>
+                <div th:each="cart, status : ${loginMemberCartList}" th:id="'cartItem_' + ${status.index}">
+                    <tr>
+                        <td>
+                            <input type="checkbox" id="itemCheckbox" name="itemCheckbox" checked>
+                        </td>
+                        <td>
+                            <input type="text" th:value="${cart.productName}" readonly>
+                        </td>
+                        <td>
+                            <button>X</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" th:value="${cart.cartQuantity}" readonly>
+                        </td>
+                        <td>
+                            <input type="text" th:text="무료배송" readonly>
+                        </td>
+                        <td>
+                            <input th:id="|eachTotalPrice${status.index}|" type="number" th:value="
+                        ${(cart.product.productPrice + cart.optionCost) * cart.cartQauntity}"
+                                   readonly> <!-- 상품 별 총 금액-->
+                        </td>
+                    </tr>
+                </div>
+            </tbody>
+        </table>
+        <div>
+            <span>
+                <input type="text" th:text="총 결제 금액">
+            </span>
+            <span>
+                :
+            </span>
+            <span>
+                <input id="totalPrice" name="totalPrice" th:value="0"> <!-- 모든 상품 총 가격ㄴ-->
+            </span>
+        </div>
+    </form>
+</div>
+<script layout:fragment="script" th:src="@{/js/product/productCart.js}"></script>
+</html>
