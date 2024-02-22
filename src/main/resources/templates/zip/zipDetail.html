@@ -5,6 +5,7 @@
 
 
 <link rel="stylesheet" href="../../static/css/visit.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <div layout:fragment="content">
 
     <link rel="stylesheet" th:href="@{/css/zipDetail.css}" />
@@ -12,10 +13,19 @@
     <link rel="stylesheet" th:href="@{/css/layout.css}" />
     <link rel="stylesheet" th:href="@{/css/zipRoom.css}">
     <link rel="stylesheet" th:href="@{/css/neighborList.css}" />
+    <link rel="stylesheet" th:href="@{/css/roomIamge.css}" />
 <head>
   <meta charset="UTF-8" />
   <title th:text="${memberName} + ${zip.id} + '.zip'"></title>
-  <script src="NeighborList.js" defer></script>
+  <style>
+    .grid-cell {
+      width: 100px;
+      height: 100px;
+    }
+    .image-placeholder {
+      background-color: #D1D5DB; /* Tailwind gray-300 */
+    }
+  </style>
 </head>
 <body>
 <div class="bookcover" th:style="'background-color:' + ${zipColorCode}">
@@ -24,38 +34,20 @@
       <div class="home" >
         <div class="upside">
           <br><strong th:text="${'Today : ' + zipDayCount + ' | Total : ' + zipTotalCount}"></strong>
-<!--          <form id="searchForm" method="post">-->
-<!--            <input type="text" id="memberId" name="memberId" required>-->
-<!--            <input type="hidden" id="csrf" th:value="${_csrf.token}" />-->
-<!--            <button type="submit">검색</button>-->
-<!--          </form>-->
-          <div class="search_form_title"><strong>회원 아이디</strong>
+          <div class="search_form_title">
             <form id="searchForm" method="post">
-              <input type="text" id="memberId" name="memberId" required>
+              <input type="text" id="memberId" name="memberId" placeholder="회원 아이디" required>
               <input type="hidden" id="csrf" th:value="${_csrf.token}" />
               <button type="submit">검색</button>
             </form>
+            <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button">내 이웃</button>
           </div>
-          <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button">이웃 목록</button>
-
-<!--          <form id="searchForm" method="post">-->
-<!--            <input type="text" id="memberId" name="memberId" required>-->
-<!--            <input type="hidden" id="csrf" th:value="${_csrf.token}" />-->
-<!--            <button type="submit">검색</button>-->
-<!--          </form>-->
         </div>
         <div class="home_main">
           <div class="profile">
             <div class="profile_1">
               <img class="profile_image" th:src="@{/images/아이유.jpg}"/>
             </div>
-<!--            <div class="search_form_title"><strong>회원 아이디</strong><br></div>-->
-<!--            <form id="searchForm" method="post">-->
-<!--              <input type="text" id="memberId" name="memberId" required>-->
-<!--              <input type="hidden" id="csrf" th:value="${_csrf.token}" />-->
-<!--              <button type="submit">검색</button>-->
-<!--            </form>-->
-
               <div class="content_title"><strong>소개글</strong><br></div>
             <div class="profile_2" th:text="${zipContent}"></div>
             <div class="updated_news_title"><br><strong>Updated news</strong></div>
@@ -70,17 +62,11 @@
             <div class="profile_3">
               <div class="profile-dropdown">
                 <div class="dropdown-btn">
-                  <div class="dropdown-title">Related Link</div>
+                  <div class="dropdown-title">이웃 목록</div>
                   <div class="triangle-down"></div>
                 </div>
-                <div class="dropdown-content" th:each="neighbor : ${neighbors}">
-                  <a th:href="@{|http://localhost:8080/onezip/zip/zipDetail.do?id=${zipId}|}"  th:text="${memberName}"></a>
-<!--                  <a href="https://github.com/joseph-106" target="_blank">Github</a>-->
-<!--                  <a href="https://www.instagram.com/ksj_106/" target="_blank">Instagram</a>-->
-<!--                  <a th:href="${neighbor}"><strong th:text="${neighbor}"></strong></a>-->
-<!--                    <a th:href="${neighbor.url}">-->
-<!--                      <strong th:text="${neighbor.name}"></strong>-->
-<!--                    </a>-->
+                <div class="dropdown-content">
+                  <a th:each="neighbor : ${neighbors}" th:href="@{|http://localhost:8080/onezip/zip/zipDetail.do?id=${neighbor.get('member_zip_id')}|}"  th:text="${neighbor.get('memberId') + '(' + neighbor.get('memberName') + ')'}"></a>
                 </div>
               </div>
             </div>
@@ -98,19 +84,49 @@
                 <button th:unless="${session.zip.id} == ${zipId}" onclick="deleteNeighbor(${neighborId})">이웃 삭제</button>
               </div>
             </div>
-<!--              <div id="neighborForm">-->
-<!--                  <form id="addNeighborForm" th:unless="${session.zip.id} == ${zipId}" method="post">-->
-<!--                      <input type="hidden" id="nCsrf" name="nCsrf" th:value="${_csrf.token}" />-->
-<!--                      <input type="hidden" id="memberId1" name="memberId1" th:value="${#authentication.principal.member.memberId}" />-->
-<!--                      <input type="hidden" id="memberId2" name="memberId2" th:value="${memberId}" />-->
-<!--                      <button type="submit" >이웃 신청</button>-->
-<!--                  </form>-->
-<!--              </div>-->
-            <div class="miniroom_contents">
+            <div class="miniroom_contents" th:style="'color:' + ${zipColorCode}">
               <table>
                 <tr class="row1">
-                  <td class="box1" th:rowspan="2">내 방</td>
-                  <td class="box3">프로필</td>
+                  <td class="box1" th:rowspan="2">
+                      <div class="room-image-carousel-container py-12">
+                          <div id="roomImageCarousel" class="room-image-carousel">
+                              <img id="carouselImage" src="" alt="Carousel Image" class="max-w-full max-h-full" />
+                          </div>
+                          <div class="flex justify-center mt-4">
+                              <button id="prevButton" class="room-carousel-button">&lt;</button>
+                              <button id="nextButton" class="room-carousel-button">&gt;</button>
+                          </div>
+                      </div>
+                  </td>
+                    <td class="box3">
+                        <div class="flex justify-center items-center h-screen">
+                            <div class="bg-white shadow-lg rounded-lg p-6">
+                                <div class="border-b-2 pb-2">
+                                    <h5 class="text-xl font-semibold">.𝑷𝒓𝒐𝒇𝒊𝒍𝒆</h5>
+                                </div>
+                                <div>
+                                    <!-- 프로필 정보 -->
+                                    <label class="block text-gray-700 text-sm font-bold mb-3">닉네임 : </label>
+                                    <span th:text="${zip.member.nickname != null ? zip.member.nickname : '미작성'}"></span>
+                                    <br>
+                                    <label class="block text-gray-700 text-sm font-bold mb-3">생일 : </label>
+                                    <span th:text="${zip.member.birthday != null ? zip.member.birthday : '미작성'}"></span>
+                                    <br>
+                                    <label class="block text-gray-700 text-sm font-bold mb-3">성별 : </label>
+                                    <span th:text="${zip.member.gender != null ? zip.member.gender : '미작성'}"></span>
+                                    <br>
+                                    <label class="block text-gray-700 text-sm font-bold mb-3">취미 : </label>
+                                    <span th:text="${zip.member.hobby != null ? zip.member.hobby : '미작성'}"></span>
+                                    <br>
+                                    <label class="block text-gray-700 text-sm font-bold mb-3">MBTI : </label>
+                                    <span th:text="${zip.member.mbti != null ? zip.member.mbti : '미작성'}"></span>
+                                    <br>
+<!--                                    <label class="block text-gray-700 text-sm font-bold mb-2">주소 : </label>-->
+<!--                                    <span th:text="${zip.member.memberAddr != null ? zip.member.memberAddr : '미작성'}"></span>-->
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                   <td class="box4">이웃, 일정, 선물박스</td>
                 </tr>
                 <tr class="row2">
@@ -127,36 +143,49 @@
         <a th:href="@{/zip/photo.do}" class="menu_button3">팁공유</a>
         <a th:href="@{/zip/diary.do}" class="menu_button2">다이어리</a>
         <a th:href="@{/zip/visit.do}" class="menu_button4">방명록</a>
-        <a th:href="@{/zip/visit.do}" class="menu_button4">채팅</a>
+        <a th:href="@{'/zip/zipUpdate.do?id=' + ${session.zip.id}}" th:if="${session.zip.id} == ${zipId}" class="menu_button5">집 꾸미기</a>
       </div>
     </div>
-  </div>
 </div>
+
+<!--    <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button">내 이웃</button>-->
+<!--    <div class="flex justify-center items-center h-screen">-->
+<!--        <a th:href="@{'/zip/zipUpdate.do?id=' + ${session.zip.id}}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-110">-->
+<!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>-->
+<!--            </svg>-->
+<!--        </a>-->
+<!--    </div>-->
 
 <div id="neighborModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <h2>이웃 목록</h2>
+    <h2>내 이웃</h2>
     <!-- 이웃 목록을 표시할 테이블 -->
     <table id="neighborTable">
       <thead>
       <tr>
         <th>ID</th>
-        <th>Member 1</th>
-        <th>Member 2</th>
-        <th>Status</th>
+        <th>Member</th>
         <th>Requested At</th>
-        <th>Accepted At</th>
       </tr>
       </thead>
       <tbody id="neighborList">
       <!-- 여기에 이웃 목록이 동적으로 추가될 예정 -->
+     <tr th:each="neighbor, stat : ${neighbors}">
+        <td th:text="${neighbor.get('memberId')}"></td>
+        <td th:text="${neighbor.get('memberName')}"></td>
+        <td th:text="${neighbor.get('requestedAt')}"></td>
+        <td><button th:attr="onclick='deleteNeighbor(\'' + ${neighbor.get('id')} + '\',' + ${stat.index} + ')'">이웃 삭제</button></td>
+      </tr>
       </tbody>
     </table>
   </div>
+
 <!-- JavaScript 파일 연결 -->
-<script th:src="@{/js/neighbor/neighborList.js}"></script>
-<script th:src="@{/js/neighbor/neighborDelete.js}"></script>
+    <script th:src="@{/js/neighbor/neighborList.js}"></script>
+    <script th:src="@{/js/neighbor/neighborDelete.js}"></script>
+    <script th:src="@{/js/zip/roomImage.js}"></script>
 </body>
 </div>
 

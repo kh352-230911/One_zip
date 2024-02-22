@@ -66,5 +66,4 @@ public class Member {
 
     @OneToMany(mappedBy = "member2")
     private List<Neighbor> neighbor;
-
 }

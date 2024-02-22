@@ -18,11 +18,4 @@ public class ZipCreateDto {
     private String colorCode;
     private Type type;
 
-//    public Zip toZip() {
-//        return Zip.builder()
-//                .member(member)
-//                .content(content)
-//                .colorCode(colorCode)
-//                .build();
-//    }
 }
