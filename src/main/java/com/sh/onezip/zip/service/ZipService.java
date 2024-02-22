@@ -1,14 +1,12 @@
 package com.sh.onezip.zip.service;
 
-import com.sh.onezip.member.entity.Member;
-import com.sh.onezip.member.repository.MemberRepository;
+import com.sh.onezip.attachment.service.AttachmentService;
 import com.sh.onezip.zip.dto.ZipCreateDto;
 import com.sh.onezip.zip.dto.ZipDetailDto;
+import com.sh.onezip.zip.dto.ZipUpdateDto;
 import com.sh.onezip.zip.entity.Zip;
 import com.sh.onezip.zip.repository.ZipRepository;
 import com.sh.onezip.attachment.repository.AttachmentRepository;
-import org.modelmapper.AbstractConverter;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +23,7 @@ public class ZipService {
     @Autowired
     public ModelMapper modelMapper;
     @Autowired
-    private AttachmentRepository attachmentRepository;
+    private AttachmentService attachmentService;
 
     public ZipDetailDto findById(Long id){
         return zipRepository.findById(id)
@@ -82,8 +80,15 @@ public class ZipService {
         return date1.toLocalDate().isEqual(date2.toLocalDate());
     }
 
-    public Zip updateZip(Zip zip){
-        Zip _zip = zipRepository.findById(zip.getId()).orElse(null);
-        return zipRepository.save(zip);
+    public void updateZip(ZipUpdateDto zipUpdateDto){
+        Zip zip = zipRepository.save(convertToZip2(zipUpdateDto));
+        zipUpdateDto.getAttachments().forEach((attachmentCreateDto -> {
+            attachmentCreateDto.setRefId(zip.getId());
+            attachmentService.createAttachment(attachmentCreateDto);
+        }));
+    }
+
+    private Zip convertToZip2(ZipUpdateDto zipUpdateDto){
+        return modelMapper.map(zipUpdateDto, Zip.class);
     }
 }

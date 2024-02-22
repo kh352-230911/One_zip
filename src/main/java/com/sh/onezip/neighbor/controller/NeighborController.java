@@ -2,6 +2,7 @@ package com.sh.onezip.neighbor.controller;
 
 import com.sh.onezip.auth.vo.MemberDetails;
 import com.sh.onezip.member.entity.Member;
+import jakarta.persistence.Tuple;
 import lombok.extern.slf4j.Slf4j;
 import com.sh.onezip.neighbor.entity.Neighbor;
 import com.sh.onezip.neighbor.service.NeighborService;
@@ -19,7 +20,7 @@ import java.util.List;
 @RequestMapping("/neighbors")
 @Slf4j
 @Validated
-public class NeighborController {
+public class  NeighborController {
     @Autowired
     private NeighborService neighborService;
 
@@ -27,8 +28,7 @@ public class NeighborController {
     public String listNeighbor(
             Model model,
             @AuthenticationPrincipal MemberDetails memberDetails) {
-        Member member = memberDetails.getMember();
-        List<Neighbor> neighbors = neighborService.findNeighborsByMember(member);
+        List<Tuple> neighbors = neighborService.findNeighborsByMember(memberDetails.getMember().getMemberId());
         model.addAttribute("neighbors", neighbors); // 모델에 neighbors 추가
         return "/list"; // 이웃 목록을 보여줄 뷰로 이동
     }
@@ -46,8 +46,9 @@ public class NeighborController {
     }
 
     // 이웃 삭제
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteNeighbor(@PathVariable("id") Long id) {
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<?> deleteNeighbor(
+            @PathVariable("id") Long id) {
         try {
             neighborService.deleteNeighbor(id);
             return ResponseEntity.ok().body("이웃 관계가 삭제되었습니다.");
