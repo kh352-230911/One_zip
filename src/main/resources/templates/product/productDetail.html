@@ -10,9 +10,9 @@
 
 <div layout:fragment="content">
 	<div id="product-container" class="w-50 mx-auto text-center">
-		<form name="productFrm"
+		<form name="productFrm" id="myForm"
 			  method="post">
-			<input type="hidden" th:name="${_csrf.parameterName}" th:value="|${_csrf.token}|" />
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 			<p th:text="${product.productName}" th:style="'font-size: 40px;'"></p>
 			<span th:text="|할인 전: ${product.productPrice}원|" th:style="'text-decoration:line-through; margin-right: 10px;'"></span>
 			<input id="product-id" name="productId" type="hidden" th:value='${product.id}'>
@@ -39,8 +39,8 @@
 			<input id="product-totalPrice" name="totalPrice" type="number" th:value="${product.sellPrice}" style="width: 100px; border: none; outline: none; text-align: center; color: red;" disabled readonly>
 			<span th:text="|원|" th:style="'color: red; margin-right: 50px;'"></span>
 			<br>
-			<button name="productPurchase" id="productPurchase" value="purchase" onclick="productPurchase()">구매하기</button>
-			<button name="productCart" id="productCart" value="productCart" onclick="productCart()">장바구니</button>
+			<button type="button" onclick="submitForm('purchase')">구매하기</button>
+			<button type="button" onclick="submitForm('cart')">장바구니</button>
 		</form>
 	</div>
 	<div class="text-center" style="padding: 0 50px; background-color: gray;">

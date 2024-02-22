@@ -146,19 +146,34 @@ document.querySelectorAll("tr[data-product-id]").forEach((tr) => {
     });
 });
 
-function productPurchase(){
-    console.log('productPurchase() 실행중');
-    document.getElementById('myForm').action = `${contextPath}product/productPurchaseInfo.do`;
-    // 폼 제출
-    document.getElementById('myForm').submit();
+function submitForm(action) {
+    console.log(action + ' 액션 실행중');
+
+    var form = document.getElementById('myForm');
+
+    // 액션에 따라 폼의 액션을 설정합니다.
+    if (action === 'purchase') {
+        form.action = contextPath + 'product/productPurchaseInfo.do';
+    } else if (action === 'cart') {
+        form.action = contextPath + 'product/productCart.do';
+    }
+
+    // 폼을 서버로 전송합니다.
+    form.submit();
 }
 
-function productCart(){
-    console.log('productCart() 실행중');
-    document.getElementById('myForm').action = `${contextPath}product/productCart.do`;
-    // 폼 제출
-    document.getElementById('myForm').submit();
-}
+// function productPurchase() {
+//         console.log('productPurchase() 실행중');
+//     // document.getElementById('myForm').action = `${contextPath}product/productPurchaseInfo.do`;
+//     location.href = `${contextPath}product/productPurchaseInfo.do`;
+//     document.getElementById('myForm').submit();
+// }
+//
+// function productCart() {
+//     console.log('productCart() 실행중');
+//     document.getElementById('myForm').action = `${contextPath}product/productCart.do`;
+//     document.getElementById('myForm').submit();
+// }
 
 // function submitForm(endpointURL) {
 //     const csrfToken = document.getElementById('csrfToken').value;
