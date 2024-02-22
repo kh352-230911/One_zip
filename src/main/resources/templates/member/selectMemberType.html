@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+<head>
+    <title>회원가입 선택</title>
+    <link rel="stylesheet" th:href="@{/css/selectMemberType.css}" />
+</head>
+<style layout:fragment="style"></style>
+<div layout:fragment="content" class="mx-12 mt-12 px-4 sm:px-6 lg:px-8">
+    <div class="card-list">
+        <a href="#" class="card-item">
+            <img th:src="@{/images/사업자회원.png}" alt="Card Image">
+            <span class="developer">사업자</span>
+            <h3>사업자회원 가입하기</h3>
+            <div class="arrow">
+                <i class="fas fa-arrow-right card-icon"></i>
+            </div>
+        </a>
+        <a href="#" th:onclick="|location.href='@{/member/createMember.do}';|" class="card-item">
+            <img th:src="@{/images/일반회원.png}" alt="Card Image">
+            <span class="designer">일반회원</span>
+            <h3>일반회원 가입하기</h3>
+            <div class="arrow">
+                <i class="fas fa-arrow-right card-icon"></i>
+            </div>
+        </a>
+    </div>
+    </div>
+<!--<script layout:fragment="script">-->
+</script>
+</html>

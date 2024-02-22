@@ -155,11 +155,15 @@ public class MemberController {
         return ResponseEntity.ok(resultMap);
     }
 
-    @GetMapping("/list.do")
+    @GetMapping("/memberList.do")
     public void listMembers(Model model) {
         List<Member> members = memberService.findAllMembers();
         model.addAttribute("members", members);
     }
 
+    @GetMapping("/selectMemberType.do")
+    public void selectMemberType() {
+
+    }
 
 }
