@@ -54,8 +54,8 @@ public class TipService {
     @Autowired
     private ZipRepository zipRepository;
 
-    public Page<TipListDto> findAll(Pageable pageable) {
-        Page<Tip> tipPage = tipRepository.findAll(pageable);
+    public Page<TipListDto> findAllByZipId(Long zipId, Pageable pageable) {
+        Page<Tip> tipPage = tipRepository.findByZipId(zipId, pageable);
         return tipPage.map((tip) -> convertToTipListDto(tip)); // Page<BoardListDto>
     }
 

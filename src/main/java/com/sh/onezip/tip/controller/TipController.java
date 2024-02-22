@@ -21,7 +21,9 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -57,11 +59,15 @@ public class TipController {
 
 
     @GetMapping("/tipList.do")
-    public String tipList(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) {
-        log.info("tipService={}",tipService.getClass());
+    public String tipList(@PageableDefault(size = 5, page = 0) Pageable pageable,
+                          @AuthenticationPrincipal MemberDetails memberDetails,
+                          Model model) {
+        Zip zip= zipRepository.findByUsername(memberDetails.getUsername());
 
-        log.debug("pageable = {}", pageable);
-        Page<TipListDto> tipPage = tipService.findAll(pageable);
+        Page<TipListDto> tipPage = tipService.findAllByZipId(zip.getId(), pageable);
+        Page<TipListDto> latestTips = tipService.findAllByZipId(zip.getId(), PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "regDate")));
+
+        model.addAttribute("latestTips", latestTips.getContent());
         log.debug("tips = {}", tipPage.getContent());
         model.addAttribute("tips", tipPage.getContent());
         model.addAttribute("totalCount", tipPage.getTotalElements()); // 전체 게시물수

@@ -27,10 +27,12 @@
             <div class="updated_news_title"><br><strong>Updated news</strong></div>
             <div class="updated_news_contents">
               <div class="updated_news_left">
-                <span class="updated_news_left1"><span class="updated_news_red">사진첩</span> 아기하마</span>
-                <span class="updated_news_left2"><span class="updated_news_blue">게시판</span> 티벳토끼의 잡동사니입니다</span>
-                <span class="updated_news_left3"><span class="updated_news_blue">게시판</span> 둘러보고 가세요~</span>
-                <span class="updated_news_left4"><span class="updated_news_red">사진첩</span> 아빠가 왕도마뱀이면?</span>
+        <span th:each="tip, iterStat : ${latestTips}">
+            <span th:class="'updated_news_left' + ${iterStat.index + 1}">
+                <span class="updated_news_red" th:text="'팁 게시판'">팁 게시판</span>
+                <a th:href="@{/community/tipDetail.do(id=${tip.id})}" th:text="${tip.tipTitle}">제목</a>
+            </span>
+        </span>
               </div>
             </div>
             <div class="profile_3">*사실 토끼가 아니라 비스카차

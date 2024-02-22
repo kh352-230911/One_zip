@@ -6,6 +6,9 @@ import com.sh.onezip.diary.dto.DiaryListDto;
 import com.sh.onezip.diary.repository.DiaryRepository;
 import com.sh.onezip.diary.service.DiaryService;
 import com.sh.onezip.member.entity.Member;
+import com.sh.onezip.member.repository.MemberRepository;
+import com.sh.onezip.zip.entity.Zip;
+import com.sh.onezip.zip.repository.ZipRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,17 +35,30 @@ public class DiaryController {
 
     @Autowired
     private DiaryService diaryService;
+    @Autowired
+    private ZipRepository zipRepository;
 
-    @GetMapping("/diary.do")
-    public void diary(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) {
-        log.info("diaryService={}",diaryService.getClass());
+//    @GetMapping("/diary.do")
+//    public void diary(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) {
+//        log.info("diaryService={}",diaryService.getClass());
+//
+//        log.debug("pageable = {}", pageable);
+//        Page<DiaryListDto> diaryPage = diaryService.findAll(pageable);
+//        log.debug("diary = {}", diaryPage.getContent());
+//        model.addAttribute("diaries", diaryPage.getContent());
+//        model.addAttribute("totalCount", diaryPage.getTotalElements()); // 전체 게시물수
+//    }
+@GetMapping("/diary.do")
+public void diary(@PageableDefault(size = 5, page = 0) Pageable pageable,
+                  @AuthenticationPrincipal MemberDetails memberDetails,
+                  Model model) {
+    Zip zip= zipRepository.findByUsername(memberDetails.getUsername());
+    Page<DiaryListDto> diaryPage = diaryService.findAllByZipId(zip.getId(), pageable); // 수정된 서비스 메소드 호출
+    log.debug("diary = {}", diaryPage.getContent());
 
-        log.debug("pageable = {}", pageable);
-        Page<DiaryListDto> diaryPage = diaryService.findAll(pageable);
-        log.debug("diary = {}", diaryPage.getContent());
-        model.addAttribute("diaries", diaryPage.getContent());
-        model.addAttribute("totalCount", diaryPage.getTotalElements()); // 전체 게시물수
-    }
+    model.addAttribute("diaries", diaryPage.getContent());
+    model.addAttribute("totalCount", diaryPage.getTotalElements()); // 전체 게시물 수
+}
 //    @GetMapping("/createDiary.do")
 //    public void createDiary(){}
 
