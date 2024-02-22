@@ -4,20 +4,22 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 
-    <th:block th:insert="~{fragments/head::head}"></th:block>
-    <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">One zip</title>
+    <th:block th:include="~{fragments/head::head}"></th:block>
+    <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">ONE.ZIP</title>
     <style layout:fragment="style"></style>
 
 
 </head>
 <body>
 <div id="container">
-    <header th:insert="~{fragments/header::header}"></header>
+    <header th:include="~{fragments/header::header}"></header>
     <section id="content">
         <div layout:fragment="content"></div>
     </section>
-    <footer th:insert="~{fragments/footer::footer}"></footer>
+<!--    <footer th:include="~{fragments/footer::footer}"></footer>-->
 </div>
-<script layout:fragment="script"></script>
+    <script layout:fragment="script"></script>
+    <script layout:fragment="script1"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 </body>
 </html>

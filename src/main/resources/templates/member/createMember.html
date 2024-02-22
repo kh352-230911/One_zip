@@ -111,7 +111,7 @@
                 <div class="sm:col-span-2">
                     <label for="password" class="block text-sm font-semibold leading-6 text-gray-900">비밀번호 확인</label>
                     <div class="mt-2.5">
-                        <input type="passwordConfirmation" name="passwordConfirmation" id="passwordConfirmation" value="" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                        <input type="password" name="passwordConfirmation" id="passwordConfirmation" value="" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                 </div>
                 <div class="sm:col-span-1">
@@ -160,7 +160,7 @@
                         <input type="text" name="hobby" id="hobby" autocomplete="family-name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                     </div>
                 </div>
-                <button type="button" id="btn" class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mt-6">주소검색</button>
+                <button type="button" id="addrBtn" class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mt-6">주소검색</button>
             </div>
             <div>
                 <label for="memberAddr" class="block text-sm font-semibold leading-6 text-gray-900">주소</label>
@@ -181,12 +181,11 @@
             </div>
         </form>
     </div>
-
 </div>
 </div>
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!--<script layout:fragment="script" th:src="@{/js/member/memberAddr.js}"></script>-->
-<script layout:fragment="script" th:src="@{/js/member/createMember.js}"></script>
+<!--<script src="@{/js/member/createMember.js}"></script>-->
+<script layout:fragment="script" th:src="@{/js/member/memberAddr.js}"></script>
+<script layout:fragment="script1" th:src="@{/js/member/createMember.js}"></script>
 </html>
