@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/zip}">
+
+
+<link rel="stylesheet" href="../../static/css/visit.css">
+<div layout:fragment="content">
+
+    <link rel="stylesheet" th:href="@{/css/zipDetail.css}" />
+    <link rel="stylesheet" th:href="@{/css/font.css}" />
+    <link rel="stylesheet" th:href="@{/css/layout.css}" />
+    <link rel="stylesheet" th:href="@{/css/zipRoom.css}">
+    <link rel="stylesheet" th:href="@{/css/neighborList.css}" />
+    <link rel="stylesheet" th:href="@{/css/roomIamge.css}" />
+    <head>
+        <meta charset="UTF-8" />
+        <title th:text="${memberName} + ${zip.id} + '.zip'"></title>
+        <style>
+            .grid-cell {
+                width: 100px;
+                height: 100px;
+            }
+            .image-placeholder {
+                background-color: #D1D5DB; /* Tailwind gray-300 */
+            }
+        </style>
+    </head>
+    <body>
+    <div class="bookcover" th:style="'background-color:' + ${zipColorCode}">
+        <div class="bookdot">
+            <div class="page">
+                <div class="home" >
+                    <div class="upside">
+                        <br><strong th:text="${'Today : ' + zipDayCount + ' | Total : ' + zipTotalCount}"></strong>
+                        <div class="search_form_title">
+                            <form id="searchForm" method="post">
+                                <input type="text" id="memberId" name="memberId" placeholder="회원 아이디" required>
+                                <input type="hidden" id="csrf" th:value="${_csrf.token}" />
+                                <button type="submit">검색</button>
+                            </form>
+                            <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button">내 이웃</button>
+                        </div>
+                    </div>
+                    <div class="home_main">
+                        <div class="home_contents">
+                            <div class="miniroom_title"><strong th:text="${memberName} + '님의 집 | 생성일 : ' + ${zipRegDate}"></strong></div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="menu_bar">
+                    <a th:href="@{'/zip/zipDetail.do?id=' + ${zip.id}}" class="menu_button1">홈</a>
+                    <a th:href="@{/zip/photo.do}" class="menu_button3">팁공유</a>
+                    <a th:href="@{/zip/diary.do}" class="menu_button2">다이어리</a>
+                    <a th:href="@{/zip/visit.do}" class="menu_button4">방명록</a>
+                    <a th:href="@{'/zip/zipUpdate.do?id=' + ${session.zip.id}}" th:if="${session.zip.id} == ${zipId}" class="menu_button5">집 꾸미기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="neighborModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>내 이웃</h2>
+            <!-- 이웃 목록을 표시할 테이블 -->
+            <table id="neighborTable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Member</th>
+                    <th>Requested At</th>
+                </tr>
+                </thead>
+                <tbody id="neighborList">
+                <!-- 여기에 이웃 목록이 동적으로 추가될 예정 -->
+                <tr th:each="neighbor, stat : ${neighbors}">
+                    <td th:text="${neighbor.get('memberId')}"></td>
+                    <td th:text="${neighbor.get('memberName')}"></td>
+                    <td th:text="${neighbor.get('requestedAt')}"></td>
+                    <td><button th:attr="onclick='deleteNeighbor(\'' + ${neighbor.get('id')} + '\',' + ${stat.index} + ')'">이웃 삭제</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- JavaScript 파일 연결 -->
+        <script th:src="@{/js/neighbor/neighborList.js}"></script>
+        <script th:src="@{/js/neighbor/neighborDelete.js}"></script>
+        <script th:src="@{/js/zip/roomImage.js}"></script>
+    </body>
+</div>
+
+</html>

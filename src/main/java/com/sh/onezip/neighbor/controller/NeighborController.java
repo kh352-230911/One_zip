@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/neighbors")
 @Slf4j
 @Validated
-public class NeighborController {
+public class  NeighborController {
     @Autowired
     private NeighborService neighborService;
 

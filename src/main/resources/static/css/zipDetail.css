@@ -80,7 +80,7 @@
  /*}*/
 
   .miniroom_title{
-    flex: 0.1;
+    flex: 0.045;
 
     color: steelblue;
     font-family: 'PT Sans', sans-serif;
@@ -127,6 +127,6 @@
  }
 
  .miniroom_contents table td {
-     color: #e8a7a7;
-     background-color: #fff6f0;
+     /*color: #e8a7a7; */
+     /*background-color: #fff6f0;*/
  }
