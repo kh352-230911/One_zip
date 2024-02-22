@@ -14,6 +14,9 @@ import com.sh.onezip.tip.entity.Tip;
 import com.sh.onezip.tip.entity.TipComment;
 import com.sh.onezip.tip.service.TipCommentService;
 import com.sh.onezip.tip.service.TipService;
+import com.sh.onezip.zip.entity.Zip;
+import com.sh.onezip.zip.repository.ZipRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -48,6 +52,8 @@ public class TipController {
     AttachmentService attachmentService;
     @Autowired
     private TipCommentService tipCommentService;
+    @Autowired
+    private ZipRepository zipRepository;
 
 
     @GetMapping("/tipList.do")
@@ -73,20 +79,16 @@ public class TipController {
             @Valid TipCreateDto tipCreateDto,
             BindingResult bindingResult,
             @AuthenticationPrincipal MemberDetails memberDetails,
+            HttpServletRequest req,
             RedirectAttributes redirectAttributes)
             throws IOException {
         if (bindingResult.hasErrors()) {
             throw new RuntimeException(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-
-        Member member = memberDetails.getMember();
-
-        // DiaryService를 사용하여 다이어리를 생성합니다.
-        tipService.createTip(tipCreateDto);
-
+        tipService.createTip(tipCreateDto,memberDetails.getUsername());
         // 리다이렉트후에 사용자피드백
         redirectAttributes.addFlashAttribute("msg", "🎈🎈🎈 게시글을 성공적으로 등록했습니다. 🎈🎈🎈");
-        return "redirect:/community/diary.do";
+        return "redirect:/community/tipList.do";
     }
 
 
