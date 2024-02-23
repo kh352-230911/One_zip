@@ -1,6 +1,5 @@
 package com.sh.onezip.productquestion.service;
 
-import com.sh.onezip.productanswer.entity.ProductAnswer;
 import com.sh.onezip.productanswer.repository.ProductAnswerRepository;
 import com.sh.onezip.productquestion.dto.ProductQuestionDto;
 import com.sh.onezip.productquestion.entity.ProductQuestion;
@@ -29,7 +28,7 @@ public class ProductQuestionService {
     public ProductQuestionDto findByProductQuestionAnswerId(Long id) {
         return productQuestionRepository.findById(id)
                 .map((productQuestion) -> convertTofindByProductQuestionAnswer(productQuestion))
-        .orElseThrow();
+                .orElseThrow();
     }
 
     private ProductQuestionDto convertTofindByProductQuestionAnswer(ProductQuestion productQuestion) {
@@ -61,7 +60,7 @@ public class ProductQuestionService {
 //        productQuestionRepository.save();
 //        ProductAnswer productAnswer = modelMapper.map(productQuestion, ProductAnswer.class);
 //        productAnswerRepository.save(productAnswer);
-    }
+//    }
 
 
 //    public Optional<ProductQuestion> findByDetailProductQuestionAnswerId(Long id) {
@@ -90,3 +89,13 @@ public class ProductQuestionService {
 //    private ProductQuestion convertToanswercreate(ProductQuestionDto productQuestionDto) {
 //    }
 
+    public void deleteQuestionById(Long questionId) {
+        productQuestionRepository.deleteById(questionId);
+    }
+
+    public ProductQuestion findQuestuinById(Long questionId) {
+        Optional<ProductQuestion> productQuestionOpt = productQuestionRepository.findById(questionId);
+        ProductQuestion productQuestion = productQuestionOpt.orElse(null);
+        return productQuestion;
+    }
+}

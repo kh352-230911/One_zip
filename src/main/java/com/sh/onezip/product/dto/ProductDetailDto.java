@@ -1,6 +1,7 @@
 package com.sh.onezip.product.dto;
 
 import com.sh.onezip.product.entity.ProductType;
+import com.sh.onezip.productoption.entity.ProductOption;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Data
 public class ProductDetailDto {
+
     private Long id;
     private String productName;
     private String businessmember;
@@ -16,8 +18,7 @@ public class ProductDetailDto {
     private int productPrice;
     private int sellPrice;
     private LocalDate regDate;
-    private List<String> optionNames;
-    private List<String> optionPrices;
+    private List<ProductOption> productOptions;
     private String bizMemberId;
 
 }

@@ -53,17 +53,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("from ProductQuestion pq where pq.product.id = :productId")
     List<ProductQuestion> productQuestionFindAllByProductId(@Param("productId") Long productId);
 
-//    @Query("from ProductReview pr where pr.productNo = :id")
-//    List<ProductReview> reviewFindAllByProductId(Long id);
-//
-//    @Query("from ProductReview pr where pr.productNo = :productId order by pr.id desc")
-//    Page<ProductReview> productReviewFindAllByProductId(Pageable pageable, Long productId);
-//
-//    @Query("from ProductReview pr where pr.productNo = :productId")
-//    List<ProductReview> productReviewFindAllByProductId(@Param("productId") Long productId);
-//
-//    @Query("from ProductReview pr where pr.productNo = :id")
-//    List<ProductReview> productReviewFindByProductid(Long id);
+    @Query("from ProductReview pr where pr.product.id = :id")
+    List<ProductReview> reviewFindAllByProductId(Long id);
+
+    @Query("from ProductReview pr where pr.product.id = :productId order by pr.id desc")
+    Page<ProductReview> productReviewFindAllByProductId(Pageable pageable, Long productId);
+
+    @Query("from ProductReview pr where pr.product.id = :productId")
+    List<ProductReview> productReviewFindAllByProductId(@Param("productId") Long productId);
+
+    @Query("from ProductReview pr where pr.product.id = :id")
+    List<ProductReview> productReviewFindByProductid(Long id);
 
 
     // 명준 작업 공간 end =================================================================

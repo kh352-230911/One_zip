@@ -2,10 +2,7 @@ package com.sh.onezip.productoption.entity;
 
 import com.sh.onezip.product.entity.Product;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
@@ -13,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "tb_poption")
+@ToString(exclude = "product")
 public class ProductOption {
     @Id
 //    @GeneratedValue(generator = "seq_poption_generator")
@@ -23,7 +21,7 @@ public class ProductOption {
 //            allocationSize = 1)
 //
     private Long id;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_no")
     private Product product;
     @Column(name = "option_name")

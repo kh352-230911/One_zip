@@ -14,52 +14,53 @@
 </style>
 
 <div layout:fragment="content">
-
-    <table>
-        <tbody>
-        <tr>
-            <td>
-                <span th:text="가격"></span>
+    <table class="w-full">
+        <tbody class="flex justify-between gap-x-6 py-5">
+        <tr class="flex min-w-0 gap-x-4">
+            <td class="min-w-0 flex-auto">
+                <span class="text-sm font-semibold leading-6 text-gray-900" th:text="가격"></span>
             </td>
-            <td>
-                <a th:text="|1만원 이하|" id="under10000btn" th:href="@{/product/productList.do?price=10000}"></a>
+            <td class="min-w-0 flex-auto">
+                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|1만원 이하|" id="under10000btn" th:href="@{/product/productList.do?price=10000}"></a>
             </td>
-            <td>
-                <a th:text="|5만원 이하|" id="under50000btn" th:href="@{/product/productList.do?price=50000}"></a>
+            <td class="min-w-0 flex-auto">
+                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|5만원 이하|" id="under50000btn" th:href="@{/product/productList.do?price=50000}"></a>
             </td>
-            <td>
-                <a th:text="|10만원 이하|" id="under100000btn" th:href="@{/product/productList.do?price=100000}"></a>
+            <td class="min-w-0 flex-auto">
+                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|10만원 이하|" id="under100000btn" th:href="@{/product/productList.do?price=100000}"></a>
             </td>
-            <td>
-                <a th:text="|10만원 이상|" id="upper100000btn" th:href="@{/product/productList.do?price=100001}"></a>
+            <td class="min-w-0 flex-auto">
+                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|10만원 이상|" id="upper100000btn" th:href="@{/product/productList.do?price=100001}"></a>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <section id="product-container" class="container">
-        <p>총 [[${totalCount}]]건의 상품이 조회되었습니다.</p>
-        <table id="tbl-product" class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <th>상품명</th>
-                <th>상점명</th>
-                <th>판매가격</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="product, status : ${products}" th:data-product-id="${product.id}">
-                <a>
-                    <td th:text="${product.productName}"></td>
-                    <td th:text="${product.bizName}"></td>
-                    <td th:text="|${product.sellPrice}원|"></td>
-                </a>
-            </tr>
-            </tbody>
-        </table>
-        <div id="pagebar">
+    <section id="product-container" class="container mx-auto px-4 py-8">
+        <p class="text-lg font-semibold text-gray-800">총 [[${totalCount}]]건의 상품이 조회되었습니다.</p>
+        <div class="overflow-x-auto">
+            <table id="tbl-product" class="table-auto w-full bg-white shadow-md rounded-lg overflow-hidden">
+                <thead class="bg-gray-200 text-gray-700">
+                <tr>
+                    <th class="px-4 py-2">상품명</th>
+                    <th class="px-4 py-2">상점명</th>
+                    <th class="px-4 py-2">판매가격</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product, status : ${products}" th:data-product-id="${product.id}">
+                    <a>
+                        <td class="border px-4 py-2 text-blue-500 hover:underline" th:text="${product.productName}"></td>
+                        <td class="border px-4 py-2" th:text="${product.bizName}"></td>
+                        <td class="border px-4 py-2" th:text="|${product.sellPrice}원|"></td>
+                    </a>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="pagebar" class="mt-4">
             <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
+                <ul class="pagination flex justify-center">
                     <th:block th:utext="${pagebar}"/>
                 </ul>
             </nav>
