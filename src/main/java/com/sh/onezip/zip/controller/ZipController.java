@@ -140,6 +140,7 @@ public class ZipController {
     public String zipUpdate(){
         return "/zip/zipUpdate";
     }
+
     @PostMapping(value = "/zipUpload.do", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
     public String zipUpdate(
@@ -170,8 +171,14 @@ public class ZipController {
         zipUpdateDto.setMember(memberDetails.getMember());
 
         zipService.updateZip(zipUpdateDto, AttachmentCreates, "ZP");
+
+        // 수정이 완료되었음을 메시지로 알림
+        redirectAttributes.addFlashAttribute("msg", "집 정보가 수정되었습니다.");
+        // 수정된 집 정보의 상세 페이지로 이동
+        return "redirect:/zip/zipDetail.do?id=" + zipUpdateDto.getId();
+
         //redirectAttributes.addFlashAttribute("msg", "집 정보가 수정되었습니다.");
-        return "집 정보가 수정되었습니다.";
+//        return "집 정보가 수정되었습니다.";
     }
 
     @GetMapping("/fileDownload.do")
@@ -181,10 +188,7 @@ public class ZipController {
         notificationService.notifyFileDownload(id);
         // 파일다운로드 업무로직
         AttachmentDetailDto attachmentDetailDto = attachmentService.findById(id);
-        String imageUrl = s3FileService.getUrl(attachmentDetailDto.getUrl());
-        Map<String, String> responseData = new HashMap<>();
-        responseData.put("imageUrl", imageUrl);
-        return ResponseEntity.ok(responseData);
+        return s3FileService.download(attachmentDetailDto);
     }
 
 

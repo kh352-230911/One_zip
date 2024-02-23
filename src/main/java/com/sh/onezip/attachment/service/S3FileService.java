@@ -51,6 +51,4 @@ public class S3FileService {
                 .body(resource);
     }
 
-    public String getUrl(String url) {
-    }
 }
