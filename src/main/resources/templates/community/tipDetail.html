@@ -21,69 +21,65 @@
                     <div class="home_main">
                         <div class="profile">
                             <div class="profile_1">
-                                <img class="profile_image" th:src="@{/images/티벳토끼.jpg}"/>
+                                <img class="profile_image" th:src="@{/images/아이유.jpg}"/>
                             </div>
+                            <div class="content_title"><strong>소개글</strong><br></div>
                             <div class="profile_2" th:text="${zipContent}"></div>
                             <div class="updated_news_title"><br><strong>Updated news</strong></div>
                             <div class="updated_news_contents">
                                 <div class="updated_news_left">
-                                    <span class="updated_news_left1"><span class="updated_news_red">사진첩</span> 아기하마</span>
-                                    <span class="updated_news_left2"><span class="updated_news_blue">게시판</span> 티벳토끼의 잡동사니입니다</span>
-                                    <span class="updated_news_left3"><span class="updated_news_blue">게시판</span> 둘러보고 가세요~</span>
-                                    <span class="updated_news_left4"><span class="updated_news_red">사진첩</span> 아빠가 왕도마뱀이면?</span>
+                <span th:each="tip, iterStat : ${latestTips}">
+                    <span th:class="'updated_news_left' + ${iterStat.index + 1}">
+                        <span class="updated_news_red" th:text="'팁 게시판'">팁 게시판</span>
+                        <a th:href="@{/community/tipDetail.do(id=${tip.id})}" th:text="${tip.tipTitle}">제목</a>
+                    </span>
+                </span>
                                 </div>
                             </div>
-                            <div class="profile_3">*사실 토끼가 아니라 비스카차
+                            <div class="profile_3">
                                 <div class="profile-dropdown">
                                     <div class="dropdown-btn">
-                                        <div class="dropdown-title">Related Link</div>
+                                        <div class="dropdown-title">이웃 목록</div>
                                         <div class="triangle-down"></div>
                                     </div>
                                     <div class="dropdown-content">
-                                        <a href="https://programming-oddments.tistory.com/" target="_blank">Devlog</a>
-                                        <a href="https://github.com/joseph-106" target="_blank">Github</a>
-                                        <a href="https://www.instagram.com/ksj_106/" target="_blank">Instagram</a>
+                                        <a th:each="neighbor : ${neighbors}" th:href="@{|http://localhost:8080/onezip/zip/zipDetail.do?id=${neighbor.get('member_zip_id')}|}"  th:text="${neighbor.get('memberId') + '(' + neighbor.get('memberName') + ')'}"></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="home_contents">
                             <div class="photo_contents">
-                                <!-- 팁 상세 정보 -->
-                                <div class="tip_detail">
-                                    <h1 th:text="${tip.title}">Tip Title</h1>
-                                    <p th:text="${tip.content}">Tip Content</p>
-<!--                                    <p th:text="${tip.createdAt}">Created At</p>-->
-                                    <!-- 첨부 파일 목록 -->
-                                    <div class="attachments">
-                                        <ul>
-                                            <li th:each="attachment : ${tip.attachments}">
-                                                <a th:href="@{'/download/' + ${attachment.id}}" th:text="${attachment.fileName}">Attachment File</a>
+                                <div class="tip_detail bg-white shadow-lg rounded-lg p-6">
+                                    <h1 th:text="${tip.title}" class="text-2xl font-bold text-gray-900 mb-4">Tip Title</h1>
+                                    <p th:text="${tip.content}" class="text-base text-gray-600 mb-4">Tip Content</p>
+                                    <div class="attachments mb-4">
+                                        <ul class="list-disc pl-5">
+                                            <li th:each="attachment : ${tip.attachments}" class="mb-2">
+                                                <a th:href="@{'/download/' + ${attachment.id}}" th:text="${attachment.fileName}" class="text-blue-500 hover:text-blue-700">Attachment File</a>
                                             </li>
                                         </ul>
                                     </div>
-
-                                    <!-- 댓글 목록 -->
-                                    <div class="comments">
-                                        <ul>
-                                            <li th:each="comment : ${tip.comments}">
-                                                <p th:text="${comment.member.memberId}">작성자</p>
-                                                <p th:text="${comment.createdAt}">Comment Date</p>
-                                                <p th:text="${comment.content}">Comment Content</p>
+                                    <div class="comments mb-4">
+                                        <ul class="list-disc pl-5">
+                                            <li th:each="comment : ${tip.comments}" class="mb-2">
+                                                <p th:text="${comment.member.memberId}" class="font-semibold">작성자</p>
+                                                <p th:text="${comment.createdAt}" class="text-sm text-gray-500">Comment Date</p>
+                                                <p th:text="${comment.content}" class="text-gray-600">Comment Content</p>
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="comment-form">
-                                        <h3>댓글 달기</h3>
-                                        <form th:action="@{/community/createComment.do}" method="post" enctype="multipart/form-data">
+                                    <div class="comment-form mt-6">
+                                        <h3 class="text-xl font-semibold mb-4">댓글 달기</h3>
+                                        <form th:action="@{/community/createComment.do}" method="post" enctype="multipart/form-data" class="space-y-4">
                                             <input type="hidden" name="tipId" th:value="${tip.id}" />
                                             <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                                             <div>
-                                                <label for="commentContent">댓글 내용:</label>
-                                                <textarea id="commentContent" name="commentContent" rows="4" required></textarea>
+                                                <label for="commentContent" class="block text-gray-700">댓글 내용:</label>
+                                                <textarea id="commentContent" name="commentContent" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
                                             </div>
                                             <div>
-                                                <button type="submit">댓글 작성</button>
+                                                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">댓글 작성</button>
                                             </div>
                                         </form>
                                     </div>
