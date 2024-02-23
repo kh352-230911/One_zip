@@ -29,6 +29,10 @@ public class DiaryService {
         Page<Diary> diaryPage = diaryRepository.findAll(pageable);
         return diaryPage.map((diary) -> convertToDiaryListDto(diary)); // Page<BoardListDto>
     }
+    public Page<DiaryListDto> findAllByZipId(Long zipId, Pageable pageable) {
+        Page<Diary> diaryPage = diaryRepository.findByZipId(zipId, pageable);
+        return diaryPage.map(this::convertToDiaryListDto);
+    }
     private DiaryListDto convertToDiaryListDto(Diary diary) {
         DiaryListDto diaryListDto = modelMapper.map(diary, DiaryListDto.class);
         diaryListDto.setZipId(

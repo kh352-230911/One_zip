@@ -14,11 +14,16 @@ import com.sh.onezip.tip.entity.Tip;
 import com.sh.onezip.tip.entity.TipComment;
 import com.sh.onezip.tip.service.TipCommentService;
 import com.sh.onezip.tip.service.TipService;
+import com.sh.onezip.zip.entity.Zip;
+import com.sh.onezip.zip.repository.ZipRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,6 +40,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -48,14 +54,20 @@ public class TipController {
     AttachmentService attachmentService;
     @Autowired
     private TipCommentService tipCommentService;
+    @Autowired
+    private ZipRepository zipRepository;
 
 
     @GetMapping("/tipList.do")
-    public String tipList(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) {
-        log.info("tipService={}",tipService.getClass());
+    public String tipList(@PageableDefault(size = 5, page = 0) Pageable pageable,
+                          @AuthenticationPrincipal MemberDetails memberDetails,
+                          Model model) {
+        Zip zip= zipRepository.findByUsername(memberDetails.getUsername());
 
-        log.debug("pageable = {}", pageable);
-        Page<TipListDto> tipPage = tipService.findAll(pageable);
+        Page<TipListDto> tipPage = tipService.findAllByZipId(zip.getId(), pageable);
+        Page<TipListDto> latestTips = tipService.findAllByZipId(zip.getId(), PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "regDate")));
+
+        model.addAttribute("latestTips", latestTips.getContent());
         log.debug("tips = {}", tipPage.getContent());
         model.addAttribute("tips", tipPage.getContent());
         model.addAttribute("totalCount", tipPage.getTotalElements()); // 전체 게시물수
@@ -73,20 +85,16 @@ public class TipController {
             @Valid TipCreateDto tipCreateDto,
             BindingResult bindingResult,
             @AuthenticationPrincipal MemberDetails memberDetails,
+            HttpServletRequest req,
             RedirectAttributes redirectAttributes)
             throws IOException {
         if (bindingResult.hasErrors()) {
             throw new RuntimeException(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-
-        Member member = memberDetails.getMember();
-
-        // DiaryService를 사용하여 다이어리를 생성합니다.
-        tipService.createTip(tipCreateDto);
-
+        tipService.createTip(tipCreateDto,memberDetails.getUsername());
         // 리다이렉트후에 사용자피드백
         redirectAttributes.addFlashAttribute("msg", "🎈🎈🎈 게시글을 성공적으로 등록했습니다. 🎈🎈🎈");
-        return "redirect:/community/diary.do";
+        return "redirect:/community/tipList.do";
     }
 
 
