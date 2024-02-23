@@ -22,6 +22,7 @@ public class MemberCreateDto {
     private String hobby;
     private String mbti;
     private String memberAddr;
+    private String memberDetailAddr; // 상세 주소
 
     public Member toMember() {
         return Member.builder()
@@ -34,7 +35,7 @@ public class MemberCreateDto {
                 .hobby(hobby)
                 .nickname(nickname)
                 .mbti(mbti)
-                .memberAddr(memberAddr)
+                .memberAddr(memberAddr + "#" + memberDetailAddr)
                 .build();
     }
 }

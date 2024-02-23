@@ -49,4 +49,14 @@ public class MemberService {
     public List<Member> findAllMembers() {
         return memberRepository.findAll();
     }
+
+
+//    public void deleteByid(String memberId) {
+//        System.out.println("회원삭제 서비스");
+//        memberRepository.deleteById(memberId); // 회원 삭제
+//    }
+
+    public void deleteById(String memberId) {
+        memberRepository.deleteById(memberId);
+    }
 }

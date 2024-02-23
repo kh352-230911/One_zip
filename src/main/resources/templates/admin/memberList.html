@@ -23,8 +23,8 @@
                     <table class="min-w-full divide-y divide-gray-300">
                         <thead>
                         <tr>
-                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">ID</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">name</th>
+                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">아이디</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">이름</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">성별</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">전화번호</th>
                             <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-3">
@@ -39,10 +39,12 @@
                             <td th:text="${member.gender}"  class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
                             <td th:text="${member.phone}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
                             <td>
-                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, Lindsay Walton</span></a>
+                                <form th:action="@{/admin/memberList.do}" method="post">
+                                    <input type="hidden" id="memberId" name="memberId" th:value="${member.memberId}">
+                                    <button type="submit" class="text-indigo-600 hover:text-red-600">삭제</button>
+                                </form>
                             </td>
                         </tr>
-
                         </tbody>
                     </table>
                 </div>
