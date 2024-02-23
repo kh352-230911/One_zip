@@ -74,6 +74,7 @@ public class MemberDetails implements UserDetails, OAuth2User {
     public Map<String, Object> getAttributes() {
         return this.attributes;
     }
+
     }
 
 

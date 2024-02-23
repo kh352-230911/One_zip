@@ -9,6 +9,7 @@ import com.sh.onezip.orderproduct.service.OrderProductService;
 import com.sh.onezip.product.dto.ProductCartCreateDto;
 import com.sh.onezip.product.dto.ProductDetailDto;
 import com.sh.onezip.product.dto.ProductListDto;
+import com.sh.onezip.product.dto.ProductPreVerifyDto;
 import com.sh.onezip.product.dto.ProductPurchaseInfoDto;
 import com.sh.onezip.productLog.entity.ProductLog;
 import com.sh.onezip.productLog.entity.RefundCheck;
@@ -45,6 +46,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -170,7 +172,8 @@ public class ProductController {
     }
 
     @GetMapping("/productQna.do")
-    public void productQna(@RequestParam("id") Long id,Model model,
+    public void productQna(@RequestParam("id") Long id,
+                           Model model,
                            @AuthenticationPrincipal MemberDetails memberDetails,
                            HttpServletRequest httpServletRequest){
         try {
@@ -405,22 +408,9 @@ public class ProductController {
         }
         return "redirect:/product/productList.do?id=" + productId;
     }
-    
-//    선물하기/ 구매하기 분기 처리 RequestMapping Method
-//    @PostMapping("/productDetailFurcate.do")
-//    public String productDetailFurcate(@RequestParam("action") String action,
-//                                     @RequestParam("productId") Long productId,
-//                                     RedirectAttributes redirectAttributes){
-//        if ("purchase".equals(action)) {
-//            return "redirect:product/productPurchaseInfo.do?id=" + ;
-//        } else if ("gift".equals(action)) {
-//            return "redirect:/product/productQna.do?id=" + productId;
-//        }
-//
-//    }
 
     @PostMapping("/productPayment.do")
-    public void productPayment(@RequestParam ("sellPrice") String sellPrice,
+    public void productPayment(@RequestParam ("sellPrice") int sellPrice,
                                @RequestParam ("productName") String productName,
                                @RequestParam ("shippingRequest") String shippingRequest,
                                @RequestParam ("productId") Long productId,
@@ -444,7 +434,7 @@ public class ProductController {
                 .refundCheck(RefundCheck.N)
                 .memo(shippingRequest)
                 .arrAddr(member.getMemberAddr())
-                .totalPayAmount(Integer.parseInt(sellPrice))
+                .totalPayAmount(sellPrice)
                 .build();
         ProductLog productLog = productLogService.createProductLog(newProductLog);
         model.addAttribute("member", member);
@@ -452,7 +442,7 @@ public class ProductController {
         model.addAttribute("productLog", productLog);
         model.addAttribute("productOptId", productOptId);
         model.addAttribute("productId", productId);
-        model.addAttribute("productQuantity", productQuantity);
+        model.addAttribute("productQuantityd", productQuantity);
 
     }
 
@@ -467,17 +457,54 @@ public class ProductController {
     }
 
     @PostMapping("/productPostverify.do")
-    public ResponseEntity<?> productPostverify(@RequestBody Map<String, String> requestData,
-                                               @AuthenticationPrincipal MemberDetails memberDetails){
+    public ResponseEntity<?>  productPostverify(@RequestBody Map<String, String> requestData,
+                                  @AuthenticationPrincipal MemberDetails memberDetails){
         Member member = memberDetails.getMember();
         boolean satisfyVerify = productService.postVerify(requestData, member);
-        return ResponseEntity.ok(Map.of("result", satisfyVerify));
+            return ResponseEntity.ok(Map.of("result", satisfyVerify));
     }
 
     @PostMapping("/productOrderReverse.do")
     public void productOrderReverse(@RequestBody Map<String, String> requestData){
         orderProductService.orderRollBack(requestData);
     }
+
+//    @PostMapping("/productPayment.do")
+//    public void productPayment(@RequestParam ("sellPrice") String sellPrice,
+//                               @RequestParam ("productName") String productName,
+//                               @RequestParam ("shippingRequest") String shippingRequest,
+//                               @RequestParam ("productId") Long productId,
+//                               @RequestParam ("productQuantity") int productQuantity,
+//                               @AuthenticationPrincipal MemberDetails memberDetails,
+//                               HttpServletRequest httpServletRequest,
+//                               Model model){
+//        Member member = memberDetails.getMember();
+//
+//        Long productOptId = 0L;
+//
+//        try {
+//            productOptId = Long.parseLong(httpServletRequest.getParameter("productOptId"));
+//        } catch (NumberFormatException ignore) {}
+//
+//        ProductLog newProductLog = ProductLog
+//                .builder()
+//                .memberId(member.getMemberId())
+//                .purchaseDate(LocalDate.now().toString())
+//                .shppingState(ShppingState.R)
+//                .refundCheck(RefundCheck.N)
+//                .memo(shippingRequest)
+//                .arrAddr(member.getMemberAddr())
+//                .totalPayAmount(Integer.parseInt(sellPrice))
+//                .build();
+//        ProductLog productLog = productLogService.createProductLog(newProductLog);
+//        model.addAttribute("member", member);
+//        model.addAttribute("productName", productName);
+//        model.addAttribute("productLog", productLog);
+//        model.addAttribute("productOptId", productOptId);
+//        model.addAttribute("productId", productId);
+//        model.addAttribute("productQuantity", productQuantity);
+//
+//    }
 
     @PostMapping("/productCart.do")
     public void productCart(ProductCartCreateDto productCartCreateDto,
@@ -505,10 +532,3 @@ public class ProductController {
 //    }
 
 }
-
-//    @GetMapping("/productPurchaseInfo.do")
-//    public void productPurchaseInfo(
-//            @AuthenticationPrincipal MemberDetails memberDetails,
-//            @RequestParam("productId") Long id,
-//            @RequestParam("productQuantity") int productQuantity,
-//            Model model){

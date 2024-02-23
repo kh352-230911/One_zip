@@ -1,6 +1,5 @@
 package com.sh.onezip.product.service;
 
-import com.sh.onezip.cart.entity.Cart;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.orderproduct.entity.OrderProduct;
 import com.sh.onezip.orderproduct.repository.OrderProductRepository;
@@ -16,7 +15,6 @@ import com.sh.onezip.productReview.dto.ProductReviewCreateDto;
 import com.sh.onezip.productReview.dto.ProductReviewDto;
 import com.sh.onezip.productReview.entity.ProductReview;
 import com.sh.onezip.productReview.repository.ProductReviewRepository;
-import com.sh.onezip.productanswer.dto.ProductAnswerCreateDto;
 import com.sh.onezip.productoption.entity.ProductOption;
 import com.sh.onezip.productquestion.dto.ProductQuestionCreateDto;
 import com.sh.onezip.productquestion.dto.ProductQuestionDto;
@@ -29,7 +27,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;

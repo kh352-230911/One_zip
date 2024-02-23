@@ -48,39 +48,6 @@ if(document.querySelector("#selectOption") != null){
         // productTotalPriceEle.value = (productSellPrice + optionCost) * product_quantity;
     });
 }
-// document.querySelector("#selectOption").addEventListener('change', (e) => {
-//     // 선택된 옵션 요소를 가져옵니다.
-//     const selectedOption = e.target.options[e.target.selectedIndex];
-//     const selectedOptionIndex = selectedOption.value;
-//     // console.log(selectedOptionIndex);
-//     //
-//     // const temp = '#Seloption' + selectedOptionIndex.toString();
-//     // console.log(temp)
-//     const selOptVal = e.target.value;
-//     const stringArr = selOptVal.split('#');
-//     const optionCost = stringArr[1];
-//
-//     const optionHiddenCostEle = document.querySelector('#refOptionCost');
-//     optionHiddenCostEle.value = parseInt(optionCost);
-//
-//
-//     const product_quantityEle = document.querySelector("#product-quantity");
-//     // const product_quantity = parseInt(product_quantityEle.innerText); // innerHTML 대신 innerText 사용
-//     const product_quantity = parseInt(product_quantityEle.value);
-//
-//     const productSellPriceEle = document.querySelector('#product-sellPrice');
-//     const productSellPrice = parseInt(productSellPriceEle.innerText);
-//     // const productSellPrice = parseInt(productSellPriceEle.value);
-//
-//
-//     const refOptionCostEle = document.querySelector("#refOptionCost");
-//     const refOptionCostPrice = parseInt(refOptionCostEle.value);
-//
-//     const productTotalPriceEle = document.querySelector('#product-totalPrice');
-//     productTotalPriceEle.value = (productSellPrice + refOptionCostPrice) * product_quantity;
-//     // productTotalPriceEle.value = (productSellPrice + optionCost) * product_quantity;
-// });
-
 
 document.querySelector("#plus-btn").addEventListener('click', (e) => {
     e.preventDefault();
