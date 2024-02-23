@@ -19,36 +19,35 @@
           <br><strong>TODAY 28 | TOTAL 234918</strong>
         </div>
         <div class="home_main">
-          <div class="profile">
-            <div class="profile_1">
-              <img class="profile_image" th:src="@{/images/티벳토끼.jpg}"/>
-            </div>
-            <div class="profile_2" th:text="${zipContent}"></div>
-            <div class="updated_news_title"><br><strong>Updated news</strong></div>
-            <div class="updated_news_contents">
-              <div class="updated_news_left">
-        <span th:each="tip, iterStat : ${latestTips}">
-            <span th:class="'updated_news_left' + ${iterStat.index + 1}">
-                <span class="updated_news_red" th:text="'팁 게시판'">팁 게시판</span>
-                <a th:href="@{/community/tipDetail.do(id=${tip.id})}" th:text="${tip.tipTitle}">제목</a>
-            </span>
-        </span>
-              </div>
-            </div>
-            <div class="profile_3">*사실 토끼가 아니라 비스카차
-              <div class="profile-dropdown">
-                <div class="dropdown-btn">
-                  <div class="dropdown-title">Related Link</div>
-                  <div class="triangle-down"></div>
+            <div class="profile">
+                <div class="profile_1">
+                    <img class="profile_image" th:src="@{/images/아이유.jpg}"/>
                 </div>
-                <div class="dropdown-content">
-                  <a href="https://programming-oddments.tistory.com/" target="_blank">Devlog</a>
-                  <a href="https://github.com/joseph-106" target="_blank">Github</a>
-                  <a href="https://www.instagram.com/ksj_106/" target="_blank">Instagram</a>
+                <div class="content_title"><strong>소개글</strong><br></div>
+                <div class="profile_2" th:text="${zipContent}"></div>
+                <div class="updated_news_title"><br><strong>Updated news</strong></div>
+                <div class="updated_news_contents">
+                    <div class="updated_news_left">
+                <span th:each="tip, iterStat : ${latestTips}">
+                    <span th:class="'updated_news_left' + ${iterStat.index + 1}">
+                        <span class="updated_news_red" th:text="'팁 게시판'">팁 게시판</span>
+                        <a th:href="@{/community/tipDetail.do(id=${tip.id})}" th:text="${tip.tipTitle}">제목</a>
+                    </span>
+                </span>
+                    </div>
                 </div>
-              </div>
+                <div class="profile_3">
+                    <div class="profile-dropdown">
+                        <div class="dropdown-btn">
+                            <div class="dropdown-title">이웃 목록</div>
+                            <div class="triangle-down"></div>
+                        </div>
+                        <div class="dropdown-content">
+                            <a th:each="neighbor : ${neighbors}" th:href="@{|http://localhost:8080/onezip/zip/zipDetail.do?id=${neighbor.get('member_zip_id')}|}"  th:text="${neighbor.get('memberId') + '(' + neighbor.get('memberName') + ')'}"></a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
           <div class="home_contents">
             <div class="photo_contents">
               <div class="tip" style="color: black;">
@@ -58,11 +57,10 @@
                 </div>
                 <p>전체 게시물 수: <span th:text="${totalCount}"></span></p>
                 <h2>팁공유</h2>
-                <ul>
-                  <li th:each="tip : ${tips}" >
-                    <a th:href="@{/community/tipDetail.do(id=${tip.id})}" th:text="${tip.tipTitle}">제목</a>
-                    <p th:text="${tip.regDate}">등록 날짜</p>
-                    <br>
+                <ul class="space-y-4">
+                  <li th:each="tip : ${tips}" class="bg-white shadow overflow-hidden rounded-lg px-4 py-4">
+                    <a th:href="@{/community/tipDetail.do(id=${tip.id})}" th:text="${tip.tipTitle}" class="text-lg font-semibold text-blue-600 hover:text-blue-800">제목</a>
+                    <p th:text="${tip.regDate}" class="text-sm text-gray-500">등록 날짜</p>
                   </li>
                 </ul>
               </div>

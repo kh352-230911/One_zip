@@ -7,13 +7,17 @@ import com.sh.onezip.diary.repository.DiaryRepository;
 import com.sh.onezip.diary.service.DiaryService;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.repository.MemberRepository;
+import com.sh.onezip.tip.dto.TipListDto;
+import com.sh.onezip.tip.service.TipService;
 import com.sh.onezip.zip.entity.Zip;
 import com.sh.onezip.zip.repository.ZipRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -37,6 +41,8 @@ public class DiaryController {
     private DiaryService diaryService;
     @Autowired
     private ZipRepository zipRepository;
+    @Autowired
+    private TipService tipService;
 
 //    @GetMapping("/diary.do")
 //    public void diary(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) {
@@ -53,6 +59,9 @@ public void diary(@PageableDefault(size = 5, page = 0) Pageable pageable,
                   @AuthenticationPrincipal MemberDetails memberDetails,
                   Model model) {
     Zip zip= zipRepository.findByUsername(memberDetails.getUsername());
+    Page<TipListDto> latestTips = tipService.findAllByZipId(zip.getId(), PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "regDate")));
+
+    model.addAttribute("latestTips", latestTips.getContent());
     Page<DiaryListDto> diaryPage = diaryService.findAllByZipId(zip.getId(), pageable); // 수정된 서비스 메소드 호출
     log.debug("diary = {}", diaryPage.getContent());
 
