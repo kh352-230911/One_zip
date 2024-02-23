@@ -6,10 +6,7 @@ import com.sh.onezip.member.entity.Gender;
 import com.sh.onezip.neighbor.entity.Neighbor;
 import com.sh.onezip.zip.entity.Zip;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -27,6 +24,7 @@ import java.util.List;
 @DynamicInsert // null이 아닌 필드만 등록
 @DynamicUpdate // 영속성컨텍스트의 엔티티와 달라진 필드만 수정
 @Table(name = "tb_member")
+@ToString(exclude = "payment")
 public class Member {
 
     @Id
@@ -56,7 +54,6 @@ public class Member {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private List<Authority> authorities;
-
 
     @OneToOne(mappedBy = "member")
     private Cart cart;
