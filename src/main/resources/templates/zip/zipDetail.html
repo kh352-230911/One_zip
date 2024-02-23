@@ -46,7 +46,10 @@
         <div class="home_main">
           <div class="profile">
             <div class="profile_1">
-              <img class="profile_image" th:src="@{/images/아이유.jpg}"/>
+<!--              <img class="profile_image" th:src="@{/images/iu.jpg}"/>-->
+                <div th:each="attachment : ${zip.attachments}">
+                    <img th:src="${attachment.url}" alt="Attachment Image">
+                </div>
             </div>
               <div class="content_title"><strong>소개글</strong><br></div>
             <div class="profile_2" th:text="${zipContent}"></div>

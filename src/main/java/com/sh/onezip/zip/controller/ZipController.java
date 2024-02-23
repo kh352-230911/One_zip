@@ -173,12 +173,10 @@ public class ZipController {
         zipService.updateZip(zipUpdateDto, AttachmentCreates, "ZP");
 
         // 수정이 완료되었음을 메시지로 알림
-        redirectAttributes.addFlashAttribute("msg", "집 정보가 수정되었습니다.");
+//        redirectAttributes.addFlashAttribute("msg", "집 정보가 수정되었습니다.");
         // 수정된 집 정보의 상세 페이지로 이동
-        return "redirect:/zip/zipDetail.do?id=" + zipUpdateDto.getId();
-
-        //redirectAttributes.addFlashAttribute("msg", "집 정보가 수정되었습니다.");
-//        return "집 정보가 수정되었습니다.";
+//        return "redirect:/zip/zipDetail.do?id=" + zipUpdateDto.getId();
+        return "집 정보가 수정되었습니다.";
     }
 
     @GetMapping("/fileDownload.do")
