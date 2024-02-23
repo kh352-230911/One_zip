@@ -1,8 +1,4 @@
-const imageUrls = [
-    'images/방.jpg', // 상대 경로 사용
-    'images/방2.jpg',
-    'images/방3.jpg'
-];
+const imageUrls = [];
 let currentIndex = 0;
 
 const roomImageCarousel = document.getElementById('roomImageCarousel');
@@ -32,3 +28,17 @@ nextButton.addEventListener('click', () => {
 
 // Initialize carousel
 updateCarousel();
+
+// 이미지 URL을 가져오는 요청을 보내는 함수
+function fetchImageUrls() {
+    fetch('/fileDownload.do?id=' + zipId)
+        .then(response => response.json())
+        .then(data => {
+            imageUrls.push(data.imageUrl);
+            updateCarousel();
+        })
+        .catch(error => console.error('Error fetching image URLs:', error));
+}
+
+// 페이지 로드 시 이미지 URL을 가져옵니다.
+fetchImageUrls();

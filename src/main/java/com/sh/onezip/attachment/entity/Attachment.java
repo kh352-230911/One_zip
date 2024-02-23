@@ -25,7 +25,7 @@ public class Attachment {
             allocationSize = 50
     )
     private Long id;
-    @Column(name = "ref_id")
+    @Column(name = "ref_id", nullable = false)
     private Long refId;
     private String refType;
     private String originalFilename;

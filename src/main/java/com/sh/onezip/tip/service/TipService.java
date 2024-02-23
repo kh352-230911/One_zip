@@ -15,14 +15,18 @@ import com.sh.onezip.tip.entity.Tip;
 import com.sh.onezip.tip.entity.TipComment;
 import com.sh.onezip.tip.repository.TipCommentRepository;
 import com.sh.onezip.tip.repository.TipRepository;
+import com.sh.onezip.zip.entity.Zip;
+import com.sh.onezip.zip.repository.ZipRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,21 +51,33 @@ public class TipService {
     private AttachmentRepository attachmentRepository;
     @Autowired
     private MemberRepository memberRepository;
-    public Page<TipListDto> findAll(Pageable pageable) {
-        Page<Tip> tipPage = tipRepository.findAll(pageable);
+    @Autowired
+    private ZipRepository zipRepository;
+
+    public Page<TipListDto> findAllByZipId(Long zipId, Pageable pageable) {
+        Page<Tip> tipPage = tipRepository.findByZipId(zipId, pageable);
         return tipPage.map((tip) -> convertToTipListDto(tip)); // Page<BoardListDto>
     }
 
-    public void createTip(TipCreateDto tipCreateDto) {
-        Tip tip=tipRepository.save(convertToTip(tipCreateDto));
+    public void createTip(TipCreateDto tipCreateDto,String username) {
+        Tip tip=tipRepository.save(convertToTip(tipCreateDto,username));
+
+
         tipCreateDto.getAttachments().forEach((attachmentCreateDto -> {
             attachmentCreateDto.setRefId(tip.getId());
             attachmentService.createAttachment(attachmentCreateDto);
         }));
+
     }
 
-    private Tip convertToTip(TipCreateDto tipCreateDto) {
-        return modelMapper.map(tipCreateDto, Tip.class);
+    private Tip convertToTip(TipCreateDto tipCreateDto,String username) {
+        Member member = memberRepository.findByMemberId(username);
+        Zip zip = zipRepository.findByUsername(username);
+        Tip tip = modelMapper.map(tipCreateDto, Tip.class);
+        tip.setMember(member);
+        tip.setZip(zip);
+
+        return tip;
     }
 
     private TipListDto convertToTipListDto(Tip tip) {

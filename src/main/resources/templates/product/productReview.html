@@ -9,43 +9,45 @@
 <style layout:fragment="style"></style>
 
 <div layout:fragment="content">
-	<table>
-		<tbody>
-			<div th:each="review, status: ${reviews}">
-				<tr>
-					<td>
-						<span th:text="${review.memberId}"></span>
-					</td>
-					<td>
-						<span th:text="${review.reviewRegdate}"></span>
-					</td>
-					<td>
-						<span th:text="|별점|"></span>
-						<spane th:each="i : ${#numbers.sequence(1, review.starPoint)}" th:text="|★|"></spane>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<span th:text="${review.reviewContent}"></span>
-						<span th:if="${review.memberId == member.memberId}">
-							<form th:action="@{/product/reviewfurcate.do}" method="post">
-								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-								<input type="hidden" th:name="reviewerId" th:value="${review.memberId}"/>
-								<input type="hidden" th:name="reviewId" th:value="${review.id}"/>
-								<input type="hidden" th:name="productId" th:value="${productId}"/>
-								<button type="submit" name="action" value="update">수정</button>
-								<button type="submit" name="action" value="delete">삭제</button>
-							</form>
-						</span>
-					</td>
-				</tr>
-			</div>
-		</tbody>
-	</table>
-	<button th:onclick="|location.href = '@{productReviewCreatePage.do}?id=${productId}';|">리뷰 작성</button>
-	<div id="pagebar">
+	<div class="container mx-auto">
+		<table class="min-w-full">
+			<tbody>
+				<div th:each="review, status: ${reviews}">
+					<tr>
+						<td class="py-4">
+							<span th:text="${review.memberId}" class="font-bold"></span>
+						</td>
+						<td class="py-4">
+							<span th:text="${review.reviewRegdate}" class="text-gray-500"></span>
+						</td>
+						<td class="py-4">
+							<span class="text-yellow-500">별점: </span>
+							<span th:each="i : ${#numbers.sequence(1, review.starPoint)}" class="text-yellow-500">★</span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3" class="py-4">
+							<span th:text="${review.reviewContent}" class="block mb-2"></span>
+							<span th:if="${review.memberId == member.memberId}" class="text-right">
+								<form th:action="@{/product/reviewfurcate.do}" method="post">
+									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+									<input type="hidden" th:name="reviewerId" th:value="${review.memberId}"/>
+									<input type="hidden" th:name="reviewId" th:value="${review.id}"/>
+									<input type="hidden" th:name="productId" th:value="${productId}"/>
+									<button type="submit" name="action" value="update" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">수정</button>
+									<button type="submit" name="action" value="delete" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">삭제</button>
+								</form>
+    						</span>
+						</td>
+					</tr>
+				</div>
+			</tbody>
+		</table>
+	</div>
+	<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-right" th:onclick="|location.href = '@{productReviewCreatePage.do}?id=${productId}';|">리뷰 작성</button>
+	<div id="pagebar" class="mt-4">
 		<nav aria-label="Page navigation example">
-			<ul class="pagination justify-content-center">
+			<ul class="pagination flex justify-center">
 				<th:block th:utext="${pagebar}"/>
 			</ul>
 		</nav>

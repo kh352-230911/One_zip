@@ -36,10 +36,6 @@ public class Zip {
     private String content;
     @CreationTimestamp
     private LocalDate regDate;
-    @OneToMany
-    @JoinColumn(name = "ref_id")
-    @Builder.Default
-    private List<Attachment> attachments = new ArrayList<>();
     private String colorCode;
     private int dayCount;
     private int totalCount;

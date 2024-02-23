@@ -140,8 +140,8 @@
       </div>
       <div class="menu_bar">
         <a th:href="@{'/zip/zipDetail.do?id=' + ${zip.id}}" class="menu_button1">홈</a>
-        <a th:href="@{/zip/photo.do}" class="menu_button3">팁공유</a>
-        <a th:href="@{/zip/diary.do}" class="menu_button2">다이어리</a>
+        <a th:href="@{/community/tipList.do}" class="menu_button3">팁공유</a>
+        <a th:href="@{/community/diary.do}" class="menu_button2">다이어리</a>
         <a th:href="@{/zip/visit.do}" class="menu_button4">방명록</a>
         <a th:href="@{'/zip/zipUpdate.do?id=' + ${session.zip.id}}" th:if="${session.zip.id} == ${zipId}" class="menu_button5">집 꾸미기</a>
       </div>

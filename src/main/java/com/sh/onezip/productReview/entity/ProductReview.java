@@ -31,7 +31,7 @@ public class ProductReview {
 //    @Column(name = "product_no")
 //    @JoinColumn(name = "product_no")
 //    private Long productNo;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY) // 02-23 EAGER->LAZY
     @JoinColumn(name = "product_no")
     private Product product;
     @Column(name = "reviewContent")
