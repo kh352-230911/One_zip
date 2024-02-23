@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface ZipRepository extends JpaRepository<Zip, Long> {
     @Query("from Zip z join fetch z.member m where m.memberId = ?1")
     Optional<Zip> findByMemberId(String memberId);
+
+    @Query("from Zip z join fetch z.member m where m.memberId = ?1")
+    Zip findByUsername(String memberId);
 }

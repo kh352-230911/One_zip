@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
     @Query("SELECT d from Diary d left join fetch d.zip")
     Page<Diary> findAll(Pageable pageable);
+    @Query("SELECT d FROM Diary d WHERE d.zip.id = :zipId")
+    Page<Diary> findByZipId(Long zipId, Pageable pageable);
 }
