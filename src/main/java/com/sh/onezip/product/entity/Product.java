@@ -35,7 +35,7 @@ public class Product implements Comparable<Product> {
     private Long id;
     @Column
     private String productName;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY) // 02-17: EAGER->LAZY
     @JoinColumn(name = "biz_member_Id")
     private Businessmember businessmember;
     @Column

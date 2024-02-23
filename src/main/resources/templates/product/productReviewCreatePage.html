@@ -16,7 +16,7 @@
 			  enctype="multipart/form-data">
 			<input type="text" class="form-control mb-3" th:value="${Member.memberId}" name="reviewer" id="reviewer" readonly>
 <!--			<input type="text" class="form-control mb-3" placeholder="제목" th:text="${productReview.reviewContent}" name="reviewTitle" id="reviewTitle" required>-->
-			<input type="number" class="form-control mb-3" th:value="${productReview?.starPoint == null ? 0 : productReview.starPoint}" name="starPoint" id="starPoint" required>
+			<input type="number" class="form-control mb-3" th:value="${productReview?.starPoint == null ? 1 : productReview.starPoint}" name="starPoint" id="starPoint" min="1" max="5" required>
 			<input type="hidden" name="productNo" id="productNo" th:value="${id}">
 			<input th:if="${reviewId != null}" type="hidden" name="reviewId" id="reviewId" th:value="${reviewId}">
 			<!-- input:file소스 : https://getbootstrap.com/docs/4.1/components/input-group/#custom-file-input -->

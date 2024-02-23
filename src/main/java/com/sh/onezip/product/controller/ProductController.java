@@ -405,6 +405,19 @@ public class ProductController {
         }
         return "redirect:/product/productList.do?id=" + productId;
     }
+    
+//    선물하기/ 구매하기 분기 처리 RequestMapping Method
+//    @PostMapping("/productDetailFurcate.do")
+//    public String productDetailFurcate(@RequestParam("action") String action,
+//                                     @RequestParam("productId") Long productId,
+//                                     RedirectAttributes redirectAttributes){
+//        if ("purchase".equals(action)) {
+//            return "redirect:product/productPurchaseInfo.do?id=" + ;
+//        } else if ("gift".equals(action)) {
+//            return "redirect:/product/productQna.do?id=" + productId;
+//        }
+//
+//    }
 
     @PostMapping("/productPayment.do")
     public void productPayment(@RequestParam ("sellPrice") String sellPrice,
