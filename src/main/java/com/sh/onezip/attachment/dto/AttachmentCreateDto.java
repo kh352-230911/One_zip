@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AttachmentCreateDto {
+    private Long id;
     private Long refId;
     private String refType;
     private String originalFilename; // 업로드한 파일명

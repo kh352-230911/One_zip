@@ -18,7 +18,9 @@ import jakarta.persistence.Tuple;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -35,6 +37,7 @@ import javax.management.Notification;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/zip")
@@ -51,9 +54,11 @@ public class ZipController {
     private S3FileService s3FileService;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    public ModelMapper modelMapper;
     @ModelAttribute
     public void addCommonAttributes(Model model, @RequestParam(required = false) Long id, HttpServletRequest req) {
-        if(req.getRequestURI().indexOf("/zipCreate.do") > 0 || req.getRequestURI().indexOf("/zipSearch") > 0)
+        if(req.getRequestURI().indexOf("/zipCreate.do") > 0 || req.getRequestURI().indexOf("/zipSearch") > 0 || req.getRequestURI().indexOf("/zipUpload") > 0)
             return;
         ZipDetailDto zipDetailDto = zipService.findById(id);
         if (zipDetailDto != null) {
@@ -81,6 +86,24 @@ public class ZipController {
         }
     }
 
+    @RequestMapping(value = "/zipSearch", method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public Map zipSearch(@RequestParam("memberId") String memberId) {
+        // memberId로 회원의 집 정보를 검색
+        Optional<Zip> zipOptional = zipService.findByMemberId(memberId);
+        HashMap map = new HashMap();
+        if (zipOptional.isPresent()) {
+            // 검색된 집의 ID를 가져와서 상세 정보 페이지로 리다이렉트
+            long zipId = zipOptional.get().getId();
+            map.put("zipId", zipId);
+        } else {
+            map.put("zipId", "error");
+            // 검색된 회원의 집이 없는 경우 적절한 처리를 할 수 있음
+            // 예를 들어 에러 페이지로 이동하거나 메시지를 표시할 수 있음
+        }
+        return map;
+    }
+
     @GetMapping("/zipDetail.do")
     public void zipDetail(@RequestParam("id") Long id, Model model){
         ZipDetailDto zipDetailDto = zipService.findById(id);
@@ -91,7 +114,7 @@ public class ZipController {
     @GetMapping("/zipCreate.do")
     public String zipCreate(@AuthenticationPrincipal MemberDetails memberDetails){
         Optional<Zip> optZip = zipService.findByMemberId(memberDetails.getMember().getMemberId());
-        return optZip.map(zip -> "redirect:/zip/zipDetail.do?id=" + zip.getId()).orElse("redirect:/");
+        return optZip.map(zip -> "redirect:/zip/zipDetail.do?id=" + zip.getId()).orElse("zip/zipCreate");
     }
 
     @PostMapping("/zipCreate.do")
@@ -114,14 +137,16 @@ public class ZipController {
     }
 
     @GetMapping("/zipUpdate.do")
-    public void zipUpdate(){
-
+    public String zipUpdate(){
+        return "/zip/zipUpdate";
     }
-    @PostMapping("/zipUpdate.do")
+    @PostMapping(value = "/zipUpload.do", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ResponseBody
     public String zipUpdate(
             @Valid ZipUpdateDto zipUpdateDto,
             BindingResult bindingResult,
             @RequestParam("upFile") List<MultipartFile> upFiles,
+            @RequestParam("fileType") String[] fileType,
             @AuthenticationPrincipal MemberDetails memberDetails,
             RedirectAttributes redirectAttributes,
             HttpServletRequest req)
@@ -132,21 +157,21 @@ public class ZipController {
             throw new RuntimeException(message);
         }
         // 첨부파일 S3에 저장
-        for(MultipartFile upFile : upFiles) {
-            if(upFile.getSize() > 0) {
-                AttachmentCreateDto attachmentCreateDto = s3FileService.upload(upFile);
-                log.debug("attachmentCreateDto = {}", attachmentCreateDto);
-                zipUpdateDto.addAttachmentCreateDto(attachmentCreateDto);
+        List<AttachmentCreateDto> AttachmentCreates = new ArrayList<>();
+        for(int i = 0; i < upFiles.size(); i++) {
+            if(upFiles.get(i).getSize() > 0) {
+                AttachmentCreateDto attachmentCreateDto = s3FileService.upload(upFiles.get(i));
+                attachmentCreateDto.setRefType(fileType[i]);
+                AttachmentCreates.add(attachmentCreateDto);
             }
         }
-
         // DB에 저장(게시글, 첨부파일)
-        zipUpdateDto.setMemberId(memberDetails.getMember().getMemberId());
-        zipService.updateZip(zipUpdateDto);
+        zipUpdateDto.setId(memberDetails.getMember().getZip().getId());
+        zipUpdateDto.setMember(memberDetails.getMember());
 
-        redirectAttributes.addFlashAttribute("msg", "집 정보가 수정되었습니다.");
-
-        return "redirect:/zip/zipDetail.do";
+        zipService.updateZip(zipUpdateDto, AttachmentCreates, "ZP");
+        //redirectAttributes.addFlashAttribute("msg", "집 정보가 수정되었습니다.");
+        return "집 정보가 수정되었습니다.";
     }
 
     @GetMapping("/fileDownload.do")
@@ -156,11 +181,14 @@ public class ZipController {
         notificationService.notifyFileDownload(id);
         // 파일다운로드 업무로직
         AttachmentDetailDto attachmentDetailDto = attachmentService.findById(id);
-        return s3FileService.download(attachmentDetailDto);
+        String imageUrl = s3FileService.getUrl(attachmentDetailDto.getUrl());
+        Map<String, String> responseData = new HashMap<>();
+        responseData.put("imageUrl", imageUrl);
+        return ResponseEntity.ok(responseData);
     }
 
 
-    //    @PostMapping("/zipUpdate.do")
+//        @PostMapping("/zipUpdate.do")
 //    public String zipUpdate(@Valid ZipUpdateDto zipUpdateDto,
 //                            BindingResult bindingResult,
 //                            RedirectAttributes redirectAttributes){
@@ -177,23 +205,6 @@ public class ZipController {
 //
 //        return "redirect:/zip/zipDetail.do";
 //    }
-    @RequestMapping(value = "/zipSearch", method = {RequestMethod.GET,RequestMethod.POST})
-    @ResponseBody
-    public Map zipSearch(@RequestParam("memberId") String memberId) {
-        // memberId로 회원의 집 정보를 검색
-        Optional<Zip> zipOptional = zipService.findByMemberId(memberId);
-        HashMap map = new HashMap();
-        if (zipOptional.isPresent()) {
-            // 검색된 집의 ID를 가져와서 상세 정보 페이지로 리다이렉트
-            long zipId = zipOptional.get().getId();
-            map.put("zipId", zipId);
-        } else {
-            map.put("zipId", "error");
-            // 검색된 회원의 집이 없는 경우 적절한 처리를 할 수 있음
-            // 예를 들어 에러 페이지로 이동하거나 메시지를 표시할 수 있음
-        }
-        return map;
-    }
 
     @GetMapping("/diary.do")
     public void diary(){}

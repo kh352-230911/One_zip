@@ -1,5 +1,6 @@
 package com.sh.onezip.zip.service;
 
+import com.sh.onezip.attachment.dto.AttachmentCreateDto;
 import com.sh.onezip.attachment.service.AttachmentService;
 import com.sh.onezip.zip.dto.ZipCreateDto;
 import com.sh.onezip.zip.dto.ZipDetailDto;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -80,15 +83,20 @@ public class ZipService {
         return date1.toLocalDate().isEqual(date2.toLocalDate());
     }
 
-    public void updateZip(ZipUpdateDto zipUpdateDto){
-        Zip zip = zipRepository.save(convertToZip2(zipUpdateDto));
-        zipUpdateDto.getAttachments().forEach((attachmentCreateDto -> {
-            attachmentCreateDto.setRefId(zip.getId());
-            attachmentService.createAttachment(attachmentCreateDto);
-        }));
+    public void saveAttachment(List<AttachmentCreateDto> attachments, Long zipId, String refType){
+
     }
 
-    private Zip convertToZip2(ZipUpdateDto zipUpdateDto){
+    public void updateZip(ZipUpdateDto zipUpdateDto, List<AttachmentCreateDto> attachments, String refType){
+        attachments.forEach((attachmentCreateDto -> {
+            attachmentCreateDto.setRefId(zipUpdateDto.getId());
+            attachmentCreateDto.setRefType(refType);
+            attachmentService.createAttachment(attachmentCreateDto);
+        }));
+        zipRepository.save(convertToZip2(zipUpdateDto));
+    }
+
+    public Zip convertToZip2(ZipUpdateDto zipUpdateDto){
         return modelMapper.map(zipUpdateDto, Zip.class);
     }
 }

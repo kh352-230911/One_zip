@@ -18,10 +18,12 @@ public class AttachmentService {
     private ModelMapper modelMapper;
 
     public void createAttachment(AttachmentCreateDto attachmentCreateDto){
-        attachmentRepository.save(convertToAttachment(attachmentCreateDto));
+        Attachment attachment = convertToAttachment(attachmentCreateDto);
+        attachment.setId(null);
+        attachmentRepository.save(attachment);
     }
 
-    private Attachment convertToAttachment(AttachmentCreateDto attachmentCreateDto){
+    public Attachment convertToAttachment(AttachmentCreateDto attachmentCreateDto){
         return modelMapper.map(attachmentCreateDto, Attachment.class);
     }
 

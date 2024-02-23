@@ -40,7 +40,7 @@ public class S3FileService {
         amazonS3Client.putObject(bucket, key, upFile.getInputStream(), objectMetadata);
         // url조회
         String url = amazonS3Client.getUrl(bucket, key).toString();
-        return new AttachmentCreateDto(null, null, upFile.getOriginalFilename(), key, url);
+        return new AttachmentCreateDto(null, null, null, upFile.getOriginalFilename(), key, url);
     }
 
     public ResponseEntity<?> download(AttachmentDetailDto attachmentDetailDto) throws UnsupportedEncodingException {
@@ -49,5 +49,8 @@ public class S3FileService {
                 .ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + URLEncoder.encode(attachmentDetailDto.getOriginalFilename(), "UTF-8"))
                 .body(resource);
+    }
+
+    public String getUrl(String url) {
     }
 }
