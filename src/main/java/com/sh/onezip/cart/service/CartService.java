@@ -75,11 +75,11 @@ public class CartService {
 
     public Cart convertToCart(ProductCartCreateDto productCartCreateDto) {
         Cart cart = modelMapper.map(productCartCreateDto, Cart.class);
-        cart.setProduct(productRepository.findById(productCartCreateDto.getId()).orElse(null));
+        cart.setProduct(productRepository.findById(productCartCreateDto.getProductId()).orElse(null));
         ProductOption productOption =
                 productOptionRepository.findById(
                         Long.parseLong(productCartCreateDto.getSelectOption().split("#")[0])).orElse(null);
-        Product product = productRepository.findById(productCartCreateDto.getId()).orElse(null);
+        Product product = productRepository.findById(productCartCreateDto.getProductId()).orElse(null);
         cart.setOptionCost(productOption.getOptionCost());
         cart.setPoptionName(productOption.getOptionName());
         cart.setTotalStock(productOption.getTotalStock());

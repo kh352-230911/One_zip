@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ProductCartCreateDto {
-    private Long id; // productId;
+    private Long productId; // productId;
     private String selectOption; // 선택된 옵션 값 [0]: optionId, [1]: optionCost
 //    private int productQuantity; // 상품 수량
     private int totalPrice; // 총 금액(옵션 금액 포함)

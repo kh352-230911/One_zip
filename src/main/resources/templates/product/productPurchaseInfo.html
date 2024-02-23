@@ -1,100 +1,89 @@
 <!DOCTYPE html>
 <html
-        xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout/default}">
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layout/default}">
 <head>
-    <title>구매 정보 확인</title>
+	<title>구매 정보 확인</title>
 </head>
 <style layout:fragment="style"></style>
 
-<div layout:fragment="content">
+<div layout:fragment="content" class="flex flex-col items-center">
 	<form name="boardFrm"
 		  th:action="@{/product/productPayment.do}"
 		  method="post"
-		  enctype="multipart/form-data">
-	<table>
-		<tbody>
-		<div th:style="'font-size: 70px;'">
-			배송정보
+		  enctype="multipart/form-data"
+		  class="w-full max-w-lg bg-white p-8 rounded-lg shadow-md">
+
+		<!-- 배송정보 -->
+		<div class="text-4xl font-bold mb-8 text-center">배송정보</div>
+		<div class="mb-4">
+			<label for="deliveryAddress" class="block text-gray-700">배송지:</label>
+			<p id="deliveryAddress" class="mt-2 text-gray-800">[[${productPurchaseInfoDto.member.name}]]님의 배송지</p>
 		</div>
-		<tr>
-			<td style="width: 130px;">배송지:</td>
-			<td>
-				[[${productPurchaseInfoDto.member.name}]]님의 배송지
-			</td>
-		</tr>
-		<tr>
-			<td style="width: 130px;">이름 / 연락처:</td>
-			<td>[[${productPurchaseInfoDto.member.name}]] / [[${productPurchaseInfoDto.member.phone}]]</td>
-		</tr>
-		<tr>
-			<td>주소:</td>
-			<td>
-				<input th:value="${productPurchaseInfoDto.member.memberAddr}" readonly>
-			</td>
-		</tr>
-		<tr>
-			<td style="width: auto;">배송 요청사항:</td>
-			<td>
-				<input type="text" placeholder="배송 시 요청사항을 선택해주세요.">
-			</td>
-		</tr>
-		</tbody>
-	</table>
-	<table>
-		<tbody>
-		<div th:style="'font-size: 70px;'">
-			상품정보
+		<div class="mb-4">
+			<label for="namePhone" class="block text-gray-700">이름 / 연락처:</label>
+			<p id="namePhone" class="mt-2 text-gray-800">[[${productPurchaseInfoDto.member.name}]] / [[${productPurchaseInfoDto.member.phone}]]</p>
 		</div>
-		<tr>
-			<td style="width: 130px; text-align: center;">상품 정보</td>
-			<td style="width: 130px; text-align: center;">수량</td>
-		</tr>
-		<tr>
-			<td style="width: 130px;">
-				<input type="text" th:value="${productPurchaseInfoDto.productName}" style="border: none; outline: none; text-align: center;" readonly>
-			</td>
-			<td style="width: 130px;">
-				<input type="text" th:value="${productPurchaseInfoDto.productQuantity}" style="border: none; outline: none; text-align: center;" readonly>
-			</td>
-		</tr>
-		</tbody>
-	</table>
-	<table>
-		<tbody>
-		<div th:style="'font-size: 70px;'">
-			최종 결제 금액
+		<div class="mb-4">
+			<label for="address" class="block text-gray-700">주소:</label>
+			<input id="address" name="" th:value="${productPurchaseInfoDto.member.memberAddr}" readonly class="mt-2 p-2 w-full border border-gray-300 rounded" lang="ko-KR">
 		</div>
-		<tr>
-			<td>상품 금액:</td>
-			<td style="width: auto;">
-				<input type="number" th:value="${productPurchaseInfoDto.totalProductPrice}" style="border: none; outline: none; text-align: right;" readonly>원
-			</td>
-		</tr>
-		<tr>
-			<td>상품 할인:</td>
-			<td style="width: auto;">
-				<input type="number" th:value="-${productPurchaseInfoDto.totalDiscountPrice}" style="border: none; outline: none; text-align: right; color: red" readonly>원
-			</td>
-		</tr>
-		<tr>
-			<td>배송비:</td>
-			<td style="text-align: right;">배송비 무료</td>
-		</tr>
-		<tr>
-			<td>최종 금액:</td>
-			<td style="text-align: right;">
-				<input type="number" th:value="${productPurchaseInfoDto.sellPrice}" style="border: none; outline: none; text-align: right; color: blue" readonly>원
-			</td>
-		</tr>
-		</tbody>
-	</table>
-		<button>
+		<div class="mb-4">
+			<label for="shippingRequest" class="block text-gray-700">배송 요청사항:</label>
+			<input type="text" id="shippingRequest" name="shippingRequest" th:value="|배송 시 요청사항을 선택해주세요.|" placeholder="배송 시 요청사항을 선택해주세요." required class="mt-2 p-2 w-full border border-gray-300 rounded">
+		</div>
+
+		<!-- 상품정보 -->
+		<div class="text-4xl font-bold mb-8 text-center">상품정보</div>
+		<div class="grid grid-cols-3 gap-4 mb-4">
+			<div class="col-span-1">
+				<label for="productName" class="block text-center text-gray-700">상품 정보</label>
+				<input type="text" id="productName" name="productName" th:value="${productPurchaseInfoDto.productName}" readonly class="mt-2 p-2 w-full border border-gray-300 rounded" lang="ko-KR">
+			</div>
+			<div class="col-span-1">
+				<label for="productQuantity" class="block text-center text-gray-700">수량</label>
+				<input type="text" name="productQuantity" th:value="${productPurchaseInfoDto.productQuantity}" readonly class="mt-2 p-2 w-full border border-gray-300 rounded" lang="ko-KR">
+			</div>
+			<div class="col-span-1">
+				<label for="productOption" class="block text-center text-gray-700">상품 옵션</label>
+				<input id="productOption" th:if="${productPurchaseInfoDto.productOption}" type="text" th:value="${productPurchaseInfoDto.productOption.optionName}" readonly class="mt-2 p-2 w-full border border-gray-300 rounded" lang="ko-KR">
+			</div>
+		</div>
+
+		<!-- 최종 결제 금액 -->
+		<div class="text-4xl font-bold mb-8 text-center">최종 결제 금액</div>
+		<div class="mb-4">
+			<label for="productPrice" class="block text-gray-700">상품 금액:</label>
+			<input type="number" id="productPrice" th:value="${productPurchaseInfoDto.totalProductPrice}" readonly class="mt-2 p-2 w-full border border-gray-300 rounded" lang="ko-KR">
+		</div>
+		<div class="mb-4">
+			<label for="discountPrice" class="block text-gray-700">상품 할인:</label>
+			<input type="number" id="discountPrice" th:value="-${productPurchaseInfoDto.totalDiscountPrice}" readonly class="mt-2 p-2 w-full border border-gray-300 rounded text-red-500" lang="ko-KR">
+		</div>
+		<div class="mb-4">
+			<label for="shippingFee" class="block text-gray-700">배송비:</label>
+			<p class="mt-2 text-right text-gray-800" id="shippingFee">배송비 무료</p>
+		</div>
+		<div class="mb-4">
+			<label for="optionCost" class="block text-gray-700">옵션추가비용:</label>
+			<input type="number" id="optionCost" th:value="${productPurchaseInfoDto.totalOptionCost}" readonly class="mt-2 p-2 w-full border border-gray-300 rounded text-red-500" lang="ko-KR">
+		</div>
+		<div class="mb-4">
+			<label for="finalPrice" class="block text-gray-700">최종 금액:</label>
+			<input type="number" name="sellPrice" id="finalPrice" th:value="${productPurchaseInfoDto.sellPrice}" readonly class="mt-2 p-2 w-full border border-gray-300 rounded text-blue-500" lang="ko-KR">
+		</div>
+
+		<button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
 			[[${productPurchaseInfoDto.sellPrice}]]원 결제하기
 		</button>
+
+		<input type="hidden" name="productId" id="productId" th:value="${productPurchaseInfoDto.id}">
+		<input type="hidden" name="productQuantity" id="productQuantity" th:value="${productPurchaseInfoDto.productQuantity}">
+		<input th:if="${productPurchaseInfoDto.productOption != null}" type="hidden" name="productOptId" id="productOptId" th:value="${productPurchaseInfoDto.productOption.id}">
 	</form>
 </div>
+
 
 <script layout:fragment="script"></script>
 </html>

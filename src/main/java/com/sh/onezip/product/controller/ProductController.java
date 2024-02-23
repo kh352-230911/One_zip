@@ -18,6 +18,7 @@ import com.sh.onezip.productReview.dto.ProductReviewCreateDto;
 import com.sh.onezip.productReview.dto.ProductReviewDto;
 import com.sh.onezip.productReview.entity.ProductReview;
 import com.sh.onezip.productReview.service.ProductReviewService;
+import com.sh.onezip.productoption.entity.ProductOption;
 import com.sh.onezip.productoption.service.ProductOptionService;
 import com.sh.onezip.productquestion.dto.ProductQuestionCreateDto;
 import com.sh.onezip.productquestion.dto.ProductQuestionDto;
@@ -106,11 +107,14 @@ public class ProductController {
     }
 
     @GetMapping("/productDetail.do")
-    public void productDetail(@RequestParam("id") Long id, Model model) {
+    public void productDetail(@RequestParam("id") Long id,
+                              Model model) {
         ProductDetailDto productDetailDto = productService.productDetailDtofindById(id);
+        List<ProductOption> productOptions = productOptionService.findAllByProductId(productDetailDto.getId());
+        productDetailDto.setProductOptions(productOptions);
+
         model.addAttribute("product", productDetailDto);
         log.debug("product = {}", productDetailDto);
-
     }
 
     @PostMapping("/productPurchaseInfo.do")
@@ -118,17 +122,50 @@ public class ProductController {
             @AuthenticationPrincipal MemberDetails memberDetails,
             @RequestParam("productId") Long id,
             @RequestParam("productQuantity") int productQuantity,
+            @RequestParam(value = "selectOption", required = false) String selectOption,
+            HttpServletRequest httpServletRequest,
             Model model){
         Member member = memberDetails.getMember();
+        List<ProductOption> productOptions = productOptionService.findAllByProductId(id);
+        Product product = productService.findById(id).orElse(null);
+
+        Long Optionid = 0L;
+        try {
+            Optionid = Long.parseLong(httpServletRequest.getParameter("selectOption").split("#")[0]);
+        } catch (Exception e) {}
+
+//         index-0: option id, index-1: option additional cost
+        String[] selectOptionArr = selectOption.split("#");
+        Long optionId = Long.parseLong(selectOptionArr[0]); // 선택 옵션 고유번호
+        int additionalCost = Integer.parseInt(selectOptionArr[1]); // 선택 옵션 추가 요금
+
+        ProductOption productOption = productOptionService.findById(Optionid);
+
+
         ProductPurchaseInfoDto productPurchaseInfoDto = productService.productPurchaseInfoDtofindById(id);
+
+        productPurchaseInfoDto.setOptionId(optionId);
+        productPurchaseInfoDto.setAdditionalCost(additionalCost);
+
+        int totalOptionCost = 0;
+        if(productOption != null){
+            productPurchaseInfoDto.setProductOption(productOption);
+            totalOptionCost = productPurchaseInfoDto.getProductOption().getOptionCost() * productQuantity;
+            productPurchaseInfoDto.setTotalOptionCost(totalOptionCost);
+        }
+
         productPurchaseInfoDto.setMember(member);
         productPurchaseInfoDto.setProductQuantity(productQuantity);
+
+        productPurchaseInfoDto.setProductOptionLists(productOptions);
+
         int totalPrice = productPurchaseInfoDto.getProductPrice() * productQuantity;
+
         double discountRate = (double)productPurchaseInfoDto.getDiscountRate()/100;
         productPurchaseInfoDto.setTotalProductPrice(totalPrice);
         int totalDiscountPrice = (int)((totalPrice) * (discountRate));
         productPurchaseInfoDto.setTotalDiscountPrice(totalDiscountPrice);
-        productPurchaseInfoDto.setSellPrice(totalPrice - totalDiscountPrice);
+        productPurchaseInfoDto.setSellPrice(totalPrice - totalDiscountPrice + totalOptionCost);
         model.addAttribute("productPurchaseInfoDto", productPurchaseInfoDto);
     }
 
@@ -370,7 +407,7 @@ public class ProductController {
     }
 
     @PostMapping("/productPayment.do")
-    public void productPayment(@RequestParam ("sellPrice") int sellPrice,
+    public void productPayment(@RequestParam ("sellPrice") String sellPrice,
                                @RequestParam ("productName") String productName,
                                @RequestParam ("shippingRequest") String shippingRequest,
                                @RequestParam ("productId") Long productId,
@@ -394,7 +431,7 @@ public class ProductController {
                 .refundCheck(RefundCheck.N)
                 .memo(shippingRequest)
                 .arrAddr(member.getMemberAddr())
-                .totalPayAmount(sellPrice)
+                .totalPayAmount(Integer.parseInt(sellPrice))
                 .build();
         ProductLog productLog = productLogService.createProductLog(newProductLog);
         model.addAttribute("member", member);
