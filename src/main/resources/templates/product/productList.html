@@ -39,24 +39,50 @@
     <section id="product-container" class="container mx-auto px-4 py-8">
         <p class="text-lg font-semibold text-gray-800">총 [[${totalCount}]]건의 상품이 조회되었습니다.</p>
         <div class="overflow-x-auto">
-            <table id="tbl-product" class="table-auto w-full bg-white shadow-md rounded-lg overflow-hidden">
-                <thead class="bg-gray-200 text-gray-700">
-                <tr>
-                    <th class="px-4 py-2">상품명</th>
-                    <th class="px-4 py-2">상점명</th>
-                    <th class="px-4 py-2">판매가격</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="product, status : ${products}" th:data-product-id="${product.id}">
-                    <a>
-                        <td class="border px-4 py-2 text-blue-500 hover:underline" th:text="${product.productName}"></td>
-                        <td class="border px-4 py-2" th:text="${product.bizName}"></td>
-                        <td class="border px-4 py-2" th:text="|${product.sellPrice}원|"></td>
-                    </a>
-                </tr>
-                </tbody>
-            </table>
+
+
+<!--            <table id="tbl-product" class="table-auto w-full bg-white shadow-md rounded-lg overflow-hidden">-->
+<!--                <thead class="bg-gray-200 text-gray-700">-->
+<!--                <tr>-->
+<!--                    <th class="px-4 py-2">상품명</th>-->
+<!--                    <th class="px-4 py-2">상점명</th>-->
+<!--                    <th class="px-4 py-2">판매가격</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                <tr th:each="product, status : ${products}" th:data-product-id="${product.id}">-->
+<!--                    <a>-->
+<!--                        <td class="border px-4 py-2 text-blue-500 hover:underline" th:text="${product.productName}"></td>-->
+<!--                        <td class="border px-4 py-2" th:text="${product.bizName}"></td>-->
+<!--                        <td class="border px-4 py-2" th:text="|${product.sellPrice}원|"></td>-->
+<!--                    </a>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
+
+
+            <div class="mt-6 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-3 lg:grid-cols-3">
+                <div th:each="product, status : ${products}" class="group relative">
+                    <div class="aspect-h-3 aspect-w-4 overflow-hidden rounded-lg bg-gray-100">
+                        <img th:src="@{/images/일반회원.png}" alt="상품 설명" class="object-cover object-center" />
+                        <div class="flex items-end p-4 opacity-0 group-hover:opacity-100" aria-hidden="true">
+                            <div class="w-full rounded-md bg-blue-500 bg-opacity-75 px-4 py-2 text-center text-sm font-medium text-white backdrop-blur backdrop-filter">
+                                상품 보기
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center justify-between space-x-8 text-base font-medium text-gray-900">
+                        <h3>
+                            <a href="#"><span aria-hidden="true" class="absolute inset-0" th:text="${product.productName}"></span></a>
+                        </h3>
+                        <p th:text="${product.sellPrice} + '원'"></p>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-500" th:text="${product.bizName}"></p>
+                </div>
+                <!-- 반복 블록 끝 -->
+            </div>
+
+
         </div>
         <div id="pagebar" class="mt-4">
             <nav aria-label="Page navigation example">
