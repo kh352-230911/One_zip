@@ -1,82 +1,65 @@
 <!DOCTYPE html>
-<html
-        xmlns:th="httP://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--    <script src="https://cdn.tailwindcss.com"></script>-->
     <link rel="stylesheet" href="/createMember.css" />
-    <!--    <link-->
-    <!--            href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css"-->
-    <!--            rel="stylesheet"-->
-    <!--    />-->
-    <!--    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />-->
-    <title>회원가입</title>
+    <title>ONEZIP</title>
 </head>
+<body class="bg-white text-black">
 <header th:fragment="header">
-    <nav class="bg-white border-gray-200 dark:bg-gray-900" style="position: relative; z-index: 9999;">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav class="bg-white border-gray-200 border-b" style="position: relative; z-index: 9999;">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 bg-white text-black">
             <a th:href="@{/}" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <h1 class="text-4xl">🏠</h1>
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">ONE.ZIP</span>
-                <form th:action="@{/auth/logout.do}" method="post" class="d-inline">
-                    <button class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" type="submit">로그아웃</button>
-                </form>
+                <span class="self-center text-2xl font-semibold whitespace-nowrap">ONE.ZIP</span>
             </a>
             <th:block sec:authorize="isAuthenticated()">
-                <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-<!--                    <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">-->
-<!--                        <span class="sr-only">Open user menu</span>-->
-<!--                        <img class="w-8 h-8 rounded-full" src="https://mblogthumb-phinf.pstatic.net/MjAyMDA1MDZfNTYg/MDAxNTg4NzI1MTUzODQ4.BwsJ8pnxflMMXOJaOa2I4iS9Kafmbx6UFwX6m_D4iX4g.InicniBOi-zZKtGE4Pi6oHxqfEUBVZEqIdoA2YnYi5kg.JPEG.leejy826/output_3493099570.jpg?type=w800" alt="user photo">-->
-<!--                    </button>-->
-                    <!-- Dropdown menu -->
-                    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
-<!--                        <div class="px-4 py-3">-->
-<!--                            <span sec:authentication="principal.username" th:title="${#authentication.authorities}" class="block text-sm text-gray-900 dark:text-white">님</span>-->
-<!--                            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">안녕하세요🙂</span>-->
-<!--                        </div>-->
-<!--                        <ul class="py-2" aria-labelledby="user-menu-button">-->
-<!--                            <li>-->
-<!--                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">마이룸</a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a th:href="@{/member/memberDetail.do}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">회원정보수정</a>-->
-<!--                            </li>-->
-                            <form th:action="@{/auth/logout.do}" method="post" class="d-inline">
-                                <button class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" type="submit">로그아웃</button>
-                            </form>
-<!--                        </ul>-->
+            <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                    <span class="sr-only">Open user menu</span>
+                    <img class="w-8 h-8 rounded-full" src="https://mblogthumb-phinf.pstatic.net/MjAyMDA1MDZfNTYg/MDAxNTg4NzI1MTUzODQ4.BwsJ8pnxflMMXOJaOa2I4iS9Kafmbx6UFwX6m_D4iX4g.InicniBOi-zZKtGE4Pi6oHxqfEUBVZEqIdoA2YnYi5kg.JPEG.leejy826/output_3493099570.jpg?type=w800" alt="user photo">
+                </button>
+                <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
+                    <div class="px-4 py-3">
+                        <span sec:authentication="principal.username" th:title="${#authentication.authorities}" class="block text-sm text-gray-900">님</span>
+                        <span class="block text-sm text-gray-500 truncate">안녕하세요😀</span>
                     </div>
-
-                    <!-- Dropdown menu 끝-->
-
-                    <button data-collapse-toggle="navbar-user" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
-                        <span class="sr-only">Open main menu</span>
-                    </button>
+                    <ul class="py-2" aria-labelledby="user-menu-button">
+                        <li>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">마이룸</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/member/memberDetail.do}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">회원정보수정</a>
+                        </li>
+                        <form th:action="@{/auth/logout.do}" method="post" class="d-inline">
+                        <button class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" type="submit">로그아웃</button>
+                        </form>
+                    </ul>
                 </div>
+            </div>
             </th:block>
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
-                <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                    <li class="nav-item">
-                        <a class="nav-link" th:if="${session.zip}" th:href="@{'/zip/zipDetail.do?id=' + ${session.zip.id}}">.𝒁𝒊𝒑</a>
-                        <a class="nav-link" th:unless="${session.zip}" th:href="@{/zip/zipCreate.do}">.𝒁𝒊𝒑</a>
+                <ul class="flex flex-col font-medium p-4 mt-4 border border-gray-100 rounded-lg bg-white md:p-0 md:space-x-8 md:flex-row md:mt-0 md:border-0 mt-3">
+                    <li>
+                        <a th:href="@{/zip/zipDetail.do}" class="block py-2 px-3 text-gray-900 hover:bg-gray-100 hover:border-b hover:border-gray-400 md:hover:bg-transparent md:p-0">미니홈피</a>
                     </li>
                     <li>
-                        <a th:href="@{/product/productList.do}"  class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">.𝑺𝒉𝒐𝒑𝒑𝒊𝒏𝒈</a>
+                        <a th:href="@{/product/productList.do}" class="block py-2 px-3 text-gray-900 hover:bg-gray-100 hover:border-b hover:border-gray-400 md:hover:bg-transparent md:p-0">쇼핑</a>
                     </li>
                     <th:block sec:authorize="isAnonymous()">
-                        <li>
-                            <a href="#" th:onclick="|location.href='@{/auth/login.do}';|" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">로그인</a>
-                        </li>
-                        <li>
-                            <a href="#" th:onclick="|location.href='@{/member/createMember.do}';|" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">회원가입</a>
-                        </li>
+                    <li>
+                        <a href="#" th:onclick="|location.href='@{/auth/login.do}';|" class="block py-2 px-3 text-gray-900 hover:bg-gray-100 hover:border-b hover:border-gray-400 md:hover:bg-transparent md:p-0">로그인</a>
+                    </li>
+                    <li>
+                        <a href="#" th:onclick="|location.href='@{/member/selectMemberType.do}';|" class="block py-2 px-3 text-gray-900 hover:bg-gray-100 hover:border-b hover:border-gray-400 md:hover:bg-transparent md:p-0">회원가입</a>
+                    </li>
                     </th:block>
                 </ul>
             </div>
         </div>
     </nav>
-    <script layout:fragment="script" th:src="@{/js/zip/zipList.js}"></script>
 </header>
+
+</body>
+</html>

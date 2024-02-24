@@ -9,6 +9,7 @@ public class MemberUpdateDto {
     private String memberId;
     @NotNull
     private String name;
+    private String nickname;
     private String memberAddr;
     private String memberDetailAddr;
     private String hobby;
