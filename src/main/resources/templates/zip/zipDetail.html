@@ -47,8 +47,15 @@
           <div class="profile">
             <div class="profile_1">
 <!--              <img class="profile_image" th:src="@{/images/iu.jpg}"/>-->
+<!--                <div th:each="attachment : ${zip.attachments}">-->
+<!--                    <img th:src="${attachment.url}" alt="Attachment Image">-->
+<!--                </div>-->
+
+                <!--                <div th:each="resource, status : ${resources}" th:data-resource-id="${resource.id}">-->
                 <div th:each="attachment : ${zip.attachments}">
-                    <img th:src="${attachment.url}" alt="Attachment Image">
+                    <th:block th:if="${attachments.size != 0}">
+                        <img th:src="${attachments.get(0).url}" class="w-24 h-24 m-auto hover:w-80 hover:h-64"/>
+                    </th:block>
                 </div>
             </div>
               <div class="content_title"><strong>소개글</strong><br></div>
