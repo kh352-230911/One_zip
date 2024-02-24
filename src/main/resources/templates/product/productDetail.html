@@ -5,48 +5,56 @@
 		layout:decorate="~{layout/default}">
 <head>
 	<title>게시글 상세보기</title>
-	<script>
-		const contextPath = `[[@{/}]]`;
-	</script>
 </head>
 <style layout:fragment="style"></style>
 
-<div layout:fragment="content">
-	<div id="product-container" class="w-50 mx-auto text-center">
-		<form name="productFrm"
-			  method="post">
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-			<p th:text="${product.productName}" th:style="'font-size: 40px;'"></p>
-			<span th:text="|할인 전: ${product.productPrice}원|" th:style="'text-decoration:line-through; margin-right: 10px;'"></span>
-			<input id="product-id" name="productId" type="hidden" th:value='${product.id}'>
-			<span th:text="|할인 후:|" th:style="'color: red;'"></span>
-			<span id="product-sellPrice" th:style="'color: red;'">[[${product.sellPrice}]]</span>
-			<span th:text="|원|" th:style="'color: red;'"></span>
-			<br>
-			<span th:text="|구매수량:|"><span th:style="'margin-right: 10px;'"></span></span>
-			<span><button id="plus-btn" class="quantity-btn">+</button></span>
-			<input id="product-quantity" name="productQuantity" type="text" value='1' style="width: 45px; border: none; outline: none; text-align: center;">
-			<span><button id="minus-btn" class="quantity-btn">-</button></span>
-			<br>
-			<span th:text="|최종 가격:|" th:style="'color: red;'"></span>
-			<input id="product-totalPrice" name="totalPrice" type="number" th:value="${product.sellPrice}" style="width: 100px; border: none; outline: none; text-align: center; color: red;" disabled readonly>
-			<span th:text="|원|" th:style="'color: red; margin-right: 50px;'"></span>
-			<br>
-			<!--			<button id="gift-btn" type="button" >선물하기</button>-->
-			<!--			<button id="purchase-btn" type="submit">구매하기</button>-->
-<!--			<button onclick="submitTo('gift')">선물하기</button>-->
-			<button onclick="submitTo('purchase')">구매하기</button>
-<!--			<button onclick="submitTo('cart')" th:onclick="|location.href ='@{cart.do}?memberId=${cart.member.memberId}';|">장바구니 </button>-->
+<div layout:fragment="content" class="flex flex-col items-center">
+	<div id="product-container" class="w-11/12 md:w-2/3 lg:w-1/2 mx-auto text-center my-8">
+		<form name="productFrm" id="myForm" method="post" class="bg-white p-8 rounded-lg shadow-md">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+			<p class="text-4xl font-bold mb-4" th:text="${product.productName}"></p>
+			<div class="flex items-center justify-center mb-4">
+				<p class="text-base text-gray-600 mr-4" th:text="|할인 전: ${product.productPrice}원|" style="text-decoration:line-through;"></p>
+				<input id="product-id" name="productId" type="hidden" th:value='${product.id}'>
+				<p class="text-red-500 font-bold mb-4">할인 후: <span id="product-sellPrice" th:text="${product.sellPrice}"></span>원</p>
+			</div>
+
+			<div th:if="!${#lists.isEmpty(product.productOptions)}" class="mb-4">
+				<select name="selectOption" id="selectOption" class="bg-gray-100 border border-gray-300 rounded px-4 py-2">
+                    <span th:each="productOption : ${product.productOptions}">
+                        <option th:value="|${productOption.id}#${productOption.optionCost}|"
+								th:text="|${productOption.optionName} +${productOption.optionCost}원|">
+                        </option>
+                    </span>
+				</select>
+			</div>
+
+			<div class="flex items-center justify-center mb-4">
+				<span class="mr-2">구매수량:</span>
+				<button id="plus-btn" class="quantity-btn">+</button>
+				<input id="product-quantity" name="productQuantity" type="text" value='1' style="width: 45px; border: none; outline: none; text-align: center;">
+				<button id="minus-btn" class="quantity-btn">-</button>
+			</div>
+
+			<div class="flex items-center justify-center mb-4">
+				<span class="mr-2 text-red-500 font-bold">최종 가격:</span>
+				<input id="product-totalPrice" name="totalPrice" type="number" th:value="${product.sellPrice}" style="width: 100px; border: none; outline: none; text-align: center; color: red;" disabled readonly>
+				<span class="ml-2 text-red-500 font-bold">원</span>
+			</div>
+
+			<div class="flex justify-center">
+				<button type="button" onclick="submitForm('purchase')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-4">구매하기</button>
+				<button type="button" onclick="submitForm('cart')" class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded">장바구니</button>
+			</div>
 		</form>
 	</div>
-	<div class="text-center" style="padding: 0 50px; background-color: gray;">
-		<button id="product-detail-list" th:text="|상품 상세보기|" style="margin-right: 200px; width: 150px;"
-				th:onclick="|location.href = '@{productDetailList.do}?id=${product.id}';|"></button>
-		<button id="product-review" th:text="|리뷰 상세보기|" style="margin-right: 200px; width: 150px;"
-				th:onclick="|location.href = '@{productReview.do}?id=${product.id}';|"></button>
-		<button id="product-qna" th:text="|Q&A|" style="width: 150px;"
-				th:onclick="|location.href = '@{productQna.do}?id=${product.id}';|"></button>
+
+	<div class="w-11/12 md:w-2/3 lg:w-1/2 my-8 justify-center mb-4">
+		<button id="product-detail-list" th:text="|상품 상세보기|" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg mr-4" th:onclick="|location.href = '@{productDetailList.do}?id=${product.id}';|"></button>
+		<button id="product-review" th:text="|리뷰 상세보기|" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg mr-4" th:onclick="|location.href = '@{productReview.do}?id=${product.id}';|"></button>
+		<button id="product-qna" th:text="|Q&A|" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg" th:onclick="|location.href = '@{productQna.do}?id=${product.id}';|"></button>
 	</div>
+	<input type="hidden" id="refOptionCost" th:value="0">
 </div>
 <script layout:fragment="script" th:src="@{/js/product/productDetail.js}"></script>
 </html>

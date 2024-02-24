@@ -1,8 +1,16 @@
 package com.sh.onezip.product.repository;
 
 import com.sh.onezip.businessproduct.repository.BusinessmemberRepository;
+import com.sh.onezip.member.entity.Member;
+import com.sh.onezip.member.repository.MemberRepository;
+import com.sh.onezip.orderproduct.entity.OrderProduct;
+import com.sh.onezip.orderproduct.repository.OrderProductRepository;
 import com.sh.onezip.product.entity.Product;
 
+import com.sh.onezip.productLog.entity.ProductLog;
+import com.sh.onezip.productLog.entity.RefundCheck;
+import com.sh.onezip.productLog.entity.ShppingState;
+import com.sh.onezip.productLog.repository.ProductLogRepository;
 import com.sh.onezip.productReview.entity.ProductReview;
 import com.sh.onezip.productReview.repository.ProductReviewRepository;
 import com.sh.onezip.productanswer.entity.ProductAnswer;
@@ -10,6 +18,7 @@ import com.sh.onezip.productimage.entity.PImageType;
 import com.sh.onezip.productimage.entity.ProductImage;
 import com.sh.onezip.productimage.repository.ProductImageRepository;
 import com.sh.onezip.productanswer.repository.ProductAnswerRepository;
+import com.sh.onezip.productoption.entity.ProductOption;
 import com.sh.onezip.productoption.repository.ProductOptionRepository;
 import com.sh.onezip.productquestion.entity.ProductQuestion;
 import com.sh.onezip.productquestion.repository.ProductQuestionRepository;
@@ -54,6 +63,12 @@ class ProductRepositoryTest {
     ProductAnswerRepository productAnswerRepository;
     @Autowired
     ProductReviewRepository productReviewRepository;
+    @Autowired
+    ProductLogRepository productLogRepository;
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    OrderProductRepository orderProductRepository;
 
     private List<Product> products;
 
@@ -233,6 +248,66 @@ class ProductRepositoryTest {
                 .isEqualTo("sinsa1");
         assertThat(productReview2.getReviewContent())
                 .isEqualTo("잘 먹었습니다.");
+    }
+
+    @Transactional
+    @DisplayName("회원은 주문 기록을 생성할 수 있습니다.")
+    @Test
+    void test9(){
+        Member member = memberRepository.findByMemberId("sinsa");
+        ProductLog productLog = ProductLog.builder()
+                .memberId(member.getMemberId())
+                .purchaseDate(LocalDate.now().toString())
+                .shppingState(ShppingState.S)
+                .refundCheck(RefundCheck.N)
+                .memo("배송해주실때는 백덤블링 해주세요")
+                .fixedDate(null)
+                .arrAddr("솔라시 발야구 딩동댕동")
+                .totalPayAmount(100)
+                .build();
+        Optional<Product> productOpt1 = productRepository.findById(9L);
+        Optional<Product> productOpt2 = productRepository.findById(10L);
+
+        Product product1 = productOpt1.orElse(null);
+        Product product2 = productOpt2.orElse(null);
+
+        Optional<ProductOption> productOptionOpt1 = productOptionRepository.findById(1L);
+        Optional<ProductOption> productOptionOpt2 = productOptionRepository.findById(3L);
+
+        ProductOption productOption1 = productOptionOpt1.orElse(null);
+        ProductOption productOption2 = productOptionOpt2.orElse(null);
+
+        OrderProduct orderProduct1 = OrderProduct.builder()
+                .productLog(productLog)
+                .product(product1)
+                .productOption(productOption1)
+                .purchaseQuantity(2)
+                .payAmount(product1.getProductPrice())
+                .build();
+        OrderProduct orderProduct2 = OrderProduct.builder()
+                .productLog(productLog)
+                .product(product2)
+                .productOption(productOption2)
+                .purchaseQuantity(2)
+                .payAmount(product2.getProductPrice())
+                .build();
+
+        productLogRepository.save(productLog);
+        orderProductRepository.save(orderProduct1);
+        orderProductRepository.save(orderProduct2);
+
+
+        Optional<ProductLog> productLogOpt1 = productLogRepository.findById(productLog.getId());
+        ProductLog productLog1 = productLogOpt1.orElse(null);
+        List<OrderProduct> productOrders = orderProductRepository.findByProductLogId(productLog1.getId());
+
+        assertThat(productLog1)
+                .isNotNull();
+        assertThat(productLog1.getId()).isEqualTo(productLog.getId());
+        assertThat(productOrders).allSatisfy(productOrder->{
+            assertThat(productOrder.getProductLog().getId()).isEqualTo(productLog.getId());
+        });
+
     }
 
 }

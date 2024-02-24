@@ -1,15 +1,21 @@
 package com.sh.onezip.product.service;
 
-import com.sh.onezip.cart.entity.Cart;
+import com.sh.onezip.member.entity.Member;
+import com.sh.onezip.orderproduct.entity.OrderProduct;
+import com.sh.onezip.orderproduct.repository.OrderProductRepository;
+import com.sh.onezip.payment.entity.Payment;
+import com.sh.onezip.payment.repository.PaymentRepository;
 import com.sh.onezip.product.dto.BusinessProductCreateDto;
 import com.sh.onezip.product.dto.ProductDetailDto;
 import com.sh.onezip.product.dto.ProductListDto;
 import com.sh.onezip.product.dto.ProductPurchaseInfoDto;
+import com.sh.onezip.productLog.entity.ProductLog;
+import com.sh.onezip.productLog.repository.ProductLogRepository;
 import com.sh.onezip.productReview.dto.ProductReviewCreateDto;
 import com.sh.onezip.productReview.dto.ProductReviewDto;
 import com.sh.onezip.productReview.entity.ProductReview;
 import com.sh.onezip.productReview.repository.ProductReviewRepository;
-import com.sh.onezip.productanswer.dto.ProductAnswerCreateDto;
+import com.sh.onezip.productoption.entity.ProductOption;
 import com.sh.onezip.productquestion.dto.ProductQuestionCreateDto;
 import com.sh.onezip.productquestion.dto.ProductQuestionDto;
 import com.sh.onezip.product.entity.Product;
@@ -21,10 +27,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -44,7 +54,18 @@ public class ProductService {
     ProductQuestionRepository productQuestionRepository;
 
     @Autowired
+    ProductLogRepository productLogRepository;
+
+    @Autowired
+    PaymentRepository paymentRepository;
+
+    @Autowired
+    OrderProductRepository orderProductRepository;
+
+    @Autowired
     ModelMapper modelMapper;
+
+    final String BASE_URL = "https://api.iamport.kr/payments/prepare";
 
     // 명준 작업 공간 start
 
@@ -102,9 +123,9 @@ public class ProductService {
         return productRepository.pquestionFindByProductid(id);
     }
 
-//    public List<ProductReview> productReviewFindByProductid(Long id) {
-//        return productRepository.productReviewFindByProductid(id);
-//    }
+    public List<ProductReview> productReviewFindByProductid(Long id) {
+        return productRepository.productReviewFindByProductid(id);
+    }
 
     private ProductQuestionDto convertToProductQuestionDto(ProductQuestion productQuestion) {
         ProductQuestionDto productQuestionDto = modelMapper.map(productQuestion, ProductQuestionDto.class);
@@ -125,19 +146,19 @@ public class ProductService {
         return productQuestionDtos;
     }
 
-//    public Page<ProductReviewDto> productReviewFindAllByProductId(Pageable pageable, Long productId) {
-//        Page<ProductReview> productReviewPage = productRepository.productReviewFindAllByProductId(pageable, productId);
-//        return productReviewPage.map((productReview) -> convertToProductReviewDto(productReview));
-//    }
-//
-//    public List<ProductReviewDto> productReviewDtoFindAllByProductId(Long productId) {
-//        List<ProductReview> productReviews = productRepository.productReviewFindAllByProductId(productId);
-//        List<ProductReviewDto> productReviewsDtos = new ArrayList<>();
-//        for (ProductReview productReview : productReviews) {
-//            productReviewsDtos.add(convertToProductReviewDto(productReview));
-//        }
-//        return productReviewsDtos;
-//    }
+    public Page<ProductReviewDto> productReviewFindAllByProductId(Pageable pageable, Long productId) {
+        Page<ProductReview> productReviewPage = productRepository.productReviewFindAllByProductId(pageable, productId);
+        return productReviewPage.map((productReview) -> convertToProductReviewDto(productReview));
+    }
+
+    public List<ProductReviewDto> productReviewDtoFindAllByProductId(Long productId) {
+        List<ProductReview> productReviews = productRepository.productReviewFindAllByProductId(productId);
+        List<ProductReviewDto> productReviewsDtos = new ArrayList<>();
+        for (ProductReview productReview : productReviews) {
+            productReviewsDtos.add(convertToProductReviewDto(productReview));
+        }
+        return productReviewsDtos;
+    }
 
     private ProductReviewDto convertToProductReviewDto(ProductReview productReview) {
         ProductReviewDto productReviewDto = modelMapper.map(productReview, ProductReviewDto.class);
@@ -177,6 +198,55 @@ public class ProductService {
             productListDtos.add(convertToProductListDto(product));
         }
         return productListDtos;
+    }
+
+    public void preVerify(Map<String, String> requestData, Member member) {
+
+        System.out.println("requestData: Controller" + requestData);
+        System.out.println(Long.parseLong(requestData.get("merchant_uid")) + ": merchant_uid");
+
+        ProductLog productLog = productLogRepository.findById(Long.parseLong(requestData.get("merchant_uid"))).orElse(null);
+        Product product = productRepository.findById(Long.parseLong(requestData.get("productId"))).orElse(null);
+        ProductOption productOption = productOptionRepository.findById(Long.parseLong(requestData.get("productOptId"))).orElse(null);
+        int productQuantity = Integer.parseInt(requestData.get("productQuantity"));
+        System.out.println("preVerify실행!!");
+
+        // 결제 객체 생성
+        Payment payment = Payment
+                .builder()
+                .productLog(productLog)
+                .member(member)
+                .buyerTel(member.getPhone())
+                .buyerAddr(member.getMemberAddr())
+                .buyerPostcode("123-123") // 하드코딩 지점
+                .amount(Integer.parseInt(requestData.get("amount")))
+                .merchantUid(requestData.get("merchant_uid"))
+                .build();
+
+        //주문 객체 생성
+        OrderProduct orderProduct = OrderProduct
+                .builder()
+                .productLog(productLog)
+                .product(product)
+                .productOption(productOption)
+                .purchaseQuantity(productQuantity)
+                .payAmount((productQuantity * (productOption.getOptionCost() + product.getProductPrice())* product.getDiscountRate())) // 단품 가격
+                .build();
+
+        orderProductRepository.save(orderProduct);
+        paymentRepository.save(payment);
+        System.out.println("payment 삽입 완료!");
+
+    }
+
+    public boolean postVerify(Map<String, String> requestData, Member member) {
+        Payment payment = paymentRepository.findById(Long.parseLong(requestData.get("merchant_uid"))).orElse(null);
+        if((payment.getMerchantUid() == requestData.get("merchant_uid")) &&
+                (payment.getAmount() == Integer.parseInt(requestData.get("amount")))){
+            System.out.println("결제후 검증 완료!");
+            return true;
+        }
+        return false;
     }
 
     // 명준 작업 공간 end
@@ -270,7 +340,6 @@ public class ProductService {
         }
         return productReviewDtos;
     }
-
 
 }
 

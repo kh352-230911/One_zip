@@ -5,35 +5,36 @@ import com.sh.onezip.productquestion.dto.ProductQuestionDto;
 public class HelloMvcUtils {
 
     static String previous = """
-        <li class="page-item">
-            <a class="page-link" href="%s">Previous</a>
-        </li>
-        """;
+    <li class="page-item mr-2">
+        <a class="page-link text-gray-700 hover:text-blue-600" href="%s">Previous</a>
+    </li>
+    """;
     static String previousDisabled = """
-        <li class="page-item disabled">
-            <a class="page-link">Previous</a>
-        </li>
-        """;
+    <li class="page-item disabled mr-2">
+        <a class="page-link text-gray-400 cursor-not-allowed">Previous</a>
+    </li>
+    """;
     static String currentPageNo = """
-        <li class="page-item active">
-            <a class="page-link" href="%s">%d</a>
-        </li>
-        """;
+    <li class="page-item active mr-2 border border-r-0 border-gray-300">
+        <a class="page-link bg-blue-500 text-white" href="%s">%d</a>
+    </li>
+    """;
     static String notCurrentPageNo = """
-        <li class="page-item">
-            <a class="page-link" href="%s">%d</a>
-        </li>
-        """;
+    <li class="page-item mr-2 border border-r-0 border-gray-300">
+        <a class="page-link text-gray-700 hover:text-blue-600" href="%s">%d</a>
+    </li>
+    """;
     static String next = """
-        <li class="page-item">
-            <a class="page-link" href="%s">Next</a>
-        </li>
-        """;
+    <li class="page-item mr-2">
+        <a class="page-link text-gray-700 hover:text-blue-600" href="%s">Next</a>
+    </li>
+    """;
     static String nextDisabled = """
-        <li class="page-item disabled">
-            <a class="page-link">Next</a>
-        </li>
-        """;
+    <li class="page-item disabled mr-2">
+        <a class="page-link text-gray-400 cursor-not-allowed">Next</a>
+    </li>
+    """;
+
 
     /**
      *

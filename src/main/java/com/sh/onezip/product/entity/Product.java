@@ -35,7 +35,7 @@ public class Product implements Comparable<Product> {
     private Long id;
     @Column
     private String productName;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY) // 02-17: EAGER->LAZY
     @JoinColumn(name = "biz_member_Id")
     private Businessmember businessmember;
     @Column
@@ -49,25 +49,26 @@ public class Product implements Comparable<Product> {
     @CreationTimestamp
     private LocalDate regDate;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)  // 02-23 EAGER->LAZY
     @Builder.Default
     private List<ProductImage> productImages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY) // 02-23 EAGER->LAZY
     @Builder.Default
     private List<ProductOption> productOptions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY) // 02-23 EAGER->LAZY
     @Builder.Default
     private List<ProductQuestion> productQuestions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY) // 02-23 EAGER->LAZY
     @Builder.Default
     private List<ProductReview> productReviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY) // 02-23 EAGER->LAZY
     @Builder.Default
     private List<Cart> cart = new ArrayList<>();
+
 
     @Override
     public int compareTo(Product other) {
