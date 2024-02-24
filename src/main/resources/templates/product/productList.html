@@ -7,34 +7,64 @@
     <title>
     </title>
 </head>
-<style layout:fragment="style">
-    tr[data-product-id] {
-        cursor: pointer;
-    }
-</style>
 
 <div layout:fragment="content">
-    <table class="w-full">
-        <tbody class="flex justify-between gap-x-6 py-5">
-        <tr class="flex min-w-0 gap-x-4">
-            <td class="min-w-0 flex-auto">
-                <span class="text-sm font-semibold leading-6 text-gray-900" th:text="가격"></span>
-            </td>
-            <td class="min-w-0 flex-auto">
-                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|1만원 이하|" id="under10000btn" th:href="@{/product/productList.do?price=10000}"></a>
-            </td>
-            <td class="min-w-0 flex-auto">
-                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|5만원 이하|" id="under50000btn" th:href="@{/product/productList.do?price=50000}"></a>
-            </td>
-            <td class="min-w-0 flex-auto">
-                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|10만원 이하|" id="under100000btn" th:href="@{/product/productList.do?price=100000}"></a>
-            </td>
-            <td class="min-w-0 flex-auto">
-                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|10만원 이상|" id="upper100000btn" th:href="@{/product/productList.do?price=100001}"></a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<!--    <table class="w-full">-->
+<!--        <tbody class="flex justify-between gap-x-6 py-5">-->
+<!--        <tr class="flex min-w-0 gap-x-4">-->
+<!--            <td class="min-w-0 flex-auto">-->
+<!--                <span class="text-sm font-semibold leading-6 text-gray-900" th:text="가격"></span>-->
+<!--            </td>-->
+<!--            <td class="min-w-0 flex-auto">-->
+<!--                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|1만원 이하|" id="under10000btn" th:href="@{/product/productList.do?price=10000}"></a>-->
+<!--            </td>-->
+<!--            <td class="min-w-0 flex-auto">-->
+<!--                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|5만원 이하|" id="under50000btn" th:href="@{/product/productList.do?price=50000}"></a>-->
+<!--            </td>-->
+<!--            <td class="min-w-0 flex-auto">-->
+<!--                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|10만원 이하|" id="under100000btn" th:href="@{/product/productList.do?price=100000}"></a>-->
+<!--            </td>-->
+<!--            <td class="min-w-0 flex-auto">-->
+<!--                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|10만원 이상|" id="upper100000btn" th:href="@{/product/productList.do?price=100001}"></a>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+    <div class="grid justify-items-center m-11 mx-64">
+    <div class="border-b border-gray-200">
+        <div class="sm:flex sm:items-baseline">
+            <h3 class="text-base font-semibold leading-6 text-gray-900">
+                가격대별
+            </h3>
+            <div class="mt-4 sm:ml-10 sm:mt-0">
+                <nav class="-mb-px flex space-x-8">
+                    <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
+                    <a
+                            href="#" id="btnUnder10000"
+                            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium" onclick="changeButtonStyle('btnUnder10000')"
+                            aria-current="page"
+                            th:text="|1만원 이하|" th:href="@{/product/productList.do?price=10000}">1만원 이하</a
+                    >
+                    <a
+                            href="#" id="btnUnder50000"
+                            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium" onclick="changeButtonStyle('btnUnder50000')"
+                            th:text="|5만원 이하|"  th:href="@{/product/productList.do?price=50000}">5만원 이하</a
+                    >
+
+                    <a
+                            href="#" id="btnUnder100000"
+                            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium" onclick="changeButtonStyle('btnUnder100000')"
+                            th:text="|10만원 이하|" th:href="@{/product/productList.do?price=100000}">10만원 이하</a
+                    >
+                    <a
+                            href="#" id="btnAbove100000"
+                            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium" onclick="changeButtonStyle('btnAbove100000')"
+                            th:text="|10만원 이상|" th:href="@{/product/productList.do?price=100001}">10만원 이상</a
+                    >
+                </nav>
+            </div>
+        </div>
+    </div>
 
     <section id="product-container" class="container mx-auto px-4 py-8">
         <p class="text-lg font-semibold text-gray-800">총 [[${totalCount}]]건의 상품이 조회되었습니다.</p>
@@ -62,22 +92,19 @@
 
 
             <div class="mt-6 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-3 lg:grid-cols-3">
-                <div th:each="product, status : ${products}" class="group relative">
-                    <div class="aspect-h-3 aspect-w-4 overflow-hidden rounded-lg bg-gray-100">
-                        <img th:src="@{/images/일반회원.png}" alt="상품 설명" class="object-cover object-center" />
-                        <div class="flex items-end p-4 opacity-0 group-hover:opacity-100" aria-hidden="true">
-                            <div class="w-full rounded-md bg-blue-500 bg-opacity-75 px-4 py-2 text-center text-sm font-medium text-white backdrop-blur backdrop-filter">
-                                상품 보기
-                            </div>
+                <div th:each="product, status : ${products}"  class="group relative">
+                    <div th:data-product-id="${product.id}" class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <img th:src="@{/images/일반회원.png}" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <a href="#" class="text-sm text-gray-700">
+                                <span aria-hidden="true" class="absolute inset-0" th:text="'판매자 : ' + ${product.bizName}"></span>
+                            </a>
+                            <p class=" text-m text-gray-500" th:text="${product.productName}"></p>
                         </div>
+                        <p class="text-sm font-medium text-gray-900" th:text="${product.sellPrice} + '원'"></p>
                     </div>
-                    <div class="mt-4 flex items-center justify-between space-x-8 text-base font-medium text-gray-900">
-                        <h3>
-                            <a href="#"><span aria-hidden="true" class="absolute inset-0" th:text="${product.productName}"></span></a>
-                        </h3>
-                        <p th:text="${product.sellPrice} + '원'"></p>
-                    </div>
-                    <p class="mt-1 text-sm text-gray-500" th:text="${product.bizName}"></p>
                 </div>
                 <!-- 반복 블록 끝 -->
             </div>
@@ -92,6 +119,7 @@
             </nav>
         </div>
     </section>
+    </div>
 </div>
 
 <script layout:fragment="script" th:src="@{/js/product/productList.js}"></script>

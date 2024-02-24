@@ -6,6 +6,20 @@ document.querySelectorAll("tr[data-product-id]").forEach((tr) => {
         location.href = `${contextPath}product/productDetail.do?id=${productId}`;
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    function changeButtonStyle(clickedId) {
+        const buttons = document.querySelectorAll('nav a');
+        buttons.forEach(button => {
+            button.classList.remove('border-indigo-500', 'text-indigo-600');
+            button.classList.add('border-transparent', 'text-gray-500', 'hover:border-gray-300', 'hover:text-gray-700');
+        });
+
+        const clickedButton = document.getElementById(clickedId);
+        clickedButton.classList.add('border-indigo-500', 'text-indigo-600');
+        clickedButton.classList.remove('border-transparent', 'text-gray-500');
+    }
+});
 //
 //
 // document.querySelector("under10000btn").addEventListener("click", (e) => {
