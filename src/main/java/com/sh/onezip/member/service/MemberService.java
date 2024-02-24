@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @Slf4j
@@ -25,12 +27,7 @@ public class MemberService {
     public Member findByMemberId(String memberId) {
         return memberRepository.findByMemberId(memberId);
     }
-    public Member findByName(String username) {
-        return memberRepository.findByName(username);
-    }
-//    public Member findByMemberId(String memberId) {
-//        return memberRepository.findByMemberId(memberId);
-//    }
+
 
 
     public Member createMember(Member member) {
@@ -49,4 +46,17 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
+    public List<Member> findAllMembers() {
+        return memberRepository.findAll();
+    }
+
+
+//    public void deleteByid(String memberId) {
+//        System.out.println("회원삭제 서비스");
+//        memberRepository.deleteById(memberId); // 회원 삭제
+//    }
+
+    public void deleteById(String memberId) {
+        memberRepository.deleteById(memberId);
+    }
 }
