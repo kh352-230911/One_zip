@@ -1,5 +1,6 @@
 package com.sh.onezip.product.service;
 
+import com.sh.onezip.attachment.repository.AttachmentRepository;
 import com.sh.onezip.attachment.service.AttachmentService;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.orderproduct.entity.OrderProduct;
@@ -64,10 +65,13 @@ public class ProductService {
     OrderProductRepository orderProductRepository;
 
     @Autowired
-    AttachmentService attachmentService;
+    AttachmentRepository attachmentRepository;
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    AttachmentService attachmentService;
 
     final String BASE_URL = "https://api.iamport.kr/payments/prepare";
 
@@ -83,6 +87,7 @@ public class ProductService {
         ProductListDto productListDto = modelMapper.map(product, ProductListDto.class);
         productListDto.setBizName(product.getBusinessmember().getBizName());
         productListDto.setSellPrice((int) (product.getProductPrice() * (1 - ((double) product.getDiscountRate() / 100))));
+        productListDto.setAttachmentList(attachmentRepository.findProductAttachmentToList(productListDto.getId(), "SP"));
         return productListDto;
     }
 

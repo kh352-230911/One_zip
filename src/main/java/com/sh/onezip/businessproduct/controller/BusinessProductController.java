@@ -1,6 +1,7 @@
 package com.sh.onezip.businessproduct.controller;
 
 import com.sh.onezip.attachment.dto.AttachmentCreateDto;
+import com.sh.onezip.attachment.service.AttachmentService;
 import com.sh.onezip.attachment.service.S3FileService;
 import com.sh.onezip.auth.vo.MemberDetails;
 import com.sh.onezip.businessproduct.entity.Businessmember;
@@ -58,6 +59,8 @@ public class BusinessProductController {
     private OrderProductService orderProductService;
     @Autowired
     private ProductOptionService productOptionService;
+    @Autowired
+    private AttachmentService attachmentService;
 
     @GetMapping("/businessproductlist.do")
 // Model: Spring MVC에서 Controller에서 View로 데이터를 전달하는 데 사용되는 인터페이스
@@ -185,14 +188,25 @@ public class BusinessProductController {
     @GetMapping("/businessproductdetail.do")
     public void businessproductdetail(@RequestParam("id") Long id, Model model) {
         ProductDetailDto productDetailDto = productService.productDetailDtofindById(id);
+        productDetailDto.setAttachmentList(attachmentService.findProductAttachmentToList(id));
+        System.out.println("GetMappting businessproductdetail: " +productDetailDto);
         model.addAttribute("businessproduct", productDetailDto);
     }
     @PostMapping("/businessproductdetail.do")
     public String businessproductdetail
             (@RequestParam("id") Long id, Model model,
              @Valid BusinessProductCreateDto businessProductCreateDto,
+             @RequestParam("upFile") List<MultipartFile> upFiles,
              BindingResult bindingResult,
              RedirectAttributes redirectAttributes) {
+
+        for(MultipartFile upFile : upFiles) {
+            if (upFile.getSize() > 0) {
+                AttachmentCreateDto attachmentCreateDto = s3FileService.upload(upFile);
+                log.debug("attachmentCreateDto = {}", attachmentCreateDto);
+                businessProductCreateDto.addAttachmentCreateDto(attachmentCreateDto);
+            }
+        }
 
         System.out.println(businessProductCreateDto + "잘불러오는감 dto");
         // 상품 id 하드 코딩

@@ -1,5 +1,7 @@
 package com.sh.onezip.product.controller;
 
+import com.sh.onezip.attachment.entity.Attachment;
+import com.sh.onezip.attachment.service.AttachmentService;
 import com.sh.onezip.auth.vo.MemberDetails;
 import com.sh.onezip.cart.entity.Cart;
 import com.sh.onezip.cart.service.CartService;
@@ -80,6 +82,8 @@ public class ProductController {
 
     @Autowired
     MemberService memberService;
+    @Autowired
+    AttachmentService attachmentService;
 
     @GetMapping("/productList.do")
     public void productList(Model model, HttpServletRequest httpServletRequest){
@@ -120,9 +124,9 @@ public class ProductController {
                               Model model) {
         ProductDetailDto productDetailDto = productService.productDetailDtofindById(id);
         List<ProductOption> productOptions = productOptionService.findAllByProductId(productDetailDto.getId());
-        List<ProductImage> productImages = productImageService.findAllByProductId(productDetailDto.getId());
+        List<Attachment> attachmentList = attachmentService.findProductAttachmentToList(productDetailDto.getId());
         productDetailDto.setProductOptions(productOptions);
-        productDetailDto.setProductImages(productImages);
+        productDetailDto.setAttachmentList(attachmentList);
 
         model.addAttribute("product", productDetailDto);
         log.debug("product = {}", productDetailDto);
