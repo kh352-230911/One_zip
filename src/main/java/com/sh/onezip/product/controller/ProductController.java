@@ -23,9 +23,9 @@ import com.sh.onezip.productReview.dto.ProductReviewCreateDto;
 import com.sh.onezip.productReview.dto.ProductReviewDto;
 import com.sh.onezip.productReview.entity.ProductReview;
 import com.sh.onezip.productReview.service.ProductReviewService;
-import com.sh.onezip.productimage.entity.ProductImage;
-import com.sh.onezip.productimage.repository.ProductImageRepository;
-import com.sh.onezip.productimage.service.ProductImageService;
+//import com.sh.onezip.productimage.entity.ProductImage;
+//import com.sh.onezip.productimage.repository.ProductImageRepository;
+//import com.sh.onezip.productimage.service.ProductImageService;
 import com.sh.onezip.productoption.entity.ProductOption;
 import com.sh.onezip.productoption.service.ProductOptionService;
 import com.sh.onezip.productquestion.dto.ProductQuestionCreateDto;
@@ -77,8 +77,8 @@ public class ProductController {
     ProductOptionService productOptionService;
     @Autowired
     CartService cartService;
-    @Autowired
-    ProductImageService productImageService;
+//    @Autowired
+//    ProductImageService productImageService;
 
     @Autowired
     MemberService memberService;

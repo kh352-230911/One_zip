@@ -2,7 +2,6 @@ package com.sh.onezip.product.dto;
 
 import com.sh.onezip.attachment.entity.Attachment;
 import com.sh.onezip.product.entity.ProductType;
-import com.sh.onezip.productimage.entity.ProductImage;
 import com.sh.onezip.productoption.entity.ProductOption;
 import lombok.Data;
 
