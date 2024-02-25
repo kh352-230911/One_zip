@@ -103,28 +103,3 @@ document.querySelector("#product-quantity").addEventListener('input', (e) => {
         productTotalPriceEle.value = productSellPrice * product_quantity;
     }
 });
-
-document.querySelectorAll("tr[data-product-id]").forEach((tr) => {
-    tr.addEventListener('click', (e) => {
-        const td = e.target;
-        const tr = td.parentElement;
-        const {productId} = tr.dataset;
-        location.href = `${contextPath}product/productQna.do?id=${productId}`;
-    });
-});
-
-function submitForm(action) {
-    console.log(action + ' 액션 실행중');
-
-    var form = document.getElementById('myForm');
-
-    // 액션에 따라 폼의 액션을 설정합니다.
-    if (action === 'purchase') {
-        form.action = contextPath + 'product/productPurchaseInfo.do';
-    } else if (action === 'cart') {
-        form.action = contextPath + 'product/productCart.do';
-    }
-
-    // 폼을 서버로 전송합니다.
-    form.submit();
-}

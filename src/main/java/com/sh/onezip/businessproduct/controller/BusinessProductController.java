@@ -1,5 +1,7 @@
 package com.sh.onezip.businessproduct.controller;
 
+import com.sh.onezip.attachment.dto.AttachmentCreateDto;
+import com.sh.onezip.attachment.service.S3FileService;
 import com.sh.onezip.businessproduct.entity.Businessmember;
 import com.sh.onezip.businessproduct.service.BusinessmemberService;
 import com.sh.onezip.common.HelloMvcUtils;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -38,6 +41,8 @@ public class BusinessProductController {
     BusinessmemberService businessmemberService;
     @Autowired
     ProductService productService;
+    @Autowired
+    private S3FileService s3FileService;
 
 @GetMapping("/businessproductlist.do")
 // Model: Spring MVC에서 Controller에서 View로 데이터를 전달하는 데 사용되는 인터페이스
@@ -87,6 +92,7 @@ public class BusinessProductController {
     @Valid BusinessProductCreateDto businessProductCreateDto,
     // 유효성 검사 결과를 담는 BindingResult 객체
     BindingResult bindingResult,
+    @RequestParam("upFile") List<MultipartFile> upFiles,
     // 리다이렉트 시 데이터 전달을 위한 RedirectAttributes 객체
     RedirectAttributes redirectAttributes
     ) throws IOException {
@@ -95,6 +101,15 @@ public class BusinessProductController {
             // 유효성 검사를 통과하지 못했을 경우
             throw new RuntimeException(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
+
+        for (MultipartFile upFile : upFiles) {
+            if (upFile.getSize() > 0) {
+                AttachmentCreateDto attachmentCreateDto = s3FileService.upload(upFile);
+                log.debug("attachmentCreateDto = {}", attachmentCreateDto);
+                businessProductCreateDto.addAttachmentCreateDto(attachmentCreateDto);
+            }
+        }
+
         // Businessmember 객체 생성 및 bizMemberId 설정
         Businessmember businessmember = new Businessmember();
         businessmember.setBizMemberId("moneylove");

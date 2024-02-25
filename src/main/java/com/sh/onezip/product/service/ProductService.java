@@ -1,5 +1,6 @@
 package com.sh.onezip.product.service;
 
+import com.sh.onezip.attachment.service.AttachmentService;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.orderproduct.entity.OrderProduct;
 import com.sh.onezip.orderproduct.repository.OrderProductRepository;
@@ -61,6 +62,9 @@ public class ProductService {
 
     @Autowired
     OrderProductRepository orderProductRepository;
+
+    @Autowired
+    AttachmentService attachmentService;
 
     @Autowired
     ModelMapper modelMapper;
@@ -259,6 +263,13 @@ public class ProductService {
         Product product2 = productRepository.save(product1);
         System.out.println(businessProductCreateDto + "id~~");
 //        businessProductCreateDto.setBizMemberId(product.getBusinessmember().getBizMemberId());
+        businessProductCreateDto.getAttachments().forEach((attachmentCreateDto -> {
+            attachmentCreateDto.setRefId(product1.getId()); // fk컬럼
+            attachmentCreateDto.setRefType("SP");
+            attachmentCreateDto.setRefId(product2.getId());
+            attachmentService.createAttachment(attachmentCreateDto); // attachmentService 위임.
+        }));
+        System.out.println("businessproductcreate: " + businessProductCreateDto);
     }
     private Product convertTobusinessproductcreate(BusinessProductCreateDto businessProductCreateDto) {
         System.out.println(businessProductCreateDto + "등록해줘~");

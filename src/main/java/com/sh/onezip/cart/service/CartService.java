@@ -86,6 +86,7 @@ public class CartService {
         cart.setCartQuantity(productCartCreateDto.getProductQuantity());
         cart.setCartStatus("N");
         cart.setProductName(product.getProductName());
+        cartRepository.save(cart);
         return cart;
     }
 

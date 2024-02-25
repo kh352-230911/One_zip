@@ -513,10 +513,12 @@ public class ProductController {
                             @AuthenticationPrincipal MemberDetails memberDetails,
                             Model model){
         Member member = memberDetails.getMember();
+        productCartCreateDto.setMember(member);
         Cart cart = cartService.convertToCart(productCartCreateDto);
         List<Cart> loginMemberCartList = cartService.findAllByMemberId(member.getMemberId());
         cart.setMember(memberDetails.getMember());
         loginMemberCartList.add(cart);
+        System.out.println(cart + ":cart");
         model.addAttribute("loginMemberCartList", loginMemberCartList);
     }
 

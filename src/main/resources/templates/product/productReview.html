@@ -12,35 +12,35 @@
 	<div class="container mx-auto">
 		<table class="min-w-full">
 			<tbody>
-				<div th:each="review, status: ${reviews}">
-					<tr>
-						<td class="py-4">
-							<span th:text="${review.memberId}" class="font-bold"></span>
-						</td>
-						<td class="py-4">
-							<span th:text="${review.reviewRegdate}" class="text-gray-500"></span>
-						</td>
-						<td class="py-4">
-							<span class="text-yellow-500">별점: </span>
-							<span th:each="i : ${#numbers.sequence(1, review.starPoint)}" class="text-yellow-500">★</span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="3" class="py-4">
-							<span th:text="${review.reviewContent}" class="block mb-2"></span>
-							<span th:if="${review.memberId == member.memberId}" class="text-right">
-								<form th:action="@{/product/reviewfurcate.do}" method="post">
-									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-									<input type="hidden" th:name="reviewerId" th:value="${review.memberId}"/>
-									<input type="hidden" th:name="reviewId" th:value="${review.id}"/>
-									<input type="hidden" th:name="productId" th:value="${productId}"/>
-									<button type="submit" name="action" value="update" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">수정</button>
-									<button type="submit" name="action" value="delete" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">삭제</button>
-								</form>
-    						</span>
-						</td>
-					</tr>
-				</div>
+			<div th:each="review, status: ${reviews}" style="width: 70%; height: 250px; border: 1px solid #e2e8f0; border-radius: 0.25rem;">
+				<tr>
+					<td class="py-4">
+						<span th:text="${review.memberId}" class="font-bold"></span>
+					</td>
+					<td class="py-4">
+						<span th:text="${review.reviewRegdate}" class="text-gray-500"></span>
+					</td>
+					<td class="py-4">
+						<span class="text-yellow-500">별점: </span>
+						<span th:each="i : ${#numbers.sequence(1, review.starPoint)}" class="text-yellow-500">★</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" class="py-4">
+						<span th:text="${review.reviewContent}" class="block mb-2"></span>
+						<span th:if="${review.memberId == member.memberId}" class="text-right">
+                            <form th:action="@{/product/reviewfurcate.do}" method="post">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                <input type="hidden" th:name="reviewerId" th:value="${review.memberId}"/>
+                                <input type="hidden" th:name="reviewId" th:value="${review.id}"/>
+                                <input type="hidden" th:name="productId" th:value="${productId}"/>
+                                <button type="submit" name="action" value="update" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">수정</button>
+                                <button type="submit" name="action" value="delete" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">삭제</button>
+                            </form>
+                        </span>
+					</td>
+				</tr>
+			</div>
 			</tbody>
 		</table>
 	</div>
