@@ -3,8 +3,8 @@ package com.sh.onezip.product.controller;
 import com.sh.onezip.attachment.entity.Attachment;
 import com.sh.onezip.attachment.service.AttachmentService;
 import com.sh.onezip.auth.vo.MemberDetails;
-import com.sh.onezip.cart.entity.Cart;
-import com.sh.onezip.cart.service.CartService;
+//import com.sh.onezip.cart.entity.Cart;
+//import com.sh.onezip.cart.service.CartService;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.service.MemberService;
 import com.sh.onezip.orderproduct.dto.OrderProductDto;
@@ -75,10 +75,7 @@ public class ProductController {
     OrderProductService orderProductService;
     @Autowired
     ProductOptionService productOptionService;
-    @Autowired
-    CartService cartService;
-//    @Autowired
-//    ProductImageService productImageService;
+
 
     @Autowired
     MemberService memberService;
@@ -86,17 +83,19 @@ public class ProductController {
     AttachmentService attachmentService;
 
     @GetMapping("/productList.do")
-    public void productList(Model model, HttpServletRequest httpServletRequest){
+    public void productList(Model model, HttpServletRequest httpServletRequest) {
 
         int realPage = 1;
         int refPrice = 0;
         int limit = 6;
         try {
             refPrice = Integer.parseInt(httpServletRequest.getParameter("price"));
-        } catch (NumberFormatException ignore) {}
+        } catch (NumberFormatException ignore) {
+        }
         try {
             realPage = Integer.parseInt(httpServletRequest.getParameter("page"));
-        } catch (NumberFormatException ignore) {}
+        } catch (NumberFormatException ignore) {
+        }
         Pageable pageable = PageRequest.of(realPage - 1, limit);
 
         String url = httpServletRequest.getRequestURI() + "?price=" + refPrice;
@@ -113,7 +112,7 @@ public class ProductController {
         // 3: 전체 개체수
         // 4: 요청 url
         String pagebar = HelloMvcUtils.getPagebar(
-                realPage, limit, productListDtos.size() , url);
+                realPage, limit, productListDtos.size(), url);
         model.addAttribute("pagebar", pagebar);
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("totalCount", productListDtos.size());
@@ -140,7 +139,7 @@ public class ProductController {
             @RequestParam("productQuantity") int productQuantity,
             @RequestParam(value = "selectOption", required = false) String selectOption,
             HttpServletRequest httpServletRequest,
-            Model model){
+            Model model) {
         Member member = memberDetails.getMember();
         List<ProductOption> productOptions = productOptionService.findAllByProductId(id);
         Product product = productService.findById(id).orElse(null);
@@ -148,7 +147,8 @@ public class ProductController {
         Long Optionid = 0L;
         try {
             Optionid = Long.parseLong(httpServletRequest.getParameter("selectOption").split("#")[0]);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
 //         index-0: option id, index-1: option additional cost
         String[] selectOptionArr = selectOption.split("#");
@@ -164,7 +164,7 @@ public class ProductController {
         productPurchaseInfoDto.setAdditionalCost(additionalCost);
 
         int totalOptionCost = 0;
-        if(productOption != null){
+        if (productOption != null) {
             productPurchaseInfoDto.setProductOption(productOption);
             totalOptionCost = productPurchaseInfoDto.getProductOption().getOptionCost() * productQuantity;
             productPurchaseInfoDto.setTotalOptionCost(totalOptionCost);
@@ -177,9 +177,9 @@ public class ProductController {
 
         int totalPrice = productPurchaseInfoDto.getProductPrice() * productQuantity;
 
-        double discountRate = (double)productPurchaseInfoDto.getDiscountRate()/100;
+        double discountRate = (double) productPurchaseInfoDto.getDiscountRate() / 100;
         productPurchaseInfoDto.setTotalProductPrice(totalPrice);
-        int totalDiscountPrice = (int)((totalPrice) * (discountRate));
+        int totalDiscountPrice = (int) ((totalPrice) * (discountRate));
         productPurchaseInfoDto.setTotalDiscountPrice(totalDiscountPrice);
         productPurchaseInfoDto.setSellPrice(totalPrice - totalDiscountPrice + totalOptionCost);
         model.addAttribute("productPurchaseInfoDto", productPurchaseInfoDto);
@@ -189,20 +189,22 @@ public class ProductController {
     public void productQna(@RequestParam("id") Long id,
                            Model model,
                            @AuthenticationPrincipal MemberDetails memberDetails,
-                           HttpServletRequest httpServletRequest){
+                           HttpServletRequest httpServletRequest) {
         try {
             id = Long.parseLong(httpServletRequest.getParameter("id"));
-        } catch (NumberFormatException ignore) {}
+        } catch (NumberFormatException ignore) {
+        }
         Optional<Product> productOpt = productService.findById(id);
         Product product = productOpt.orElse(null);
         List<ProductQuestion> productQuestions = productService.pquestionFindByProductid(product.getId());
 //        String url = httpServletRequest.getRequestURI();
-        String url = httpServletRequest.getRequestURI() + "?id=" +id;
+        String url = httpServletRequest.getRequestURI() + "?id=" + id;
         int realPage = 1;
         int limit = 5;
         try {
             realPage = Integer.parseInt(httpServletRequest.getParameter("page"));
-        } catch (NumberFormatException ignore) {}
+        } catch (NumberFormatException ignore) {
+        }
 
         Pageable pageable = PageRequest.of(realPage - 1, limit);
         Page<ProductQuestionDto> productQuestionPage = productService.productQuestionFindAllByProductId(pageable, product.getId());
@@ -212,7 +214,7 @@ public class ProductController {
         // 3: 전체 개체수
         // 4: 요청 url
         String pagebar = HelloMvcUtils.getPagebar(
-                realPage, limit, productQuestions.size() , url);
+                realPage, limit, productQuestions.size(), url);
 
         Member member = memberDetails.getMember();
 
@@ -228,10 +230,11 @@ public class ProductController {
     public void productReview(@RequestParam("id") Long id,
                               Model model,
                               @AuthenticationPrincipal MemberDetails memberDetails,
-                              HttpServletRequest httpServletRequest){
+                              HttpServletRequest httpServletRequest) {
         try {
             id = Long.parseLong(httpServletRequest.getParameter("id"));
-        } catch (NumberFormatException ignore) {}
+        } catch (NumberFormatException ignore) {
+        }
         Optional<Product> productOpt = productService.findById(id);
         Product product = productOpt.orElse(null);
         int realPage = 1;
@@ -239,10 +242,11 @@ public class ProductController {
         Member member = memberDetails.getMember();
 
         List<ProductReview> productReviews = productService.productReviewFindByProductid(product.getId());
-        String url = httpServletRequest.getRequestURI() + "?id=" +id;
+        String url = httpServletRequest.getRequestURI() + "?id=" + id;
         try {
             realPage = Integer.parseInt(httpServletRequest.getParameter("page"));
-        } catch (NumberFormatException ignore) {}
+        } catch (NumberFormatException ignore) {
+        }
 
         Pageable pageable = PageRequest.of(realPage - 1, limit);
         Page<ProductReviewDto> productReviewPage = productService.productReviewFindAllByProductId(pageable, product.getId());
@@ -253,7 +257,7 @@ public class ProductController {
         // 3: 전체 개체수
         // 4: 요청 url
         String pagebar = HelloMvcUtils.getPagebar(
-                realPage, limit, productReviews.size() , url);
+                realPage, limit, productReviews.size(), url);
 //        System.out.println(productQuestionDtos + "productQuestionDtos***");
         model.addAttribute("pagebar", pagebar);
 //        model.addAttribute("productQuestionDtos", productQuestionDtos);
@@ -267,19 +271,21 @@ public class ProductController {
     public void productReviewCreatePage(@RequestParam("id") Long id,
                                         @AuthenticationPrincipal MemberDetails memberDetails,
                                         HttpServletRequest httpServletRequest,
-                                        Model model){
+                                        Model model) {
         Member member = memberDetails.getMember();
         Long reviewId = 0L;
         Long productId = 0L;
         try {
             reviewId = Long.parseLong(httpServletRequest.getParameter("reviewId"));
-        } catch (NumberFormatException ignore) {}
+        } catch (NumberFormatException ignore) {
+        }
         try {
             productId = Long.parseLong(httpServletRequest.getParameter("productId"));
-        } catch (NumberFormatException ignore) {}
+        } catch (NumberFormatException ignore) {
+        }
         model.addAttribute("id", id);
         model.addAttribute("Member", member);
-        if(reviewId != 0L) {
+        if (reviewId != 0L) {
             model.addAttribute("reviewId", reviewId);
         }
         model.addAttribute("productId", productId);
@@ -301,14 +307,15 @@ public class ProductController {
 
         try {
             reviewId = Long.parseLong(httpServletRequest.getParameter("reviewId"));
-        } catch (NumberFormatException ignore) {}
+        } catch (NumberFormatException ignore) {
+        }
 
         Optional<Product> productOpt = productService.findById(productId);
         Product product = productOpt.orElse(null);
 
         ProductReview productReview = null;
 
-        if(reviewId != 0L){
+        if (reviewId != 0L) {
             productReviewCreateDto.setId(reviewId);
         }
 
@@ -326,19 +333,21 @@ public class ProductController {
     public void productQnaCreatePage(@RequestParam("id") Long id,
                                      @AuthenticationPrincipal MemberDetails memberDetails,
                                      HttpServletRequest httpServletRequest,
-                                     Model model){
+                                     Model model) {
         Member member = memberDetails.getMember();
         Long questionId = 0L;
         Long productId = 0L;
         try {
             questionId = Long.parseLong(httpServletRequest.getParameter("questionId"));
-        } catch (NumberFormatException ignore) {}
+        } catch (NumberFormatException ignore) {
+        }
         try {
             productId = Long.parseLong(httpServletRequest.getParameter("productId"));
-        } catch (NumberFormatException ignore) {}
+        } catch (NumberFormatException ignore) {
+        }
         model.addAttribute("id", id);
         model.addAttribute("Member", member);
-        if(questionId != 0L){
+        if (questionId != 0L) {
             model.addAttribute("questionId", questionId);
         }
         model.addAttribute("productId", productId);
@@ -360,14 +369,15 @@ public class ProductController {
 
         try {
             questionId = Long.parseLong(httpServletRequest.getParameter("questionId"));
-        } catch (NumberFormatException ignore) {}
+        } catch (NumberFormatException ignore) {
+        }
 
         Optional<Product> productOpt = productService.findById(productId);
         Product product = productOpt.orElse(null);
 
         ProductQuestion productQuestion = null;
 
-        if(questionId != 0L){
+        if (questionId != 0L) {
             productQuestionCreateDto.setId(questionId);
         }
 
@@ -387,7 +397,7 @@ public class ProductController {
                                 @RequestParam("productId") Long productId,
                                 @RequestParam("reviewId") Long reviewId,
                                 Model model,
-                                RedirectAttributes redirectAttributes){
+                                RedirectAttributes redirectAttributes) {
 //        model.addAttribute("reviewerId", reviewerId);
 //        model.addAttribute("productId", productId);
         if ("update".equals(action)) {
@@ -408,7 +418,7 @@ public class ProductController {
                              @RequestParam("questionerId") String questionerId,
                              @RequestParam("productId") Long productId,
                              Model model,
-                             RedirectAttributes redirectAttributes){
+                             RedirectAttributes redirectAttributes) {
         model.addAttribute("questionId", questionId);
         model.addAttribute("productId", productId);
         if ("update".equals(action)) {
@@ -424,21 +434,22 @@ public class ProductController {
     }
 
     @PostMapping("/productPayment.do")
-    public void productPayment(@RequestParam ("sellPrice") int sellPrice,
-                               @RequestParam ("productName") String productName,
-                               @RequestParam ("shippingRequest") String shippingRequest,
-                               @RequestParam ("productId") Long productId,
-                               @RequestParam ("productQuantity") int productQuantity,
+    public void productPayment(@RequestParam("sellPrice") int sellPrice,
+                               @RequestParam("productName") String productName,
+                               @RequestParam("shippingRequest") String shippingRequest,
+                               @RequestParam("productId") Long productId,
+                               @RequestParam("productQuantity") int productQuantity,
                                @AuthenticationPrincipal MemberDetails memberDetails,
                                HttpServletRequest httpServletRequest,
-                               Model model){
+                               Model model) {
         Member member = memberDetails.getMember();
 
         Long productOptId = 0L;
 
         try {
             productOptId = Long.parseLong(httpServletRequest.getParameter("productOptId"));
-        } catch (NumberFormatException ignore) {}
+        } catch (NumberFormatException ignore) {
+        }
 
         ProductLog newProductLog = ProductLog
                 .builder()
@@ -462,7 +473,7 @@ public class ProductController {
 
     @PostMapping("/productPreverify.do")
     public String productPreverify(@RequestBody Map<String, String> requestData,
-                                   @AuthenticationPrincipal MemberDetails memberDetails){
+                                   @AuthenticationPrincipal MemberDetails memberDetails) {
         System.out.println("requestData: Controller" + requestData);
         Member member = memberDetails.getMember();
         productService.preVerify(requestData, member);
@@ -480,8 +491,8 @@ public class ProductController {
 
 
     @PostMapping("/productPostverify.do")
-    public ResponseEntity<?>  productPostverify(@RequestBody Map<String, String> requestData,
-                                                @AuthenticationPrincipal MemberDetails memberDetails){
+    public ResponseEntity<?> productPostverify(@RequestBody Map<String, String> requestData,
+                                               @AuthenticationPrincipal MemberDetails memberDetails) {
         Member member = memberDetails.getMember();
         boolean satisfyVerify = productService.postVerify(requestData, member);
         return ResponseEntity.ok(Map.of("result", satisfyVerify));
@@ -489,9 +500,10 @@ public class ProductController {
 
 
     @PostMapping("/productOrderReverse.do")
-    public void productOrderReverse(@RequestBody Map<String, String> requestData){
+    public void productOrderReverse(@RequestBody Map<String, String> requestData) {
         orderProductService.orderRollBack(requestData);
     }
+
 
 //    @PostMapping("/productPayment.do")
 //    public void productPayment(@RequestParam ("sellPrice") String sellPrice,
@@ -530,19 +542,20 @@ public class ProductController {
 //
 //    }
 
-    @PostMapping("/productCart.do")
-    public void productCart(ProductCartCreateDto productCartCreateDto,
-                            @AuthenticationPrincipal MemberDetails memberDetails,
-                            Model model){
-        Member member = memberDetails.getMember();
-        productCartCreateDto.setMember(member);
-        Cart cart = cartService.convertToCart(productCartCreateDto);
-        List<Cart> loginMemberCartList = cartService.findAllByMemberId(member.getMemberId());
-        cart.setMember(memberDetails.getMember());
-        loginMemberCartList.add(cart);
-        System.out.println(cart + ":cart");
-        model.addAttribute("loginMemberCartList", loginMemberCartList);
-    }
+//
+//    @PostMapping("/productCart.do")
+//    public void productCart(ProductCartCreateDto productCartCreateDto,
+//                            @AuthenticationPrincipal MemberDetails memberDetails,
+//                            Model model){
+//        Member member = memberDetails.getMember();
+//        productCartCreateDto.setMember(member);
+//        Cart cart = cartService.convertToCart(productCartCreateDto);
+//        List<Cart> loginMemberCartList = cartService.findAllByMemberId(member.getMemberId());
+//        cart.setMember(memberDetails.getMember());
+//        loginMemberCartList.add(cart);
+//        System.out.println(cart + ":cart");
+//        model.addAttribute("loginMemberCartList", loginMemberCartList);
+//    }
 
 //    선물하기/ 구매하기 분기 처리 RequestMapping Method
 //    @PostMapping("/productDetailFurcate.do")

@@ -25,8 +25,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Optional<Product> findById(Long id);
 
-    //    @Query("FROM Product p JOIN FETCH p.businessmember WHERE p.biz_member_id = :bizMemberId")
-    @Query("select p, b from Product p left join fetch p.businessmember b")
+//        @Query("FROM Product p JOIN FETCH p.businessmember WHERE p.biz_member_id = :bizMemberId")
+    @Query("select p, b from Product p left join fetch p.businessmember b where b.bizMemberId = :bizMemberId")
     List<Product> findByBusinessmemberBizMemberId(String bizMemberId);
 
     @Query("from Product p left join fetch p.businessmember b order by p.id desc")

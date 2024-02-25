@@ -1,7 +1,7 @@
 package com.sh.onezip.member.entity;
 
 import com.sh.onezip.authority.entity.Authority;
-import com.sh.onezip.cart.entity.Cart;
+//import com.sh.onezip.cart.entity.Cart;
 import com.sh.onezip.member.entity.Gender;
 import com.sh.onezip.neighbor.entity.Neighbor;
 import com.sh.onezip.product.entity.Product;
@@ -56,8 +56,10 @@ public class Member {
     @JoinColumn(name = "member_id")
     private List<Authority> authorities;
 
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY) //02-25 EAGER->LAZY
-    private Cart cart;
+
+//    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY) //02-25 EAGER->LAZY
+//    private Cart cart;
+
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Zip zip;
