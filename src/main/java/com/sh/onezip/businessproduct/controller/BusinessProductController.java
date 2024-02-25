@@ -200,13 +200,13 @@ public class BusinessProductController {
              BindingResult bindingResult,
              RedirectAttributes redirectAttributes) {
 
-        for(MultipartFile upFile : upFiles) {
-            if (upFile.getSize() > 0) {
-                AttachmentCreateDto attachmentCreateDto = s3FileService.upload(upFile);
-                log.debug("attachmentCreateDto = {}", attachmentCreateDto);
-                businessProductCreateDto.addAttachmentCreateDto(attachmentCreateDto);
-            }
-        }
+//        for(MultipartFile upFile : upFiles) {
+//            if (upFile.getSize() > 0) {
+//                AttachmentCreateDto attachmentCreateDto = s3FileService.upload(upFile);
+//                log.debug("attachmentCreateDto = {}", attachmentCreateDto);
+//                businessProductCreateDto.addAttachmentCreateDto(attachmentCreateDto);
+//            }
+//        }
 
         System.out.println(businessProductCreateDto + "잘불러오는감 dto");
         // 상품 id 하드 코딩
