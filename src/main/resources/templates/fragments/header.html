@@ -44,8 +44,12 @@
             </th:block>
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
                 <ul class="flex flex-col font-medium p-4 mt-4 border border-gray-100 rounded-lg bg-white md:p-0 md:space-x-8 md:flex-row md:mt-0 md:border-0 mt-3">
-                    <li>
-                        <a th:href="@{/zip/zipDetail.do}" class="block py-2 px-3 text-gray-900 hover:bg-gray-100 hover:border-b hover:border-gray-400 md:hover:bg-transparent md:p-0">미니홈피</a>
+<!--                    <li>-->
+<!--                        <a th:href="@{/zip/zipDetail.do}" class="block py-2 px-3 text-gray-900 hover:bg-gray-100 hover:border-b hover:border-gray-400 md:hover:bg-transparent md:p-0">미니홈피</a>-->
+<!--                    </li>-->
+                    <li class="nav-item">
+                        <a class="nav-link" th:if="${session.zip}" th:href="@{'/zip/zipDetail.do?id=' + ${session.zip.id}}">미니홈피</a>
+                        <a class="nav-link" th:unless="${session.zip}" th:href="@{/zip/zipCreate.do}">미니홈피</a>
                     </li>
                     <li>
                         <a th:href="@{/product/productList.do}" class="block py-2 px-3 text-gray-900 hover:bg-gray-100 hover:border-b hover:border-gray-400 md:hover:bg-transparent md:p-0">쇼핑</a>

@@ -9,6 +9,7 @@ import com.sh.onezip.zip.entity.Zip;
 import com.sh.onezip.zip.repository.ZipRepository;
 import com.sh.onezip.attachment.repository.AttachmentRepository;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,16 +88,24 @@ public class ZipService {
 
     }
 
-    public void updateZip(ZipUpdateDto zipUpdateDto, List<AttachmentCreateDto> attachments, String refType){
+    public void updateZip(Zip zip, List<AttachmentCreateDto> attachments){
         attachments.forEach((attachmentCreateDto -> {
-            attachmentCreateDto.setRefId(zipUpdateDto.getId());
-            attachmentCreateDto.setRefType(refType);
+            attachmentCreateDto.setRefId(zip.getId());
             attachmentService.createAttachment(attachmentCreateDto);
         }));
-        zipRepository.save(convertToZip2(zipUpdateDto));
+        zipRepository.save(zip);
     }
 
     public Zip convertToZip2(ZipUpdateDto zipUpdateDto){
-        return modelMapper.map(zipUpdateDto, Zip.class);
+        ModelMapper mapper = new ModelMapper();
+        PropertyMap<ZipUpdateDto, Zip> propertyMap = new PropertyMap<ZipUpdateDto, Zip>() {
+            @Override
+            protected void configure() {
+                skip(destination.getDayCount());
+                skip(destination.getTotalCount());
+            }
+        };
+        mapper.addMappings(propertyMap);
+        return mapper.map(zipUpdateDto, Zip.class);
     }
 }

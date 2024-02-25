@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class AttachmentService {
@@ -27,13 +32,19 @@ public class AttachmentService {
         return modelMapper.map(attachmentCreateDto, Attachment.class);
     }
 
-    public AttachmentDetailDto findById(Long id) {
-        return attachmentRepository.findById(id)
+    public AttachmentDetailDto findByIdWithType(Long id, String refType) {
+        return attachmentRepository.findTopByOrderByRegDateDesc(id, refType).findFirst()
                 .map(this::convertToAttachmentDetailDto)
-                .orElseThrow();
+                .orElse(null);
     }
 
     private AttachmentDetailDto convertToAttachmentDetailDto(Attachment attachment) {
         return modelMapper.map(attachment, AttachmentDetailDto.class);
+    }
+
+    public List<AttachmentDetailDto> findZipAttachmentToList(Long id, String refType) {
+        List<Attachment> attachList = attachmentRepository.findZipAttachmentToList(id, refType);
+        if(attachList.isEmpty()) {return new ArrayList<>();}
+        return attachList.stream().map(this::convertToAttachmentDetailDto).collect(Collectors.toList());
     }
 }
