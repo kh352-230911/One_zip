@@ -5,6 +5,7 @@ import com.sh.onezip.authority.entity.RoleAuth;
 import com.sh.onezip.authority.service.AuthorityService;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.repository.MemberRepository;
+import com.sh.onezip.orderproduct.entity.OrderProduct;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,6 @@ public class MemberService {
         authorityService.createAuthority(authority);
         return member;
     }
-
-
 
     public Member updateMember(Member member) {
         return memberRepository.save(member);

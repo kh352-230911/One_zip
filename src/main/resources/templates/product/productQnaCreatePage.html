@@ -19,7 +19,7 @@
 			  method="post"
 			  enctype="multipart/form-data">
 			<input type="text" class="form-control mb-3" th:value="${Member.memberId}" name="questioner" id="questioner" readonly>
-			<input type="text" class="form-control mb-3" placeholder="제목" name="qnaTitle" id="qnaTitle" required>
+<!--			<input type="text" class="form-control mb-3" placeholder="제목" name="qnaTitle" id="qnaTitle" required>-->
 			<input type="hidden" name="productNo" id="productNo" th:value="${id}">
 			<input th:if="${questionId != null}" type="hidden" name="questionId" id="questionId" th:value="${questionId}">
 			<!-- input:file소스 : https://getbootstrap.com/docs/4.1/components/input-group/#custom-file-input -->
@@ -36,6 +36,7 @@
 			<div>
 				<textarea class="form-control mb-3" name="qContent" required th:text="${productQuestion?.qContent == null? '내용': productQuestion.qContent}"></textarea>
 			</div>
+
 
 			<input type="submit" class="btn btn-block btn-outline-success" value="저장">
 		</form>

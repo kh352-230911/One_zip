@@ -4,6 +4,8 @@ import com.sh.onezip.authority.entity.Authority;
 //import com.sh.onezip.cart.entity.Cart;
 import com.sh.onezip.member.entity.Gender;
 import com.sh.onezip.neighbor.entity.Neighbor;
+import com.sh.onezip.product.entity.Product;
+import com.sh.onezip.productLog.entity.ProductLog;
 import com.sh.onezip.zip.entity.Zip;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,7 +26,6 @@ import java.util.List;
 @DynamicInsert // null이 아닌 필드만 등록
 @DynamicUpdate // 영속성컨텍스트의 엔티티와 달라진 필드만 수정
 @Table(name = "tb_member")
-@ToString(exclude = "payment")
 public class Member {
 
     @Id
@@ -55,12 +56,21 @@ public class Member {
     @JoinColumn(name = "member_id")
     private List<Authority> authorities;
 
-//    @OneToOne(mappedBy = "member")
+
+//    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY) //02-25 EAGER->LAZY
 //    private Cart cart;
+
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Zip zip;
 
 //    @OneToMany(mappedBy = "member2")
 //    private List<Neighbor> neighbor;
+
+    @OneToMany(mappedBy = "member2")
+    private List<Neighbor> neighbor;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<ProductLog> productLogs = new ArrayList<>();
 }

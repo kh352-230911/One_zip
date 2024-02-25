@@ -1,5 +1,6 @@
 package com.sh.onezip.productLog.entity;
 
+import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.orderproduct.entity.OrderProduct;
 import com.sh.onezip.payment.entity.Payment;
 import com.sh.onezip.product.entity.Product;
@@ -28,9 +29,13 @@ public class ProductLog {
             initialValue = 1,
             allocationSize = 1)
     private Long id;
-    @JoinColumn(name = "memberId")
-    @Column(name = "member_id")
-    private String memberId;
+    // 02-24 변경점
+//    @JoinColumn(name = "memberId")
+//    @Column(name = "member_id")
+//private String memberId;
+    @ManyToOne(fetch = FetchType.LAZY) // 02-17: EAGER->LAZY
+    @JoinColumn(name = "member_id")
+    private Member member;
     @Column(name = "purchase_date")
     private String purchaseDate;
     @Enumerated(EnumType.STRING)
@@ -55,6 +60,10 @@ public class ProductLog {
 //    @OneToMany(mappedBy = "productLog")
 //    @Builder.Default
 //    private List<Product> products = new ArrayList<>();
+
+    @OneToMany(mappedBy = "productLog", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 
 
 }

@@ -29,13 +29,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("select p, b from Product p left join fetch p.businessmember b where b.bizMemberId = :bizMemberId")
     List<Product> findByBusinessmemberBizMemberId(String bizMemberId);
 
-    @Query("from Product p left join fetch p.businessmember b left join p.productImages order by p.id desc")
+    @Query("from Product p left join fetch p.businessmember b order by p.id desc")
     Page<Product> findAll(Pageable pageable);
 
-    @Query("from Product p left join fetch p.businessmember b left join p.productImages where p.productPrice <= :refPrice order by p.id desc")
+    @Query("from Product p left join fetch p.businessmember b where p.productPrice <= :refPrice order by p.id desc")
     Page<Product> findAllByPriceUnder(Pageable pageable, int refPrice);
 
-    @Query("from Product p left join fetch p.businessmember b left join p.productImages where p.productPrice >= :refPrice order by p.id desc")
+    @Query("from Product p left join fetch p.businessmember b where p.productPrice >= :refPrice order by p.id desc")
     Page<Product> findAllByPriceUpper(Pageable pageable, int refPrice);
 
     @Query("from Product p where p.productPrice <= :refPrice")
