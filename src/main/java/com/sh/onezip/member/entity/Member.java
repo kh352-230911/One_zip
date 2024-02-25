@@ -56,7 +56,7 @@ public class Member {
     @JoinColumn(name = "member_id")
     private List<Authority> authorities;
 
-    @OneToOne(mappedBy = "member")
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY) //02-25 EAGER->LAZY
     private Cart cart;
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
