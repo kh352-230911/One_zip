@@ -1,10 +1,14 @@
 package com.sh.onezip.product.controller;
 
+import com.sh.onezip.attachment.entity.Attachment;
+import com.sh.onezip.attachment.service.AttachmentService;
 import com.sh.onezip.auth.vo.MemberDetails;
 import com.sh.onezip.cart.entity.Cart;
 import com.sh.onezip.cart.service.CartService;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.service.MemberService;
+import com.sh.onezip.orderproduct.dto.OrderProductDto;
+import com.sh.onezip.orderproduct.entity.OrderProduct;
 import com.sh.onezip.orderproduct.service.OrderProductService;
 import com.sh.onezip.product.dto.ProductCartCreateDto;
 import com.sh.onezip.product.dto.ProductDetailDto;
@@ -19,6 +23,9 @@ import com.sh.onezip.productReview.dto.ProductReviewCreateDto;
 import com.sh.onezip.productReview.dto.ProductReviewDto;
 import com.sh.onezip.productReview.entity.ProductReview;
 import com.sh.onezip.productReview.service.ProductReviewService;
+//import com.sh.onezip.productimage.entity.ProductImage;
+//import com.sh.onezip.productimage.repository.ProductImageRepository;
+//import com.sh.onezip.productimage.service.ProductImageService;
 import com.sh.onezip.productoption.entity.ProductOption;
 import com.sh.onezip.productoption.service.ProductOptionService;
 import com.sh.onezip.productquestion.dto.ProductQuestionCreateDto;
@@ -70,16 +77,20 @@ public class ProductController {
     ProductOptionService productOptionService;
     @Autowired
     CartService cartService;
+//    @Autowired
+//    ProductImageService productImageService;
 
     @Autowired
     MemberService memberService;
+    @Autowired
+    AttachmentService attachmentService;
 
     @GetMapping("/productList.do")
     public void productList(Model model, HttpServletRequest httpServletRequest){
 
         int realPage = 1;
         int refPrice = 0;
-        int limit = 5;
+        int limit = 6;
         try {
             refPrice = Integer.parseInt(httpServletRequest.getParameter("price"));
         } catch (NumberFormatException ignore) {}
@@ -97,8 +108,6 @@ public class ProductController {
         Page<ProductListDto> productPage = productService.productListDtoFindAllByPrice(pageable, refPrice);
         List<ProductListDto> productListDtos = productService.productListDtoFindAllByPrice(refPrice);
 
-        model.addAttribute("selectedPriceRange", String.valueOf(refPrice));
-        System.out.println("Selected Price Range: " + refPrice);
         // 1: 현재 페이지 번호
         // 2: 한 페이지당 표시할 개체 수
         // 3: 전체 개체수
@@ -115,7 +124,10 @@ public class ProductController {
                               Model model) {
         ProductDetailDto productDetailDto = productService.productDetailDtofindById(id);
         List<ProductOption> productOptions = productOptionService.findAllByProductId(productDetailDto.getId());
+
+        List<Attachment> attachmentList = attachmentService.findProductAttachmentToList(productDetailDto.getId());
         productDetailDto.setProductOptions(productOptions);
+        productDetailDto.setAttachmentList(attachmentList);
 
         model.addAttribute("product", productDetailDto);
         log.debug("product = {}", productDetailDto);
@@ -430,7 +442,7 @@ public class ProductController {
 
         ProductLog newProductLog = ProductLog
                 .builder()
-                .memberId(member.getMemberId())
+                .member(member)
                 .purchaseDate(LocalDate.now().toString())
                 .shppingState(ShppingState.R)
                 .refundCheck(RefundCheck.N)
@@ -444,7 +456,7 @@ public class ProductController {
         model.addAttribute("productLog", productLog);
         model.addAttribute("productOptId", productOptId);
         model.addAttribute("productId", productId);
-        model.addAttribute("productQuantityd", productQuantity);
+        model.addAttribute("productQuantity", productQuantity);
 
     }
 
@@ -457,14 +469,24 @@ public class ProductController {
 
         return "";
     }
+//
+//    @PostMapping("/productPostverify.do")
+//    public ResponseEntity<?>  productPostverify(@RequestBody Map<String, String> requestData,
+//                                  @AuthenticationPrincipal MemberDetails memberDetails){
+//        Member member = memberDetails.getMember();
+//        boolean satisfyVerify = productService.postVerify(requestData, member);
+//            return ResponseEntity.ok(Map.of("result", satisfyVerify));
+//    }
+
 
     @PostMapping("/productPostverify.do")
     public ResponseEntity<?>  productPostverify(@RequestBody Map<String, String> requestData,
-                                  @AuthenticationPrincipal MemberDetails memberDetails){
+                                                @AuthenticationPrincipal MemberDetails memberDetails){
         Member member = memberDetails.getMember();
         boolean satisfyVerify = productService.postVerify(requestData, member);
-            return ResponseEntity.ok(Map.of("result", satisfyVerify));
+        return ResponseEntity.ok(Map.of("result", satisfyVerify));
     }
+
 
     @PostMapping("/productOrderReverse.do")
     public void productOrderReverse(@RequestBody Map<String, String> requestData){
@@ -513,10 +535,12 @@ public class ProductController {
                             @AuthenticationPrincipal MemberDetails memberDetails,
                             Model model){
         Member member = memberDetails.getMember();
+        productCartCreateDto.setMember(member);
         Cart cart = cartService.convertToCart(productCartCreateDto);
         List<Cart> loginMemberCartList = cartService.findAllByMemberId(member.getMemberId());
         cart.setMember(memberDetails.getMember());
         loginMemberCartList.add(cart);
+        System.out.println(cart + ":cart");
         model.addAttribute("loginMemberCartList", loginMemberCartList);
     }
 
@@ -532,5 +556,43 @@ public class ProductController {
 //        }
 //
 //    }
+
+    @GetMapping("/productOrderList.do")
+    public void productOrderList(@AuthenticationPrincipal MemberDetails memberDetails,
+                                 HttpServletRequest httpServletRequest,
+                                 Model model){
+        Member member = memberDetails.getMember();
+//        try {
+//            id = Long.parseLong(httpServletRequest.getParameter("id"));
+//        } catch (NumberFormatException ignore) {}
+        String memberId = member.getMemberId();
+        List<OrderProduct> orderProducts = orderProductService.findAllOrderProductByMemberId(memberId);
+        int realPage = 1;
+        int limit = 5;
+
+        try {
+            realPage = Integer.parseInt(httpServletRequest.getParameter("page"));
+        } catch (NumberFormatException ignore) {}
+
+        String url = httpServletRequest.getRequestURI();
+
+        Pageable pageable = PageRequest.of(realPage - 1, limit);
+        Page<OrderProductDto> productOrderPage = orderProductService.productOrderFindAllByMemberId(pageable, member.getMemberId());
+        List<OrderProductDto> productOrderDtos = orderProductService.productOrderDtoFindAllByMemberId(member.getMemberId());
+
+        // 1: 현재 페이지 번호
+        // 2: 한 페이지당 표시할 개체 수
+        // 3: 전체 개체수
+        // 4: 요청 url
+        String pagebar = HelloMvcUtils.getPagebar(
+                realPage, limit, orderProducts.size() , url);
+//        System.out.println(productQuestionDtos + "productQuestionDtos***");
+        model.addAttribute("pagebar", pagebar);
+//        model.addAttribute("productQuestionDtos", productQuestionDtos);
+        model.addAttribute("orders", productOrderPage.getContent());
+        model.addAttribute("totalCount", productOrderDtos.size());
+//        model.addAttribute("productId", id);
+//        model.addAttribute("member", member);
+    }
 
 }
