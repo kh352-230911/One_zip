@@ -27,6 +27,7 @@ public interface OrderProductRepository extends JpaRepository<OrderProduct, Long
     @Query("from OrderProduct op where op.productLog.member.memberId = :memberId")
     List<OrderProduct> findAllOrderProductByMemberId(String memberId);
 
+<<<<<<< HEAD
     @Query("from OrderProduct op where op.product.businessmember.bizMemberId = :bizMemberId order by op.id desc")
     Page<OrderProduct> productOrderFindAllByBizMemberId(Pageable pageable, String bizMemberId);
 

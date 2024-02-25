@@ -124,6 +124,7 @@ public class ProductController {
                               Model model) {
         ProductDetailDto productDetailDto = productService.productDetailDtofindById(id);
         List<ProductOption> productOptions = productOptionService.findAllByProductId(productDetailDto.getId());
+
         List<Attachment> attachmentList = attachmentService.findProductAttachmentToList(productDetailDto.getId());
         productDetailDto.setProductOptions(productOptions);
         productDetailDto.setAttachmentList(attachmentList);

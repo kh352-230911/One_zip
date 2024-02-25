@@ -69,7 +69,6 @@ public class Product implements Comparable<Product> {
     @Builder.Default
     private List<Cart> cart = new ArrayList<>();
 
-
     @Override
     public int compareTo(Product other) {
         return (int)(this.id - other.id);
