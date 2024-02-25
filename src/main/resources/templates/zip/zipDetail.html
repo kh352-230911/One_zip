@@ -140,6 +140,7 @@
                       </div>
                   </td>
                     <td class="box3" style="padding-top:0">
+                        프로필
                         <div class="flex justify-center items-center h-screen" style="display: inline">
                             <div class="bg-white shadow-lg rounded-lg p-6" style="padding-bottom: 0.9rem">
                                 <div class="border-b-2 pb-2" style="margin-bottom: 1rem; padding-bottom: 0">
@@ -170,7 +171,10 @@
                     </td>
                   <td class="box4">이웃, 일정, 선물박스
                       <br>
-                      <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button"> 내 이웃 </button>
+<!--                      <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button"> 내 이웃 </button>-->
+                      <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                          내 이웃
+                      </button>
                   </td>
                 </tr>
                 <tr class="row2">
