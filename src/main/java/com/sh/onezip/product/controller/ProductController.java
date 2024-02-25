@@ -79,7 +79,7 @@ public class ProductController {
 
         int realPage = 1;
         int refPrice = 0;
-        int limit = 5;
+        int limit = 6;
         try {
             refPrice = Integer.parseInt(httpServletRequest.getParameter("price"));
         } catch (NumberFormatException ignore) {}
