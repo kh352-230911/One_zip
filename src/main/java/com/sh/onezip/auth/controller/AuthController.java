@@ -14,4 +14,9 @@ public class AuthController {
     public void login(){
 
     }
+
+    @GetMapping("/bizLogin.do")
+    public void bizLogin(){
+
+    }
 }
