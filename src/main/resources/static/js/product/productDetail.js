@@ -128,36 +128,3 @@ function submitForm(action) {
     // 폼을 서버로 전송합니다.
     form.submit();
 }
-
-// function productPurchase() {
-//         console.log('productPurchase() 실행중');
-//     // document.getElementById('myForm').action = `${contextPath}product/productPurchaseInfo.do`;
-//     location.href = `${contextPath}product/productPurchaseInfo.do`;
-//     document.getElementById('myForm').submit();
-// }
-//
-// function productCart() {
-//     console.log('productCart() 실행중');
-//     document.getElementById('myForm').action = `${contextPath}product/productCart.do`;
-//     document.getElementById('myForm').submit();
-// }
-
-// function submitForm(endpointURL) {
-//     const csrfToken = document.getElementById('csrfToken').value;
-//     const form = document.getElementById('myForm');
-//
-//     // 선택된 URL로 폼의 action을 설정
-//     form.action = endpointURL;
-//
-//     // 새로운 CSRF 토큰을 생성하여 폼에 추가
-//     const csrfInputElement = document.createElement('input');
-//     const csrfTokenEle = document.querySelector("#csrfToken");
-//
-//     csrfInputElement.type = 'hidden';
-//     csrfInputElement.name = csrfTokenEle.name;
-//     csrfInputElement.value = csrfToken;
-//     form.appendChild(csrfInputElement);
-//
-//     // 폼 제출
-//     form.submit();
-// }

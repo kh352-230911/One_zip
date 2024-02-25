@@ -63,10 +63,16 @@ public class TipController {
                           @AuthenticationPrincipal MemberDetails memberDetails,
                           Model model) {
         Zip zip= zipRepository.findByUsername(memberDetails.getUsername());
+        model.addAttribute("zip",zip);
+        model.addAttribute("pfAttachments", attachmentService.findByIdWithType(zip.getId(), "PF"));
+        System.out.println("flag1");
+        model.addAttribute("stAttachments", attachmentService.findByIdWithType(zip.getId(), "ST"));
+        System.out.println("flag2");
+        model.addAttribute("roAttachments", attachmentService.findZipAttachmentToList(zip.getId(), "RO"));
+        System.out.println("flag3");
 
         Page<TipListDto> tipPage = tipService.findAllByZipId(zip.getId(), pageable);
         Page<TipListDto> latestTips = tipService.findAllByZipId(zip.getId(), PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "regDate")));
-
         model.addAttribute("latestTips", latestTips.getContent());
         log.debug("tips = {}", tipPage.getContent());
         model.addAttribute("tips", tipPage.getContent());
@@ -76,8 +82,23 @@ public class TipController {
     }
 
     @GetMapping("/createTip.do")
-    public String createTipForm(Model model) {
+    public String createTipForm( @AuthenticationPrincipal MemberDetails memberDetails,
+                                 @PageableDefault(size = 5, page = 0) Pageable pageable,
+                                 Model model) {
+        Zip zip= zipRepository.findByUsername(memberDetails.getUsername());
+        model.addAttribute("zip",zip);
+        model.addAttribute("pfAttachments", attachmentService.findByIdWithType(zip.getId(), "PF"));
+        System.out.println("flag1");
+        model.addAttribute("stAttachments", attachmentService.findByIdWithType(zip.getId(), "ST"));
+        System.out.println("flag2");
+        model.addAttribute("roAttachments", attachmentService.findZipAttachmentToList(zip.getId(), "RO"));
+        model.addAttribute("diaryCreateDto", new DiaryCreateDto());
         model.addAttribute("tipCreateDto", new TipCreateDto());
+        Page<TipListDto> tipPage = tipService.findAllByZipId(zip.getId(), pageable);
+        Page<TipListDto> latestTips = tipService.findAllByZipId(zip.getId(), PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "regDate")));
+        model.addAttribute("latestTips", latestTips.getContent());
+        log.debug("tips = {}", tipPage.getContent());
+        model.addAttribute("tips", tipPage.getContent());
         return "community/createTip";
     }
     @PostMapping("/createTip.do")
@@ -99,7 +120,16 @@ public class TipController {
 
 
     @GetMapping("/tipDetail.do")
-    public void tipDetail(@RequestParam("id") Long id, Model model) {
+    public void tipDetail( @AuthenticationPrincipal MemberDetails memberDetails,
+                           @RequestParam("id") Long id, Model model) {
+        Zip zip= zipRepository.findByUsername(memberDetails.getUsername());
+        model.addAttribute("zip",zip);
+        model.addAttribute("pfAttachments", attachmentService.findByIdWithType(zip.getId(), "PF"));
+        System.out.println("flag1");
+        model.addAttribute("stAttachments", attachmentService.findByIdWithType(zip.getId(), "ST"));
+        System.out.println("flag2");
+        model.addAttribute("roAttachments", attachmentService.findZipAttachmentToList(zip.getId(), "RO"));
+        model.addAttribute("diaryCreateDto", new DiaryCreateDto());
         TipDetailDto tipDetailDto = tipService.findById(id);
         model.addAttribute("tip", tipDetailDto);
         log.debug("tip = {}", tipDetailDto);

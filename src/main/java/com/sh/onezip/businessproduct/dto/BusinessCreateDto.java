@@ -1,5 +1,6 @@
 package com.sh.onezip.businessproduct.dto;
 
+import com.sh.onezip.businessproduct.entity.BizAccess;
 import com.sh.onezip.businessproduct.entity.Businessmember;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -15,7 +16,9 @@ public class BusinessCreateDto {
     private String bizPhone;
     private String bizAddr;
     private String bizDetailAddr;
-//    private String bizLicense;
+    private String bizLicense;
+    private String bizRegNo;
+    private BizAccess bizRegStatus;
 
     public Businessmember toBusiness(){
         return Businessmember.builder()
@@ -25,7 +28,9 @@ public class BusinessCreateDto {
                 .bizPhone(bizPhone)
                 .bizAddr(bizAddr)
                 .bizAddr(bizDetailAddr)
-//                .bizLicense(bizLicense)
+                .bizLicense(bizLicense)
+                .bizRegNo(bizRegNo)
+                .bizRegStatus(bizRegStatus)
                 .build();
     }
 }

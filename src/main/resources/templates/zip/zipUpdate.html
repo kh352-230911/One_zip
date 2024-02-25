@@ -40,7 +40,7 @@
                                 <input type="hidden" id="csrf" th:value="${_csrf.token}" />
                                 <button type="submit">검색</button>
                             </form>
-                            <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button">내 이웃</button>
+<!--                            <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button">내 이웃</button>-->
                         </div>
                     </div>
                     <div class="home_main">
@@ -50,9 +50,10 @@
                             <div class="bg-white shadow-md rounded-md p-6 max-w-md grid grid-cols-2 gap-4">
                                 <div>
                                     <h1 class="text-black font-bold mb-4">집 꾸미기 페이지</h1>
+
                                     <form id="uploadFrm" action="/onezip/zip/zipUpdate.do" method="post" enctype="multipart/form-data">
                                         <div class="mb-4">
-                                            <label for="imageUpload" class="block text-sm font-medium text-gray-700">이미지를 선택하세요:</label>
+                                            <label for="imageUpload" class="block text-sm font-medium text-gray-700">프로필 이미지를 선택하세요:</label>
                                             <input type="file" id="imageUpload" name="upFile" accept="image/*" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" onchange="previewImage()">
                                             <input type="hidden" name="fileType" value="PF" />
                                             <img id="imagePreview" class="mt-2 hidden" src="#" alt="이미지 미리보기">
@@ -65,14 +66,22 @@
                                             <label for="bgColor" class="block text-sm font-medium text-black">배경색을 선택하세요:</label>
                                             <input type="color" id="bgColor" name="colorCode" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                         </div>
-                                        <input type="file" name="upFile" accept="image/*" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" onchange="previewImage()">
-                                        <input type="hidden" name="fileType" value="RO" />
-                                        <input type="file" name="upFile" accept="image/*" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" onchange="previewImage()">
-                                        <input type="hidden" name="fileType" value="ST" />
-                                        <button type="submit" class="inline-block bg-blue-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">수정하기</button>
+                                        <div class="mb-4">
+                                            <label for="imageUpload" class="block text-sm font-medium text-gray-700">방 이미지를 선택하세요:</label>
+                                            <input type="file" name="upFile" accept="image/*" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" onchange="previewImage()">
+                                            <input type="hidden" name="fileType" value="RO" />
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="imageUpload" class="block text-sm font-medium text-gray-700">스토리 이미지를 선택하세요:</label>
+                                            <input type="file" name="upFile" accept="image/*" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" onchange="previewImage()">
+                                            <input type="hidden" name="fileType" value="ST" />
+                                        </div>
+                                        <button type="submit" class="inline-block bg-blue-500 text-white font-semibold px-1 py-3 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">수정 하기</button>
                                     </form>
+
                                 </div>
                             </div>
+
                         </div>
                     </div>
 

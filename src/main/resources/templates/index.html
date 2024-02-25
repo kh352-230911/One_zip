@@ -12,21 +12,21 @@
 		<section id="content">
 			<div id="gallery" class="relative w-full" data-carousel="slide">
 				<!-- Carousel wrapper -->
-				<div class="relative h-56 overflow-hidden rounded-lg md:h-80">
-					<!-- Item 1 -->
+				<div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+					<!-- 배너이미지 -->
 					<div class="hidden duration-700 ease-in-out" data-carousel-item>
-						<img th:src="@{/images/오세페.png}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
+						<img th:src="@{/images/영어학원배너.jpg}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
 					</div>
 					<div class="hidden duration-700 ease-in-out" data-carousel-item>
-						<img th:src="@{/images/오세페.png}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
+						<img th:src="@{/images/이게뭐야배너.jpg}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
 					</div>
 					<div class="hidden duration-700 ease-in-out" data-carousel-item>
-						<img th:src="@{/images/오세페.png}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
+						<img th:src="@{/images/파란배너.jpg}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
 					</div>
-					<!-- Item 4 -->
 					<div class="hidden duration-700 ease-in-out" data-carousel-item>
-						<img th:src="@{/images/오세페.png}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
+						<img th:src="@{/images/인기가구.png}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
 					</div>
+
 				</div>
 				<!-- Slider controls -->
 				<button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
@@ -68,6 +68,7 @@
 										alt=""
 										class="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
 								/>
+
 								<div
 										class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"
 								></div>
@@ -85,7 +86,7 @@
 									<h3
 											class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
 									>
-										<a href="#">
+										<a th:href="@{|http://localhost:8080/onezip/zip/zipDetail.do?id=363|}">
 											<span class="absolute inset-0"></span>
 											안녕하세요, 아이유 입니다.😀
 										</a>
@@ -138,7 +139,7 @@
 									<h3
 											class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
 									>
-										<a href="#">
+										<a th:href="@{|http://localhost:8080/onezip/zip/zipDetail.do?id=366|}">
 											<span class="absolute inset-0"></span>
 											안녕하세요, 마동석 입니다.😀
 										</a>
@@ -194,7 +195,7 @@
 									<h3
 											class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
 									>
-										<a href="#">
+										<a th:href="@{|http://localhost:8080/onezip/zip/zipDetail.do?id=364|}">
 											<span class="absolute inset-0"></span>
 											안녕하세요 카리나 입니다.😀
 										</a>

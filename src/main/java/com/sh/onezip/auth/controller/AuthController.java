@@ -1,5 +1,6 @@
 package com.sh.onezip.auth.controller;
 
+import com.sh.onezip.businessproduct.entity.Businessmember;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,4 +15,11 @@ public class AuthController {
     public void login(){
 
     }
+
+    @GetMapping("/bizlogin.do")
+    public void bizlogin(){
+    }
+
 }
+//    Businessmember businessmember = new Businessmember();
+//        return "redirect:/businessproduct/businessproductlist.do?bizMemberId=" + businessmember.getBizMemberId();
