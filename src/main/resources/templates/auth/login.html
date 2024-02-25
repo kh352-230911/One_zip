@@ -1,72 +1,102 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layout/default}">
 <head>
 	<meta charset="utf-8">
 	<title th:text="로그인"></title>
 	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 	<!-- bootstrap js -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<!--	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>-->
+<!--	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>-->
 	<!-- bootstrap css -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<!--	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">-->
 </head>
-<body>
-<!-- Modal시작 -->
-<!-- https://getbootstrap.com/docs/4.1/components/modal/#live-demo -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog"
-	 aria-labelledby="loginModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="loginModalLabel">로그인</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<!--로그인폼 -->
-			<!-- https://getbootstrap.com/docs/4.1/components/forms/#overview -->
-			<form
-					th:action="@{/auth/login.do}"
-					method="post">
-				<div class="modal-body">
-					<div th:if="${param.error != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
-						<span class="text-danger">아이디 또는 비밀번호가 일치하지 않습니다.</span>
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
+<div layout:fragment="content" class="justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 mt-3">
+	<div class="mx-auto w-full max-w-sm lg:w-96">
+		<div>
+			<!-- <img class="h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company"> -->
+			<h2 class="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">로그인</h2>
+			<p class="mt-2 text-sm leading-6 text-gray-500">
+				회원이 아니신가요?
+				<a href="#" th:onclick="|location.href='@{/member/selectMemberType.do}';|" class="font-semibold text-indigo-600 hover:text-indigo-500">여기서 회원가입하세요😀</a>
+			</p>
+		</div>
+
+		<div class="mt-10">
+			<div>
+				<form th:action="@{/auth/login.do}" method="POST" class="space-y-6">
+					<div>
+						<label for="username" class="block text-sm font-medium leading-6 text-gray-900">아이디</label>
+						<div class="mt-2">
+							<input id="username" name="username" type="text" autocomplete="username" required class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+						</div>
+
+
+
+					<div class="mt-2">
+						<label for="password" class="block text-sm font-medium leading-6 text-gray-900">비밀번호</label>
+						<div class="mt-2">
+							<input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+						</div>
+					</div>
+						<div th:if="${param.error != null}">
+							<p class="mt-1 text-sm text-red-600 dark:text-red-500"><span class="font-medium">죄송합니다</span> 아이디 또는 비밀번호가 일치하지 않습니다.</p>
+						</div>
 					</div>
 
-					<input type="text" class="form-control" name="username" placeholder="아이디" value="honggd" required>
-					<br />
-					<input type="password" class="form-control" name="password" placeholder="비밀번호" value="1234" required>
-				</div>
-				<div class="modal-footer d-flex flex-column align-items-start">
-					<div class="px-1 pb-3">
-						<a th:href="@{/oauth2/authorization/google}">google login</a>
-						|
-						<a th:href="@{/oauth2/authorization/kakao}">kakao login</a>
-					</div>
-					<div class="w-100 d-flex justify-content-between">
-						<div class="form-check ">
-							<input type="checkbox" class="form-check-input" name="remember-me" id="remember-me">
-							<label class="form-check-label" for="remember-me">Remember me</label>
+					<div class="flex items-center justify-between">
+						<div class="flex items-center">
+							<input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
+							<label for="remember-me" class="ml-3 block text-sm leading-6 text-gray-700">아이디 저장</label>
 						</div>
-						<div>
-							<button type="submit" class="btn btn-outline-success">로그인</button>
-							<button type="button" class="btn btn-outline-success" data-dismiss="modal">취소</button>
+
+						<div class="text-sm leading-6">
+							<a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">비밀번호 찾기</a>
 						</div>
 					</div>
+
+					<div>
+						<button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-2">로그인</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="mt-10">
+				<div class="relative">
+					<div class="absolute inset-0 flex items-center" aria-hidden="true">
+						<div class="w-full border-t border-gray-200"></div>
+					</div>
+					<div class="relative flex justify-center text-sm font-medium leading-6">
+						<span class="bg-white px-6 text-gray-900">Or continue with</span>
+					</div>
 				</div>
-			</form>
+
+				<div class="mt-6 grid grid-cols-2 gap-4">
+
+					<a th:href="@{/oauth2/authorization/google}" class="flex w-full items-center justify-center shadow-sm ring-1 ring-inset ring-gray-300 gap-3 rounded-md bg-white px-3 py-1.5 text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
+						<svg class="h-5 w-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+						<span class="text-sm font-semibold leading-6">Google</span>
+					</a>
+
+					<a th:href="@{/oauth2/authorization/kakao}" class="flex w-full items-center justify-center shadow-sm ring-1 ring-inset ring-gray-300 gap-3 rounded-md bg-white px-3 py-1.5 text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
+						<svg xmlns="http://www.w3.org/2000/svg"  class="w-6 h-6 me-2" aria-hidden="true" viewBox="0 0 48 48"><path fill="#263238" d="M24,4C12.402,4,3,11.611,3,21c0,5.99,3.836,11.245,9.618,14.273l-2.219,7.397	c-0.135,0.449,0.366,0.82,0.756,0.56l8.422-5.615C21.004,37.863,22.482,38,24,38c11.598,0,21-7.611,21-17S35.598,4,24,4z"/><path fill="#ffca28" d="M15,18H9c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h6c0.552,0,1,0.448,1,1v0	C16,17.552,15.552,18,15,18z"/><path fill="#ffca28" d="M25,26v-9c0-0.552,0.448-1,1-1h0c0.552,0,1,0.448,1,1v9c0,0.552-0.448,1-1,1h0	C25.448,27,25,26.552,25,26z"/><path fill="#ffca28" d="M32,26v-9c0-0.552,0.448-1,1-1l0,0c0.552,0,1,0.448,1,1v9c0,0.552-0.448,1-1,1l0,0	C32.448,27,32,26.552,32,26z"/><path fill="#ffca28" d="M32.621,21.207l4.914-4.914c0.391-0.391,1.024-0.391,1.414,0v0c0.391,0.391,0.391,1.024,0,1.414	l-4.914,4.914c-0.391,0.391-1.024,0.391-1.414,0l0,0C32.231,22.231,32.231,21.598,32.621,21.207z"/><path fill="#ffca28" d="M36.078,20.665l3.708,4.717c0.341,0.434,0.266,1.063-0.168,1.404l0,0	c-0.434,0.341-1.063,0.266-1.404-0.168l-3.708-4.717c-0.341-0.434-0.266-1.063,0.168-1.404v0	C35.108,20.156,35.737,20.231,36.078,20.665z"/><path fill="#ffca28" d="M30,27h-4c-0.552,0-1-0.448-1-1v0c0-0.552,0.448-1,1-1h4c0.552,0,1,0.448,1,1v0	C31,26.552,30.552,27,30,27z"/><path fill="#ffca28" d="M23.933,25.642l-3.221-9c-0.145-0.379-0.497-0.611-0.878-0.629c-0.111-0.005-0.54-0.003-0.641-0.001	c-0.392,0.007-0.757,0.241-0.906,0.63l-3.221,9c-0.198,0.516,0.06,1.094,0.576,1.292s1.094-0.06,1.292-0.576L17.42,25h4.16	l0.486,1.358c0.198,0.516,0.776,0.773,1.292,0.576S24.131,26.157,23.933,25.642z M18.136,23l1.364-3.812L20.864,23H18.136z"/><path fill="#ffca28" d="M13,18h-2v8c0,0.552,0.448,1,1,1h0c0.552,0,1-0.448,1-1V18z"/></svg>
+						<span class="text-sm font-semibold leading-6">Kakao</span>
+					</a>
+
+
+				</div>
+			</div>
 		</div>
 	</div>
+	</div>
 </div>
-<script>
-	$(loginModal)
-			.modal()
-			.on('hide.bs.modal', (e) => {
-				location.href = '[[@{/}]]';
-			});
-</script>
-</body>
+<!--<script>-->
+<!--	$(loginModal)-->
+<!--			.modal()-->
+<!--			.on('hide.bs.modal', (e) => {-->
+<!--				location.href = '[[@{/}]]';-->
+<!--			});-->
+<!--</script>-->
 </html>

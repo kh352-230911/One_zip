@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -95,14 +96,6 @@ public class MemberController {
     }
 
 
-//    private String extractDetailAddress(String fullAddress) {
-//        if (fullAddress == null || fullAddress.isEmpty()) {
-//            return ""; // 빈 문자열 반환
-//        }
-//        String[] parts = fullAddress.split("#");
-//        return parts.length > 1 ? parts[1] : ""; // 상세 주소 반환 또는 빈 문자열
-//    }
-
     private String extractBaseAddress(String fullAddress) {
         if (fullAddress == null || fullAddress.isEmpty()) {
             return ""; // 빈 문자열 반환
@@ -138,10 +131,11 @@ public class MemberController {
         // entity 업데이트
         Member member = memberDetails.getMember();
         member.setName(memberUpdateDto.getName());
+        member.setNickname(memberUpdateDto.getNickname());
         member.setMemberAddr(memberUpdateDto.getMemberAddr());
         member.setHobby(memberUpdateDto.getHobby());
         member.setMbti(memberUpdateDto.getMbti());
-
+        member.setMemberAddr(memberUpdateDto.getMemberAddr() + "#" + memberUpdateDto.getMemberDetailAddr());
         memberService.updateMember(member);
 
         // security Authentication 갱신
@@ -161,5 +155,11 @@ public class MemberController {
         return ResponseEntity.ok(resultMap);
     }
 
+
+
+    @GetMapping("/selectMemberType.do")
+    public void selectMemberType() {
+
+    }
 
 }

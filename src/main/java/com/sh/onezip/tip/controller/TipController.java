@@ -107,9 +107,8 @@ public class TipController {
     }
 
     @GetMapping("/fileDownload.do")
-    public ResponseEntity<?> fileDownload(@RequestParam("id") Long id) throws UnsupportedEncodingException {
-        AttachmentDetailDto attachmentDetailDto = attachmentService.findById(id);
-
+    public ResponseEntity<?> fileDownload(@RequestParam("id") Long id, @RequestParam("refType") String refType) throws UnsupportedEncodingException {
+        AttachmentDetailDto attachmentDetailDto = attachmentService.findByIdWithType(id, refType);
         return s3FileService.download(attachmentDetailDto);
     }
 

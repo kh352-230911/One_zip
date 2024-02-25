@@ -2,6 +2,7 @@ package com.sh.onezip.zip.controller;
 
 import com.sh.onezip.attachment.dto.AttachmentCreateDto;
 import com.sh.onezip.attachment.dto.AttachmentDetailDto;
+import com.sh.onezip.attachment.entity.Attachment;
 import com.sh.onezip.attachment.service.AttachmentService;
 import com.sh.onezip.attachment.service.S3FileService;
 import com.sh.onezip.auth.vo.MemberDetails;
@@ -19,6 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +40,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/zip")
@@ -108,6 +111,10 @@ public class ZipController {
     public void zipDetail(@RequestParam("id") Long id, Model model){
         ZipDetailDto zipDetailDto = zipService.findById(id);
         zipService.updateViewCounts(id);
+        model.addAttribute("pfAttachments", attachmentService.findByIdWithType(id, "PF"));
+        model.addAttribute("stAttachments", attachmentService.findByIdWithType(id, "ST"));
+        model.addAttribute("roAttachments", attachmentService.findZipAttachmentToList(id, "RO"));
+//        model.addAttribute("elseAttachments", list);
         model.addAttribute("zip", zipDetailDto);
         log.debug("zip = {}", zipDetailDto);
     }
@@ -131,6 +138,7 @@ public class ZipController {
         }
         zipCreateDto.setMemberId(memberDetails.getMember().getMemberId());
         Zip zip = zipService.zipCreate(zipCreateDto);
+        memberDetails.getMember().setZip(zip);
         req.getSession().setAttribute("zip", zip);
         redirectAttributes.addFlashAttribute("msg", "집 생성을 축하합니다.");
         return "redirect:/";
@@ -146,8 +154,8 @@ public class ZipController {
     public String zipUpdate(
             @Valid ZipUpdateDto zipUpdateDto,
             BindingResult bindingResult,
-            @RequestParam("upFile") List<MultipartFile> upFiles,
-            @RequestParam("fileType") String[] fileType,
+            @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles,
+            @RequestParam(value = "fileType", required = false) String[] fileType,
             @AuthenticationPrincipal MemberDetails memberDetails,
             RedirectAttributes redirectAttributes,
             HttpServletRequest req)
@@ -159,35 +167,41 @@ public class ZipController {
         }
         // 첨부파일 S3에 저장
         List<AttachmentCreateDto> AttachmentCreates = new ArrayList<>();
-        for(int i = 0; i < upFiles.size(); i++) {
-            if(upFiles.get(i).getSize() > 0) {
-                AttachmentCreateDto attachmentCreateDto = s3FileService.upload(upFiles.get(i));
-                attachmentCreateDto.setRefType(fileType[i]);
-                AttachmentCreates.add(attachmentCreateDto);
-            }
+        if(upFiles != null) {
+            IntStream.range(0, upFiles.size()).filter(i->upFiles.get(i).getSize() > 0)
+                    .mapToObj(i->{
+                        try {
+                            AttachmentCreateDto attachmentCreateDto = s3FileService.upload(upFiles.get(i));
+                            attachmentCreateDto.setRefType(fileType[i]);
+                            return attachmentCreateDto;
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).forEach(AttachmentCreates::add);
         }
         // DB에 저장(게시글, 첨부파일)
-        zipUpdateDto.setId(memberDetails.getMember().getZip().getId());
-        zipUpdateDto.setMember(memberDetails.getMember());
-
-        zipService.updateZip(zipUpdateDto, AttachmentCreates, "ZP");
+        Optional<Zip> optZip = zipService.findByMemberId(memberDetails.getMember().getMemberId());
+        if(optZip.isPresent()) {
+            Zip zip = optZip.get();
+            BeanUtils.copyProperties(zipUpdateDto, zip);
+            zip.setMember(memberDetails.getMember());
+            zipService.updateZip(zip, AttachmentCreates);
+        }
 
         // 수정이 완료되었음을 메시지로 알림
-        redirectAttributes.addFlashAttribute("msg", "집 정보가 수정되었습니다.");
+//        redirectAttributes.addFlashAttribute("msg", "집 정보가 수정되었습니다.");
         // 수정된 집 정보의 상세 페이지로 이동
-        return "redirect:/zip/zipDetail.do?id=" + zipUpdateDto.getId();
-
-        //redirectAttributes.addFlashAttribute("msg", "집 정보가 수정되었습니다.");
-//        return "집 정보가 수정되었습니다.";
+//        return "redirect:/zip/zipDetail.do?id=" + zipUpdateDto.getId();
+        return "집 정보가 수정되었습니다.";
     }
 
     @GetMapping("/fileDownload.do")
-    public ResponseEntity<?> fileDownload(@RequestParam("id") Long id)
+    public ResponseEntity<?> fileDownload(@RequestParam("id") Long id, @RequestParam("refType") String refType)
             throws UnsupportedEncodingException {
         // 알림 업무로직
         notificationService.notifyFileDownload(id);
         // 파일다운로드 업무로직
-        AttachmentDetailDto attachmentDetailDto = attachmentService.findById(id);
+        AttachmentDetailDto attachmentDetailDto = attachmentService.findByIdWithType(id, refType);
         return s3FileService.download(attachmentDetailDto);
     }
 

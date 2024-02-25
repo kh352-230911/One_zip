@@ -12,22 +12,20 @@
 		<section id="content">
 			<div id="gallery" class="relative w-full" data-carousel="slide">
 				<!-- Carousel wrapper -->
-				<div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+				<div class="relative h-56 overflow-hidden rounded-lg md:h-80">
 					<!-- Item 1 -->
 					<div class="hidden duration-700 ease-in-out" data-carousel-item>
-						<img th:src="@{/images/오세페.png}" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
+						<img th:src="@{/images/오세페.png}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
 					</div>
-
-					<div class="hidden duration-700 ease-in-out" data-carousel-item="active">
-						<img th:src="@{/images/오세페.png}" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
-					</div>
-
 					<div class="hidden duration-700 ease-in-out" data-carousel-item>
-						<img th:src="@{/images/오세페.png}" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
+						<img th:src="@{/images/오세페.png}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
+					</div>
+					<div class="hidden duration-700 ease-in-out" data-carousel-item>
+						<img th:src="@{/images/오세페.png}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
 					</div>
 					<!-- Item 4 -->
 					<div class="hidden duration-700 ease-in-out" data-carousel-item>
-						<img th:src="@{/images/오세페.png}" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
+						<img th:src="@{/images/오세페.png}" class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
 					</div>
 				</div>
 				<!-- Slider controls -->
@@ -48,6 +46,192 @@
       </span>
 				</button>
 			</div>
+
+			<div class=" py-12 sm:py-24">
+				<div class="mx-auto max-w-7xl px-6 lg:px-8">
+					<div class="mx-auto max-w-2xl text-center">
+						<h2
+								class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+						>
+							미니홈피
+						</h2>
+						<p class="mt-2 text-lg leading-8 text-gray-600">
+							미니홈피 기능으로 친구들과 소통하세요😀
+						</p>
+					</div>
+					<div
+							class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3"
+					>
+						<article class="flex flex-col items-start justify-between">
+							<div class="relative w-full">
+								<img th:src="@{/images/아이유집.png}"
+										alt=""
+										class="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+								/>
+								<div
+										class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"
+								></div>
+							</div>
+							<div class="max-w-xl">
+								<div class="mt-8 flex items-center gap-x-4 text-xs">
+									<time datetime="2020-03-16" class="text-gray-500">INFJ</time>
+									<a
+											href="#"
+											class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+									>슬라임만지기</a
+									>
+								</div>
+								<div class="group relative">
+									<h3
+											class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
+									>
+										<a href="#">
+											<span class="absolute inset-0"></span>
+											안녕하세요, 아이유 입니다.😀
+										</a>
+									</h3>
+									<p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+										처음부터 가수가 꿈은 아니었어요. 과거 초등학교 시절 체육
+										선생님께 받은 벌칙으로 반 친구들 앞에 서서 노래를 부르게 된
+										적이 있었는데, 다들 생각보다 노래를 무척 잘한다고 칭찬을
+										받았죠
+									</p>
+								</div>
+								<div class="relative mt-8 flex items-center gap-x-4">
+									<img th:src="@{/images/iu.jpg}"
+											alt=""
+											class="h-10 w-10 rounded-full bg-gray-100"
+									/>
+									<div class="text-sm leading-6">
+										<p class="font-semibold text-gray-900">
+											<a href="#">
+												<span class="absolute inset-0"></span>
+												아이유
+											</a>
+										</p>
+										<p class="text-gray-600">iu123</p>
+									</div>
+								</div>
+							</div>
+						</article>
+
+						<article class="flex flex-col items-start justify-between">
+							<div class="relative w-full">
+								<img th:src="@{/images/마동석집.png}"
+										alt=""
+										class="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+								/>
+								<div
+										class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"
+								></div>
+							</div>
+							<div class="max-w-xl">
+								<div class="mt-8 flex items-center gap-x-4 text-xs">
+									<time datetime="2020-03-16" class="text-gray-500">ISTP</time>
+									<a
+											href="#"
+											class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+									>복싱, MMA</a
+									>
+								</div>
+								<div class="group relative">
+									<h3
+											class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
+									>
+										<a href="#">
+											<span class="absolute inset-0"></span>
+											안녕하세요, 마동석 입니다.😀
+										</a>
+									</h3>
+									<p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+										처음부터 연기가 내 길이라 생각하지는 않았어요. 어린 시절,
+										한국에서 자라면서 다양한 꿈을 꾸었죠. 그러다가 18살 때,
+										고등학교 3학년인 1989년에 부모님을 따라 미국으로 이민을 가게
+										됐어요. 그곳에서 약 13년을 보냈고, 이 기간 동안 미국 국적을
+										취득했죠. 미국 생활은 샌안토니오, 몬태나주 그레이트폴스,
+										콜럼버스, 그리고 로스앤젤레스와 같은 다양한 곳에서
+										경험했습니다. 특히 몬태나주에서의 생활은 사람이 적어 조용하고
+										평화로운 시간이었죠.
+									</p>
+								</div>
+								<div class="relative mt-8 flex items-center gap-x-4">
+									<img th:src="@{/images/마동석.jpg}"
+											alt=""
+											class="h-10 w-10 rounded-full bg-gray-100"
+									/>
+									<div class="text-sm leading-6">
+										<p class="font-semibold text-gray-900">
+											<a href="#">
+												<span class="absolute inset-0"></span>
+												마동석
+											</a>
+										</p>
+										<p class="text-gray-600">madongsuk123</p>
+									</div>
+								</div>
+							</div>
+						</article>
+						<article class="flex flex-col items-start justify-between">
+							<div class="relative w-full">
+								<img th:src="@{/images/카리나집.png}"
+										alt=""
+										class="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+								/>
+								<div
+										class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"
+								></div>
+							</div>
+							<div class="max-w-xl">
+								<div class="mt-8 flex items-center gap-x-4 text-xs">
+									<time datetime="2020-03-16" class="text-gray-500">ENFP</time>
+									<a
+											href="#"
+											class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+									>애니보기</a
+									>
+								</div>
+								<div class="group relative">
+									<h3
+											class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
+									>
+										<a href="#">
+											<span class="absolute inset-0"></span>
+											안녕하세요 카리나 입니다.😀
+										</a>
+									</h3>
+									<p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+										저는 어릴 때부터 많이 수줍어했어요. 표현하는 것이 어렵기도
+										했고요. 할머니, 할아버지와 함께 자랐는데, 연습생 생활을 하던
+										중 할아버지께서 갑자기 돌아가셨어요. 그 순간, 많은 후회가
+										밀려왔죠. 제가 더 많은 사랑을 표현하지 못한 것에 대한
+										후회였어요. 그 일이 저에게 큰 교훈이 되어, 그때부터 사람들에게
+										마음을 더 열게 되었고, 가족들에게도 자주 '보고 싶다',
+										'사랑한다'는 말을 하게 됐어요. 전화도 더 자주 하게 되었고요.
+									</p>
+								</div>
+								<div class="relative mt-8 flex items-center gap-x-4">
+									<img th:src="@{/images/카리나사진.jpg}"
+											alt=""
+											class="h-10 w-10 rounded-full bg-gray-100"
+									/>
+									<div class="text-sm leading-6">
+										<p class="font-semibold text-gray-900">
+											<a href="#">
+												<span class="absolute inset-0"></span>
+												카리나
+											</a>
+										</p>
+										<p class="text-gray-600">karina123</p>
+									</div>
+								</div>
+							</div>
+						</article>
+
+						<!-- More posts... -->
+					</div>
+				</div>
+			</div>
+
 		</section>
 
 <script layout:fragment="script">

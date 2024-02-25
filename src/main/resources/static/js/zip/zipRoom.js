@@ -1,10 +1,15 @@
 let slideIndex = 0;
+const slides = document.querySelectorAll('.slider img');
+const totalSlides = slides.length;
 
 function showSlide(index) {
-    const slides = document.querySelectorAll('.slide');
-    if (index >= slides.length) { slideIndex = 0; }
-    if (index < 0) { slideIndex = slides.length - 1; }
-    slides.forEach((slide) => slide.style.transform = `translateX(${-slideIndex * 100}%)`);
+    if (index < 0) {
+        slideIndex = totalSlides - 1;
+    } else if (index >= totalSlides) {
+        slideIndex = 0;
+    }
+    const offset = -slideIndex * 100;
+    document.querySelector('.slider').style.transform = `translateX(${offset}%)`;
 }
 
 function nextSlide() {
