@@ -97,6 +97,8 @@ public class ProductController {
         Page<ProductListDto> productPage = productService.productListDtoFindAllByPrice(pageable, refPrice);
         List<ProductListDto> productListDtos = productService.productListDtoFindAllByPrice(refPrice);
 
+        model.addAttribute("selectedPriceRange", String.valueOf(refPrice));
+        System.out.println("Selected Price Range: " + refPrice);
         // 1: 현재 페이지 번호
         // 2: 한 페이지당 표시할 개체 수
         // 3: 전체 개체수

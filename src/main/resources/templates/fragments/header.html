@@ -11,7 +11,7 @@
     <nav class="bg-white border-gray-200 border-b" style="position: relative; z-index: 9999;">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 bg-white text-black">
             <a th:href="@{/}" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <h1 class="text-4xl">🏠</h1>
+                <img th:src="@{/images/로고_변경된색상.svg}" class="w-20 h-20">
                 <span class="self-center text-2xl font-semibold whitespace-nowrap">ONE.ZIP</span>
             </a>
             <th:block sec:authorize="isAuthenticated()">
@@ -31,6 +31,9 @@
                         </li>
                         <li>
                             <a th:href="@{/member/memberDetail.do}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">회원정보수정</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/product/productOrderList.do}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">결제내역</a>
                         </li>
                         <form th:action="@{/auth/logout.do}" method="post" class="d-inline">
                         <button class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" type="submit">로그아웃</button>
