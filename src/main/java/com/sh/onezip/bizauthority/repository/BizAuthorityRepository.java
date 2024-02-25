@@ -1,4 +1,4 @@
-package com.sh.onezip.bizauthority.repository;
+package com.sh.onezip.bizauthority.repository;//package com.sh.onezip.bizauthority.repository;
 
 import com.sh.onezip.bizauthority.entity.BizAuthority;
 import com.sh.onezip.businessproduct.entity.Businessmember;
@@ -12,4 +12,3 @@ import java.util.List;
 public interface BizAuthorityRepository extends JpaRepository<BizAuthority, Long> {
 
 }
-

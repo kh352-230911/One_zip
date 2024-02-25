@@ -1,4 +1,4 @@
-package com.sh.onezip.bizauthority.entity;
+package com.sh.onezip.bizauthority.entity;//package com.sh.onezip.bizauthority.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,4 +39,3 @@ public class BizAuthority implements Serializable {
     private BizRoleAuth bizUserType;
 
 }
-

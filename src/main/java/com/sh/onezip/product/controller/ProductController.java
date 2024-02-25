@@ -1,8 +1,8 @@
 package com.sh.onezip.product.controller;
 
 import com.sh.onezip.auth.vo.MemberDetails;
-import com.sh.onezip.cart.entity.Cart;
-import com.sh.onezip.cart.service.CartService;
+//import com.sh.onezip.cart.entity.Cart;
+//import com.sh.onezip.cart.service.CartService;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.service.MemberService;
 import com.sh.onezip.orderproduct.service.OrderProductService;
@@ -68,8 +68,8 @@ public class ProductController {
     OrderProductService orderProductService;
     @Autowired
     ProductOptionService productOptionService;
-    @Autowired
-    CartService cartService;
+//    @Autowired
+//    CartService cartService;
 
     @Autowired
     MemberService memberService;
@@ -508,17 +508,17 @@ public class ProductController {
 //
 //    }
 
-    @PostMapping("/productCart.do")
-    public void productCart(ProductCartCreateDto productCartCreateDto,
-                            @AuthenticationPrincipal MemberDetails memberDetails,
-                            Model model){
-        Member member = memberDetails.getMember();
-        Cart cart = cartService.convertToCart(productCartCreateDto);
-        List<Cart> loginMemberCartList = cartService.findAllByMemberId(member.getMemberId());
-        cart.setMember(memberDetails.getMember());
-        loginMemberCartList.add(cart);
-        model.addAttribute("loginMemberCartList", loginMemberCartList);
-    }
+//    @PostMapping("/productCart.do")
+//    public void productCart(ProductCartCreateDto productCartCreateDto,
+//                            @AuthenticationPrincipal MemberDetails memberDetails,
+//                            Model model){
+//        Member member = memberDetails.getMember();
+//        Cart cart = cartService.convertToCart(productCartCreateDto);
+//        List<Cart> loginMemberCartList = cartService.findAllByMemberId(member.getMemberId());
+//        cart.setMember(memberDetails.getMember());
+//        loginMemberCartList.add(cart);
+//        model.addAttribute("loginMemberCartList", loginMemberCartList);
+//    }
 
 //    선물하기/ 구매하기 분기 처리 RequestMapping Method
 //    @PostMapping("/productDetailFurcate.do")

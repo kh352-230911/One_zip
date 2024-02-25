@@ -1,4 +1,4 @@
-package com.sh.onezip.bizauthority.vo;
+package com.sh.onezip.bizauthority.vo;//package com.sh.onezip.bizauthority.vo;
 
 import com.sh.onezip.businessproduct.entity.Businessmember;
 import lombok.Data;
@@ -68,4 +68,5 @@ public class BizDetails implements UserDetails{
     }
 
     }
+
 

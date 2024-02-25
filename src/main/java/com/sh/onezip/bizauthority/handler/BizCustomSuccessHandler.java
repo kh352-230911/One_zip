@@ -1,4 +1,3 @@
-
 package com.sh.onezip.bizauthority.handler;//package com.sh.onezip.bizauthority.handler;
 
 import com.sh.onezip.bizauthority.vo.BizDetails;
@@ -35,4 +34,3 @@ public class BizCustomSuccessHandler implements AuthenticationSuccessHandler {
         response.sendRedirect(request.getContextPath() + "/businessproduct/businessproductlist.do?bizMemberId=" + businessmember.getBizMemberId());
     }
 }
-
