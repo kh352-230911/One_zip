@@ -1,5 +1,6 @@
 package com.sh.onezip.diary.controller;
 
+import com.sh.onezip.attachment.service.AttachmentService;
 import com.sh.onezip.auth.vo.MemberDetails;
 import com.sh.onezip.diary.dto.DiaryCreateDto;
 import com.sh.onezip.diary.dto.DiaryListDto;
@@ -43,6 +44,8 @@ public class DiaryController {
     private ZipRepository zipRepository;
     @Autowired
     private TipService tipService;
+    @Autowired
+    AttachmentService attachmentService;
 
 //    @GetMapping("/diary.do")
 //    public void diary(@PageableDefault(size = 5, page = 0) Pageable pageable, Model model) {
@@ -59,6 +62,12 @@ public void diary(@PageableDefault(size = 5, page = 0) Pageable pageable,
                   @AuthenticationPrincipal MemberDetails memberDetails,
                   Model model) {
     Zip zip= zipRepository.findByUsername(memberDetails.getUsername());
+    model.addAttribute("zip",zip);
+    model.addAttribute("pfAttachments", attachmentService.findByIdWithType(zip.getId(), "PF"));
+    System.out.println("flag1");
+    model.addAttribute("stAttachments", attachmentService.findByIdWithType(zip.getId(), "ST"));
+    System.out.println("flag2");
+    model.addAttribute("roAttachments", attachmentService.findZipAttachmentToList(zip.getId(), "RO"));
     Page<TipListDto> latestTips = tipService.findAllByZipId(zip.getId(), PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "regDate")));
 
     model.addAttribute("latestTips", latestTips.getContent());
@@ -72,8 +81,22 @@ public void diary(@PageableDefault(size = 5, page = 0) Pageable pageable,
 //    public void createDiary(){}
 
     @GetMapping("/createDiary.do")
-    public String showCreateDiaryForm(Model model) {
+    public String showCreateDiaryForm(@AuthenticationPrincipal MemberDetails memberDetails,
+                                      @PageableDefault(size = 5, page = 0) Pageable pageable,
+                                      Model model) {
+        Zip zip= zipRepository.findByUsername(memberDetails.getUsername());
+        model.addAttribute("zip",zip);
+        model.addAttribute("pfAttachments", attachmentService.findByIdWithType(zip.getId(), "PF"));
+        System.out.println("flag1");
+        model.addAttribute("stAttachments", attachmentService.findByIdWithType(zip.getId(), "ST"));
+        System.out.println("flag2");
+        model.addAttribute("roAttachments", attachmentService.findZipAttachmentToList(zip.getId(), "RO"));
         model.addAttribute("diaryCreateDto", new DiaryCreateDto());
+        Page<TipListDto> tipPage = tipService.findAllByZipId(zip.getId(), pageable);
+        Page<TipListDto> latestTips = tipService.findAllByZipId(zip.getId(), PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "regDate")));
+        model.addAttribute("latestTips", latestTips.getContent());
+        log.debug("tips = {}", tipPage.getContent());
+        model.addAttribute("tips", tipPage.getContent());
         return "community/createDiary";
     }
 

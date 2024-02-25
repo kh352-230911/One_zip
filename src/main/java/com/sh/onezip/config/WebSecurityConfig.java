@@ -1,8 +1,10 @@
 package com.sh.onezip.config;
 
 import com.sh.onezip.auth.handler.CustomSuccessHandler;
+
 import com.sh.onezip.auth.service.AuthService;
 import com.sh.onezip.auth.service.BusinessAuthService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -88,13 +90,17 @@ public class WebSecurityConfig {
         httpSecurity.authorizeHttpRequests((authorizeRequest -> {
             authorizeRequest
                     .requestMatchers("/", "/templates/index.html").permitAll()
+
+                    .requestMatchers("/auth/**","/business/**","/admin/memberList.do", "/member/selectMemberType.do").permitAll()
+                    .requestMatchers("/member/createMember.do","/member/checkIdDuplicate.do").anonymous()
                     .requestMatchers("/admin/memberList.do", "/member/selectMemberType.do").permitAll()
+
                     .requestMatchers("/business/createbusiness.do","/business/checkIdDuplicate.do").anonymous()
                     .requestMatchers("/member/createMember.do","/member/checkIdDuplicate.do").anonymous()
                     //.requestMatchers("/business/createbusiness.do","/business/checkIdDuplicate.do").anonymous()
                     .requestMatchers("/product/**").authenticated()
                     .requestMatchers("/board/**").authenticated()
-//                    .requestMatchers("/community/**").authenticated()
+                    .requestMatchers("/community/**").authenticated()
                     .requestMatchers("/zip/**").authenticated()
                     .requestMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated();
@@ -118,7 +124,18 @@ public class WebSecurityConfig {
                         userInfoEndpointConfig.userService(oAuth2UserService);
                     });
         });
-
+//        httpSecurity.formLogin((formLoginConfigurer -> {
+//            formLoginConfigurer
+//                    .loginPage("/business/bizlogin.do") // 사업자 회원 로그인 페이지
+//                    .loginProcessingUrl("/business/bizlogin.do") // 사업자 회원 로그인 처리 URL
+//                    .successHandler(new BizCustomSuccessHandler()) // 사업자 회원 로그인 성공 시 처리
+//                    .permitAll();
+//        }));
+//        httpSecurity.logout(logoutConfigurer -> {
+//            logoutConfigurer
+//                    .logoutUrl("/business/bizlogout.do") // 사업자 회원 로그아웃 URL 설정
+//                    .logoutSuccessUrl("/");
+//        });
         return httpSecurity.build();
     }
     @Bean

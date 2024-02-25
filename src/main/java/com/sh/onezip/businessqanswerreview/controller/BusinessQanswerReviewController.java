@@ -115,7 +115,7 @@ public class BusinessQanswerReviewController {
     public void businessreviewlist(@RequestParam("bizMemberId") String bizMemberId, Model model, HttpServletRequest httpServletRequest){
         //  하드코딩
         Businessmember businessmember = new Businessmember();
-        businessmember.setBizMemberId("biz1234");
+        businessmember.setBizMemberId("moneylove");
         // 요청 파라미터로부터 사업자 아이디(bizMemberId)를 가져옵니다.
         try {
             bizMemberId = httpServletRequest.getParameter("bizMemberId");

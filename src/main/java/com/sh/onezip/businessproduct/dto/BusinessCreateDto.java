@@ -28,7 +28,7 @@ public class BusinessCreateDto {
                 .bizPhone(bizPhone)
                 .bizAddr(bizAddr)
                 .bizAddr(bizDetailAddr)
-//                .bizLicense(bizLicense)
+                .bizLicense(bizLicense)
                 .bizRegNo(bizRegNo)
                 .bizRegStatus(bizRegStatus)
                 .build();
