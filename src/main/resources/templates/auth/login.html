@@ -8,10 +8,10 @@
 	<title th:text="로그인"></title>
 	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 	<!-- bootstrap js -->
-<!--	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>-->
-<!--	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>-->
+	<!--	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>-->
+	<!--	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>-->
 	<!-- bootstrap css -->
-<!--	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">-->
+	<!--	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">-->
 </head>
 <div layout:fragment="content" class="justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 mt-3">
 	<div class="mx-auto w-full max-w-sm lg:w-96">
@@ -35,12 +35,12 @@
 
 
 
-					<div class="mt-2">
-						<label for="password" class="block text-sm font-medium leading-6 text-gray-900">비밀번호</label>
 						<div class="mt-2">
-							<input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+							<label for="password" class="block text-sm font-medium leading-6 text-gray-900">비밀번호</label>
+							<div class="mt-2">
+								<input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+							</div>
 						</div>
-					</div>
 						<div th:if="${param.error != null}">
 							<p class="mt-1 text-sm text-red-600 dark:text-red-500"><span class="font-medium">죄송합니다</span> 아이디 또는 비밀번호가 일치하지 않습니다.</p>
 						</div>
@@ -60,6 +60,10 @@
 					<div>
 						<button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-2">로그인</button>
 					</div>
+					<p class="mt-2 text-sm leading-6 text-gray-500">
+						사업자 로그인은
+						<a href="#" th:onclick="|location.href='@{/business/bizlogin.do}';|" class="font-semibold text-indigo-600 hover:text-indigo-500">이쪽입니다😎</a>
+					</p>
 				</form>
 			</div>
 
@@ -90,7 +94,7 @@
 			</div>
 		</div>
 	</div>
-	</div>
+</div>
 </div>
 <!--<script>-->
 <!--	$(loginModal)-->

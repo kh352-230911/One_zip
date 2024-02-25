@@ -36,12 +36,13 @@
                 <!--  model.addAttribute("business", businessproductPage.getContent());          -->
             <tr th:each="businessproduct, status : ${business}" th:data-businessproduct-id="${businessproduct.id}">
 <!--           model.addAttribute("businessproduct", productDetailDto);    상세페이지       -->
+                  <a>
                     <td th:text="${businessproduct.id}"></td>
                     <td th:text="${businessproduct.productName}"></td>
                     <td th:text="|${businessproduct.productPrice}원|"></td>
                     <td th:text="|${businessproduct.sellPrice}원|"></td>
                     <td th:text="${#temporals.format(businessproduct.regDate, 'yyyy/MM/dd')}"></td>
-                <td>
+                </a>
 
                         <!--   사업자 로그인 구현 완료 되면 안써도 될듯 ? (아직 값 전달 안돼서 하드코딩 후 hidden처리함)   -->
                     <input type="hidden" name="id" value="152"/>
@@ -53,9 +54,9 @@
             </tr>
             </tbody>
         </table>
-        <div id="pagebar">
+        <div id="pagebar" class="mt-4">
             <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
+                <ul class="pagination flex justify-center">
                     <th:block th:utext="${pagebar}"/>
                 </ul>
             </nav>
