@@ -206,26 +206,25 @@ public class ProductService {
 
     public void preVerify(Map<String, String> requestData, Member member) {
 
-        System.out.println("requestData: Controller" + requestData);
-        System.out.println(Long.parseLong(requestData.get("merchant_uid")) + ": merchant_uid");
-
         ProductLog productLog = productLogRepository.findById(Long.parseLong(requestData.get("merchant_uid"))).orElse(null);
         Product product = productRepository.findById(Long.parseLong(requestData.get("productId"))).orElse(null);
-        ProductOption productOption = productOptionRepository.findById(Long.parseLong(requestData.get("productOptId"))).orElse(null);
+        ProductOption productOption = productOptionRepository.findById(Long.parseLong(requestData.get("productOptId"))).orElse(null);;
         int productQuantity = Integer.parseInt(requestData.get("productQuantity"));
-        System.out.println("preVerify실행!!");
 
         // 결제 객체 생성
         Payment payment = Payment
                 .builder()
                 .productLog(productLog)
                 .member(member)
-                .buyerTel(member.getPhone())
+                .buyerTel(member.getPhone() == null ? "" : member.getPhone())
                 .buyerAddr(member.getMemberAddr())
                 .buyerPostcode("123-123") // 하드코딩 지점
                 .amount(Integer.parseInt(requestData.get("amount")))
                 .merchantUid(requestData.get("merchant_uid"))
                 .build();
+
+        int beforeApplyPrice = productOption.getOptionCost() + product.getProductPrice();
+        double afterApplyPrice = beforeApplyPrice * (1 - ((double)product.getDiscountRate()/100));
 
         //주문 객체 생성
         OrderProduct orderProduct = OrderProduct
@@ -234,13 +233,11 @@ public class ProductService {
                 .product(product)
                 .productOption(productOption)
                 .purchaseQuantity(productQuantity)
-                .payAmount((productQuantity * (productOption.getOptionCost() + product.getProductPrice())* product.getDiscountRate())) // 단품 가격
+                .payAmount((int)(productQuantity * afterApplyPrice)) // 단품 가격
                 .build();
 
         orderProductRepository.save(orderProduct);
         paymentRepository.save(payment);
-        System.out.println("payment 삽입 완료!");
-
     }
 
     public boolean postVerify(Map<String, String> requestData, Member member) {
@@ -256,7 +253,7 @@ public class ProductService {
     // 명준 작업 공간 end
 
     // 보경 작업 공간 start =================================================================
-    public void businessproductcreate(BusinessProductCreateDto businessProductCreateDto) {
+    public  Product businessproductcreate(BusinessProductCreateDto businessProductCreateDto) {
         Product product1 = convertTobusinessproductcreate(businessProductCreateDto);
         System.out.println(product1 + "product1");
 
@@ -270,6 +267,7 @@ public class ProductService {
             attachmentService.createAttachment(attachmentCreateDto); // attachmentService 위임.
         }));
         System.out.println("businessproductcreate: " + businessProductCreateDto);
+        return product2;
     }
     private Product convertTobusinessproductcreate(BusinessProductCreateDto businessProductCreateDto) {
         System.out.println(businessProductCreateDto + "등록해줘~");

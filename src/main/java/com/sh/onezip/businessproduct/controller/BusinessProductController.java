@@ -2,14 +2,21 @@ package com.sh.onezip.businessproduct.controller;
 
 import com.sh.onezip.attachment.dto.AttachmentCreateDto;
 import com.sh.onezip.attachment.service.S3FileService;
+import com.sh.onezip.auth.vo.MemberDetails;
 import com.sh.onezip.businessproduct.entity.Businessmember;
 import com.sh.onezip.businessproduct.service.BusinessmemberService;
 import com.sh.onezip.common.HelloMvcUtils;
+import com.sh.onezip.member.entity.Member;
+import com.sh.onezip.orderproduct.dto.OrderProductDto;
+import com.sh.onezip.orderproduct.entity.OrderProduct;
+import com.sh.onezip.orderproduct.service.OrderProductService;
 import com.sh.onezip.product.dto.BusinessProductCreateDto;
 import com.sh.onezip.product.dto.ProductDetailDto;
 import com.sh.onezip.product.dto.ProductListDto;
 import com.sh.onezip.product.entity.Product;
 import com.sh.onezip.product.service.ProductService;
+import com.sh.onezip.productoption.entity.ProductOption;
+import com.sh.onezip.productoption.service.ProductOptionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,7 +38,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/businessproduct")
@@ -43,8 +54,12 @@ public class BusinessProductController {
     ProductService productService;
     @Autowired
     private S3FileService s3FileService;
+    @Autowired
+    private OrderProductService orderProductService;
+    @Autowired
+    private ProductOptionService productOptionService;
 
-@GetMapping("/businessproductlist.do")
+    @GetMapping("/businessproductlist.do")
 // Model: Spring MVC에서 Controller에서 View로 데이터를 전달하는 데 사용되는 인터페이스
 // HttpServletRequest: HTTP 요청 정보를 제공하는 클래스
     public void businessproductlist(@RequestParam("bizMemberId") String bizMemberId, Model model, HttpServletRequest httpServletRequest) {
@@ -88,13 +103,14 @@ public class BusinessProductController {
 
     @PostMapping("/businessproductcreate.do")
     public String businessproductcreate(
-    // 유효성검사를 위한 BusinessCreateDto
-    @Valid BusinessProductCreateDto businessProductCreateDto,
-    // 유효성 검사 결과를 담는 BindingResult 객체
-    BindingResult bindingResult,
-    @RequestParam("upFile") List<MultipartFile> upFiles,
-    // 리다이렉트 시 데이터 전달을 위한 RedirectAttributes 객체
-    RedirectAttributes redirectAttributes
+            // 유효성검사를 위한 BusinessCreateDto
+            @Valid BusinessProductCreateDto businessProductCreateDto,
+            // 유효성 검사 결과를 담는 BindingResult 객체
+            BindingResult bindingResult,
+            @RequestParam("upFile") List<MultipartFile> upFiles,
+            HttpServletRequest httpServletRequest,
+            // 리다이렉트 시 데이터 전달을 위한 RedirectAttributes 객체
+            RedirectAttributes redirectAttributes
     ) throws IOException {
         if (bindingResult.hasErrors()) {
             // 첫 번째 오류 메시지를 가져와서 예외를 던짐
@@ -102,7 +118,47 @@ public class BusinessProductController {
             throw new RuntimeException(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
 
-        for (MultipartFile upFile : upFiles) {
+
+//        HashMap<String, Integer> optNamesAndPriceMap = new HashMap<>();
+//
+//        for(int i = 0; true ; i++){
+//            HashMap<String, Integer> tempHashMap = new HashMap<>();
+//            String optName = httpServletRequest.getParameter("innerOptionName" + i);
+//            if(optName == null){
+//                break;
+//            }
+//            Integer optPrice  = Integer.parseInt(httpServletRequest.getParameter("innerOptionPrice" + i));
+//            tempHashMap.put(optName, optPrice);
+//            optNamesAndPriceMap.put(optName, optPrice);
+//        }
+
+        List<Object> optNames = new ArrayList<>();
+        List<Object> optStocks = new ArrayList<>();
+        List<Object> optPrices = new ArrayList<>();
+
+        List<List<Object>> optionListOfList = new ArrayList<>();
+
+        for(int i = 0;  ; i++){
+            String optName = httpServletRequest.getParameter("innerOptionName" + i);
+            if(optName == null){
+                break;
+            }
+            optNames.add(optName);
+            optStocks.add(Integer.parseInt(httpServletRequest.getParameter("innerOptionStock" + i)));
+            optPrices.add(Integer.parseInt(httpServletRequest.getParameter("innerOptionPrice" + i)));
+        }
+        System.out.println("optNames: " + optNames);
+        System.out.println("optStocks: " + optStocks);
+        System.out.println("optPrices: " + optPrices);
+
+        optionListOfList.add(optNames);
+        optionListOfList.add(optStocks);
+        optionListOfList.add(optPrices);
+
+        System.out.println("optionListOfList: " + optionListOfList);
+
+        // 첨부파일 업로드 로직
+        for(MultipartFile upFile : upFiles) {
             if (upFile.getSize() > 0) {
                 AttachmentCreateDto attachmentCreateDto = s3FileService.upload(upFile);
                 log.debug("attachmentCreateDto = {}", attachmentCreateDto);
@@ -115,7 +171,10 @@ public class BusinessProductController {
         businessmember.setBizMemberId("moneylove");
         // BusinessProductCreateDto에 bizMemberId 설정
         businessProductCreateDto.setBusinessmember(businessmember);
-        productService.businessproductcreate(businessProductCreateDto);
+        Product product = productService.businessproductcreate(businessProductCreateDto);
+        System.out.println("controller product(Option로직): " + product);
+//        productOptionService.productOptionCreate(optNamesAndPriceMap);
+        productOptionService.productOptionCreate(optionListOfList, product);
 
         // 리다이렉트후에 사용자피드백
         redirectAttributes.addFlashAttribute("msg", "🎈🎈🎈 게시글을 성공적으로 등록했습니다. 🎈🎈🎈");
@@ -132,8 +191,8 @@ public class BusinessProductController {
     public String businessproductdetail
             (@RequestParam("id") Long id, Model model,
              @Valid BusinessProductCreateDto businessProductCreateDto,
-                                      BindingResult bindingResult,
-                                      RedirectAttributes redirectAttributes) {
+             BindingResult bindingResult,
+             RedirectAttributes redirectAttributes) {
 
         System.out.println(businessProductCreateDto + "잘불러오는감 dto");
         // 상품 id 하드 코딩
@@ -163,16 +222,51 @@ public class BusinessProductController {
     // 삭제
     @PostMapping("/businessproductlist.do")
     public String businessproductlist (@RequestParam("id") Long id, @RequestParam("bizMemberId") String bizMemberId, Model model, RedirectAttributes redirectAttributes){
-    Businessmember businessmember = new Businessmember();
+        Businessmember businessmember = new Businessmember();
         businessmember.setBizMemberId(bizMemberId);
         System.out.println(businessmember);
-    Product product = new Product();
+        Product product = new Product();
         System.out.println(product);
-    product.setId(id);
+        product.setId(id);
         System.out.println(id);
-    productService.deleteproductlist(product);
+        productService.deleteproductlist(product);
         redirectAttributes.addFlashAttribute("msg", "상품을 성공적으로 삭제했습니다.🤠");
         return "redirect:/businessproduct/businessproductlist.do?bizMemberId=" + businessmember.getBizMemberId();
+    }
+
+    @GetMapping("/businessProductOrderList.do")
+    public void productOrderList(
+            HttpServletRequest httpServletRequest,
+            Model model){
+        Businessmember businessmember = businessmemberService.findBybizMemberId("moneylove");
+
+        List<OrderProduct> orderProducts = orderProductService.findAllOrderProductByBizMemberId(businessmember.getBizMemberId());
+        int realPage = 1;
+        int limit = 5;
+
+        try {
+            realPage = Integer.parseInt(httpServletRequest.getParameter("page"));
+        } catch (NumberFormatException ignore) {}
+
+        String url = httpServletRequest.getRequestURI();
+
+        Pageable pageable = PageRequest.of(realPage - 1, limit);
+        Page<OrderProductDto> productOrderPage = orderProductService.productOrderFindAllByBizMemberId(pageable, businessmember.getBizMemberId());
+        List<OrderProductDto> productOrderDtos = orderProductService.productOrderDtoFindAllByBizMemberId(businessmember.getBizMemberId());
+
+        // 1: 현재 페이지 번호
+        // 2: 한 페이지당 표시할 개체 수
+        // 3: 전체 개체수
+        // 4: 요청 url
+        String pagebar = HelloMvcUtils.getPagebar(
+                realPage, limit, orderProducts.size() , url);
+//        System.out.println(productQuestionDtos + "productQuestionDtos***");
+        model.addAttribute("pagebar", pagebar);
+//        model.addAttribute("productQuestionDtos", productQuestionDtos);
+        model.addAttribute("orders", productOrderPage.getContent());
+        model.addAttribute("totalCount", productOrderDtos.size());
+//        model.addAttribute("productId", id);
+//        model.addAttribute("member", member);
     }
 
 }

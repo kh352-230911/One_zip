@@ -37,20 +37,22 @@
         </style>
     </head>
     <body>
-    <div class="bookcover" th:style="'background-color:' + ${zipColorCode}">
+    <div class="bookcover" th:style="'background-color:' + ${zip.colorCode}">
         <div class="bookdot">
             <div class="page">
                 <div class="home">
                     <div class="upside">
-                        <br><strong>TODAY 28 | TOTAL 234918</strong>
+                        <br><strong th:text="${'Today : ' + zip.dayCount + ' | Total : ' + zip.totalCount}"></strong>
                     </div>
                     <div class="home_main">
                         <div class="profile">
                             <div class="profile_1">
-                                <img class="profile_image" th:src="@{/images/아이유.jpg}"/>
+                                <div th:if="${pfAttachments}" style="text-align: center">
+                                    <img th:src="${pfAttachments.url}" style="width: 225px;display: inline-block;border-radius: 50%;"/>
+                                </div>
                             </div>
                             <div class="content_title"><strong>소개글</strong><br></div>
-                            <div class="profile_2" th:text="${zipContent}"></div>
+                            <div class="profile_2" th:text="${zip.content}"></div>
                             <div class="updated_news_title"><br><strong>Updated news</strong></div>
                             <div class="updated_news_contents">
                                 <div class="updated_news_left">
@@ -96,11 +98,10 @@
                     </div>
                 </div>
                 <div class="menu_bar">
-                    <a th:href="@{/community/home.do}" class="menu_button1">홈</a>
-                    <a th:href="@{/community/tipList.do}" class="menu_button3">팁공유</a>
-                    <a th:href="@{/community/diary.do}" class="menu_button2">다이어리</a>
-                    <a th:href="@{/community/visit.do}" class="menu_button4">방명록</a>
-                    <a th:href="@{/community/visit.do}" class="menu_button4">채팅</a>
+                    <a th:href="@{'/zip/zipDetail.do?id=' + ${zip.id}}" class="menu_button1">홈</a>
+                    <a th:href="@{'/community/tipList.do?id='+${zip.id}}" class="menu_button3">팁공유</a>
+                    <a th:href="@{'/community/diary.do?id='+${zip.id}}" class="menu_button2">다이어리</a>
+
                 </div>
             </div>
         </div>

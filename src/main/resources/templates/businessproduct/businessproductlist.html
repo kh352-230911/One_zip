@@ -44,15 +44,14 @@
                 <td>
 
                         <!--   사업자 로그인 구현 완료 되면 안써도 될듯 ? (아직 값 전달 안돼서 하드코딩 후 hidden처리함)   -->
-                    <input type="hidden" name="id" value="152"/>
+                    <input type="hidden" name="id" th:value="${businessproduct.id}"/>
                     <input type="hidden" name="bizMemberId" value="moneylove" />
                     <a href="javascript:confirm('정말 삭제하시겠습니까? 😯') && document.businessDeleteFrm.submit();" class="btn btn-outline-success d-inline-block mr-2">삭제</a>
-                    </form>
-
                 </td>
             </tr>
             </tbody>
         </table>
+        </form>
         <div id="pagebar">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">

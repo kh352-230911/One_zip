@@ -94,7 +94,7 @@ public class WebSecurityConfig {
                     //.requestMatchers("/business/createbusiness.do","/business/checkIdDuplicate.do").anonymous()
                     .requestMatchers("/product/**").authenticated()
                     .requestMatchers("/board/**").authenticated()
-//                    .requestMatchers("/community/**").authenticated()
+                    .requestMatchers("/community/**").authenticated()
                     .requestMatchers("/zip/**").authenticated()
                     .requestMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated();
