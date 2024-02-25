@@ -13,13 +13,13 @@ import lombok.*;
 @ToString(exclude = "product")
 public class ProductOption {
     @Id
-//    @GeneratedValue(generator = "seq_poption_generator")
-//    @SequenceGenerator(
-//            name = "seq_poption_generator",
-//            sequenceName = "seq_tb_poption",
-//            initialValue = 1,
-//            allocationSize = 1)
-//
+    @GeneratedValue(generator = "seq_poption_generator")
+    @SequenceGenerator(
+            name = "seq_poption_generator",
+            sequenceName = "seq_tb_poption",
+            initialValue = 50,
+            allocationSize = 1
+    )
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_no")

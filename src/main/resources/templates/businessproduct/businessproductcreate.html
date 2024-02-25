@@ -14,15 +14,24 @@
               th:action="@{/businessproduct/businessproductcreate.do}"
               method="post"
               enctype="multipart/form-data">
-<!--            <input type="hidden" name="bizMemberId" value="moneylove">-->
+            <!--            <input type="hidden" name="bizMemberId" value="moneylove">-->
             <input type="text" class="form-control mb-3" placeholder="상품명" name="productName" id="productName" required>
             <input type="text" class="form-control mb-3" placeholder="상품가격" name="productPrice" id="productPrice" required>
- <!--            <input type="text" class="form-control mb-3" placeholder="할인율" name="discountRate" id="discountRate" required>-->
-            <input type="text" class="form-control mb-3" placeholder="판매가격(할인 후)" name="sellPrice" id="sellPrice" required>
-<!--            <input type="text" class="form-control mb-3" placeholder="옵션명" name="optionName" id="optionName" required>-->
-<!--            <input type="text" class="form-control mb-3" placeholder="옵션금액(추가요금)" name="optionCost" id="optionCost" required>-->
+            <!--            <input type="text" class="form-control mb-3" placeholder="할인율" name="discountRate" id="discountRate" required>-->
+<!--            <input type="text" class="form-control mb-3" placeholder="판매가격(할인 후)" name="sellPrice" id="sellPrice" required>-->
+            <input type="text" class="form-control mb-3" placeholder="할인율" name="discountRate" id="discountRate" th:min="0" th:max="100" required>
+            <!--            <input type="text" class="form-control mb-3" placeholder="옵션명" name="optionName" id="optionName" required>-->
+            <!--            <input type="text" class="form-control mb-3" placeholder="옵션금액(추가요금)" name="optionCost" id="optionCost" required>-->
             <input type="text" class="form-control mb-3" placeholder="상품분류코드" name="productTypecode" id="productTypecode" required>
             <!-- input:file소스 : https://getbootstrap.com/docs/4.1/components/input-group/#custom-file-input -->
+            <!-- myeong start -->
+            <div id="innerOption" th:value="0">
+            </div>
+            <div>
+                <button th:text="|옵션 추가하기|" id="createOptionBtn"></button>
+                <button th:text="|옵션 삭제하기|" id="deleteOptionBtn"></button>
+            </div>
+            <!-- myeong end -->
             <div class="input-group mb-3" style="padding:0px;">
                 <div class="input-group-prepend" style="padding:0px;">
                     <span class="input-group-text">첨부파일</span>
@@ -33,7 +42,7 @@
                 </div>
             </div>
 
-<!--            <textarea class="form-control  mb-3" name="content" placeholder="내용" required></textarea>-->
+            <!--            <textarea class="form-control  mb-3" name="content" placeholder="내용" required></textarea>-->
             <input type="submit" class="btn btn-outline-success d-inline-block mr-2" value="등록하기">
             <!--            <a href="javascript:if(confirm('이전으로 돌아가시겠습니까? 😲')) window.location.href='/businessproductlist.do';" class="btn btn-outline-success d-inline-block mr-2">뒤로가기</a>-->
             <a href="javascript:if(confirm('이전으로 돌아가시겠습니까? 😲')) window.location.href='businessproductlist.do?bizMemberId=moneylove';" class="btn btn-outline-success d-inline-block mr-2">뒤로가기</a>
@@ -42,5 +51,5 @@
     </div>
 </div>
 
-<script layout:fragment="script"></script>
+<script layout:fragment="script" th:src="@{/js/businessProduct/businessProductCreate.js}"></script>
 </html>

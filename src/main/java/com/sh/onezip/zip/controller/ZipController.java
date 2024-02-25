@@ -10,10 +10,14 @@ import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.neighbor.entity.Neighbor;
 import com.sh.onezip.neighbor.service.NeighborService;
 import com.sh.onezip.notification.service.NotificationService;
+import com.sh.onezip.tip.dto.TipDetailDto;
+import com.sh.onezip.tip.dto.TipListDto;
+import com.sh.onezip.tip.service.TipService;
 import com.sh.onezip.zip.dto.ZipCreateDto;
 import com.sh.onezip.zip.dto.ZipDetailDto;
 import com.sh.onezip.zip.dto.ZipUpdateDto;
 import com.sh.onezip.zip.entity.Zip;
+import com.sh.onezip.zip.repository.ZipRepository;
 import com.sh.onezip.zip.service.ZipService;
 import jakarta.persistence.Tuple;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +26,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -59,6 +68,10 @@ public class ZipController {
     private NotificationService notificationService;
     @Autowired
     public ModelMapper modelMapper;
+    @Autowired
+    private TipService tipService;
+    @Autowired
+    private ZipRepository zipRepository;
     @ModelAttribute
     public void addCommonAttributes(Model model, @RequestParam(required = false) Long id, HttpServletRequest req) {
         if(req.getRequestURI().indexOf("/zipCreate.do") > 0 || req.getRequestURI().indexOf("/zipSearch") > 0 || req.getRequestURI().indexOf("/zipUpload") > 0)
@@ -108,14 +121,23 @@ public class ZipController {
     }
 
     @GetMapping("/zipDetail.do")
-    public void zipDetail(@RequestParam("id") Long id, Model model){
+    public void zipDetail(@RequestParam("id") Long id,
+                          @AuthenticationPrincipal MemberDetails memberDetails,
+                          @PageableDefault(size = 5, page = 0) Pageable pageable,
+                          Model model){
         ZipDetailDto zipDetailDto = zipService.findById(id);
+        Zip zip= zipRepository.findByUsername(memberDetails.getUsername());
         zipService.updateViewCounts(id);
         model.addAttribute("pfAttachments", attachmentService.findByIdWithType(id, "PF"));
         model.addAttribute("stAttachments", attachmentService.findByIdWithType(id, "ST"));
         model.addAttribute("roAttachments", attachmentService.findZipAttachmentToList(id, "RO"));
 //        model.addAttribute("elseAttachments", list);
+        Page<TipListDto> tipPage = tipService.findAllByZipId(zip.getId(), pageable);
         model.addAttribute("zip", zipDetailDto);
+        Page<TipListDto> latestTips = tipService.findAllByZipId(zip.getId(), PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "regDate")));
+        model.addAttribute("latestTips", latestTips.getContent());
+        log.debug("tips = {}", tipPage.getContent());
+        model.addAttribute("tips", tipPage.getContent());
         log.debug("zip = {}", zipDetailDto);
     }
     @GetMapping("/zipCreate.do")

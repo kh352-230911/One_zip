@@ -19,4 +19,7 @@ public interface AttachmentRepository extends JpaRepository<Attachment, Long> {
 
     @Query("from Attachment z where z.refId = :zipId and z.refType = :refType order by z.regDate desc")
     List<Attachment> findZipAttachmentToList(@Param("zipId") Long zipId, @Param("refType") String refType);
+
+    @Query("from Attachment p where p.refId = :refId and p.refType = :refType order by p.refType")
+    List<Attachment> findProductAttachmentToList(@Param("refId") Long refId, @Param("refType") String refType);
 }

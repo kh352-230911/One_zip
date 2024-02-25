@@ -16,43 +16,41 @@
 
         <table>
             <tbody>
+            <form name="productFrm" id="myForm" method="post" class="bg-white p-8 rounded-lg shadow-md">
                 <div th:each="cart, status : ${loginMemberCartList}" th:id="'cartItem_' + ${status.index}">
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="itemCheckbox" name="itemCheckbox" checked>
-                        </td>
-                        <td>
-                            <input type="text" th:value="${cart.productName}" readonly>
-                        </td>
-                        <td>
-                            <button>X</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="text" th:value="${cart.cartQuantity}" readonly>
-                        </td>
-                        <td>
-                            <input type="text" th:text="무료배송" readonly>
-                        </td>
-                        <td>
-                            <input th:id="|eachTotalPrice${status.index}|" type="number" th:value="
-                        ${(cart.product.productPrice + cart.optionCost) * cart.cartQauntity}"
-                                   readonly> <!-- 상품 별 총 금액-->
-                        </td>
-                    </tr>
+                    <p class="text-4xl font-bold mb-4" th:text="${cart.product.productName}"></p>
+                    <div class="flex items-center justify-center mb-4">
+                        <p class="text-base text-gray-600 mr-4" th:text="|할인 전: ${cart.product.productPrice}원|" style="text-decoration:line-through;"></p>
+                        <input name="productId" type="hidden" th:value='${cart.product.id}'>
+                        <p class="text-red-500 font-bold mb-4">할인 후: <span th:text="${cart.product.sellPrice}"></span>원</p>
+                    </div>
+                    <div th:if="!${#lists.isEmpty(cart.product.productOptions)}" class="mb-4">
+                        <select name="selectOption" id="selectOption" class="bg-gray-100 border border-gray-300 rounded px-4 py-2">
+                            <option th:each="productOption : ${cart.product.productOptions}"
+                                    th:value="${productOption.id}#${productOption.optionCost}"
+                                    th:text="${productOption.optionName} +${productOption.optionCost}원"></option>
+                        </select>
+                    </div>
+                    <div class="flex items-center justify-center mb-4">
+                        <span class="mr-2">구매수량:</span>
+                        <button id="plus-btn" class="quantity-btn">+</button>
+                        <input id="product-quantity" name="productQuantity" type="text" value='1' style="width: 45px; border: none; outline: none; text-align: center;">
+                        <button id="minus-btn" class="quantity-btn">-</button>
+                    </div>
                 </div>
+            </form>
+
             </tbody>
         </table>
         <div>
             <span>
-                <input type="text" th:text="총 결제 금액">
+                <input type="text" th:text="|총 결제 금액|">
             </span>
             <span>
                 :
             </span>
             <span>
-                <input id="totalPrice" name="totalPrice" th:value="0"> <!-- 모든 상품 총 가격ㄴ-->
+                <input id="totalPrice" name="totalPrice" th:value="0" readonly> <!-- 모든 상품 총 가격-->
             </span>
         </div>
     </form>

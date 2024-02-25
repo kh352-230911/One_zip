@@ -1,9 +1,8 @@
 package com.sh.onezip.product.entity;
 
 import com.sh.onezip.businessproduct.entity.Businessmember;
-import com.sh.onezip.cart.entity.Cart;
+//import com.sh.onezip.cart.entity.Cart;
 import com.sh.onezip.productReview.entity.ProductReview;
-import com.sh.onezip.productimage.entity.ProductImage;
 import com.sh.onezip.productoption.entity.ProductOption;
 import com.sh.onezip.productquestion.entity.ProductQuestion;
 import jakarta.persistence.*;
@@ -23,7 +22,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@ToString(exclude = {"productImages", "productOptions", "productReviews"})
+//@ToString(exclude = {"productImages", "productOptions", "productReviews"})
+@ToString(exclude = {"productOptions", "productReviews"})
+
 public class Product implements Comparable<Product> {
     @Id
     @GeneratedValue(generator = "seq_tb_product_id_generator")
@@ -49,9 +50,9 @@ public class Product implements Comparable<Product> {
     @CreationTimestamp
     private LocalDate regDate;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)  // 02-23 EAGER->LAZY
-    @Builder.Default
-    private List<ProductImage> productImages = new ArrayList<>();
+//    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)  // 02-23 EAGER->LAZY
+//    @Builder.Default
+//    private List<ProductImage> productImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY) // 02-23 EAGER->LAZY
     @Builder.Default
@@ -65,10 +66,9 @@ public class Product implements Comparable<Product> {
     @Builder.Default
     private List<ProductReview> productReviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY) // 02-23 EAGER->LAZY
-    @Builder.Default
-    private List<Cart> cart = new ArrayList<>();
-
+//    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY) // 02-23 EAGER->LAZY
+//    @Builder.Default
+//    private List<Cart> cart = new ArrayList<>();
 
     @Override
     public int compareTo(Product other) {

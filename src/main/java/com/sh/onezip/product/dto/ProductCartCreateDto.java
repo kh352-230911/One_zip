@@ -1,5 +1,6 @@
 package com.sh.onezip.product.dto;
 
+import com.sh.onezip.member.entity.Member;
 import lombok.Data;
 
 @Data
@@ -10,6 +11,7 @@ public class ProductCartCreateDto {
     private int totalPrice; // 총 금액(옵션 금액 포함)
     private int totalStock;
     private int productQuantity;
+    private Member member;
 //    private ProductOption productOption;
 
 //    private Long id;
