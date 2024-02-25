@@ -1,11 +1,26 @@
-document.querySelectorAll("tr[data-product-id]").forEach((tr) => {
-    tr.addEventListener('click', (e) => {
-        const td = e.target;
-        const tr = td.parentElement;
-        const {productId} = tr.dataset;
+// document.querySelectorAll("tr[data-product-id]").forEach((tr) => {
+//     tr.addEventListener('click', (e) => {
+//         const td = e.target;
+//         const tr = td.parentElement;
+//         const {productId} = tr.dataset;
+//         location.href = `${contextPath}product/productDetail.do?id=${productId}`;
+//     });
+// });
+
+document.addEventListener('click', (e) => {
+    // 클릭된 요소에서 가장 가까운 `[data-product-id]`를 가진 요소를 찾습니다.
+    const target = e.target.closest('[data-product-id]');
+
+    // 해당 요소가 있으면, 그 요소의 `data-product-id` 값을 사용합니다.
+    if (target) {
+        const productId = target.dataset.productId;
+        // 여기서 `contextPath`는 현재 스크립트에 정의되어 있어야 합니다.
+        // 예: const contextPath = '/myapp';
         location.href = `${contextPath}product/productDetail.do?id=${productId}`;
-    });
+    }
 });
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     function changeButtonStyle(clickedId) {

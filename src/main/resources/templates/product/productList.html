@@ -7,29 +7,12 @@
     <title>
     </title>
 </head>
-
+<style layout:fragment="style">
+    div[data-product-id] {
+        cursor: pointer;
+    }
+</style>
 <div layout:fragment="content">
-<!--    <table class="w-full">-->
-<!--        <tbody class="flex justify-between gap-x-6 py-5">-->
-<!--        <tr class="flex min-w-0 gap-x-4">-->
-<!--            <td class="min-w-0 flex-auto">-->
-<!--                <span class="text-sm font-semibold leading-6 text-gray-900" th:text="가격"></span>-->
-<!--            </td>-->
-<!--            <td class="min-w-0 flex-auto">-->
-<!--                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|1만원 이하|" id="under10000btn" th:href="@{/product/productList.do?price=10000}"></a>-->
-<!--            </td>-->
-<!--            <td class="min-w-0 flex-auto">-->
-<!--                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|5만원 이하|" id="under50000btn" th:href="@{/product/productList.do?price=50000}"></a>-->
-<!--            </td>-->
-<!--            <td class="min-w-0 flex-auto">-->
-<!--                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|10만원 이하|" id="under100000btn" th:href="@{/product/productList.do?price=100000}"></a>-->
-<!--            </td>-->
-<!--            <td class="min-w-0 flex-auto">-->
-<!--                <a class="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500" th:text="|10만원 이상|" id="upper100000btn" th:href="@{/product/productList.do?price=100001}"></a>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
     <div class="grid justify-items-center m-11 mx-64">
     <div class="border-b border-gray-200">
         <div class="sm:flex sm:items-baseline">
@@ -71,29 +54,9 @@
         <div class="overflow-x-auto">
 
 
-<!--            <table id="tbl-product" class="table-auto w-full bg-white shadow-md rounded-lg overflow-hidden">-->
-<!--                <thead class="bg-gray-200 text-gray-700">-->
-<!--                <tr>-->
-<!--                    <th class="px-4 py-2">상품명</th>-->
-<!--                    <th class="px-4 py-2">상점명</th>-->
-<!--                    <th class="px-4 py-2">판매가격</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr th:each="product, status : ${products}" th:data-product-id="${product.id}">-->
-<!--                    <a>-->
-<!--                        <td class="border px-4 py-2 text-blue-500 hover:underline" th:text="${product.productName}"></td>-->
-<!--                        <td class="border px-4 py-2" th:text="${product.bizName}"></td>-->
-<!--                        <td class="border px-4 py-2" th:text="|${product.sellPrice}원|"></td>-->
-<!--                    </a>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
-
-
             <div class="mt-6 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-3 lg:grid-cols-3">
-                <div th:each="product, status : ${products}"  class="group relative">
-                    <div th:data-product-id="${product.id}" class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                <div th:each="product, status : ${products}"  th:data-product-id="${product.id}" class="group relative">
+                    <div  class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                         <img th:src="@{/images/일반회원.png}" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                     </div>
                     <div class="mt-4 flex justify-between">
