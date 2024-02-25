@@ -47,4 +47,12 @@ public class AttachmentService {
         if(attachList.isEmpty()) {return new ArrayList<>();}
         return attachList.stream().map(this::convertToAttachmentDetailDto).collect(Collectors.toList());
     }
+
+    public List<Attachment> findProductAttachmentToList(Long id) {
+        List<Attachment> attachmentList = attachmentRepository.findProductAttachmentToList(id, "SP");
+        if(attachmentList.isEmpty()) {return new ArrayList<>();}
+        return attachmentList;
+    }
+
+
 }

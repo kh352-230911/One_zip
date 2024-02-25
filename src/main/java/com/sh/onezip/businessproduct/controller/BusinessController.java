@@ -59,7 +59,7 @@ import java.util.Map;
         // BusinessCreateDto -> Businessmember 변환
         Businessmember businessmember = businessCreateDto.toBusiness();
         String encodedPassword = passwordEncoder.encode(businessmember.getBizPassword());
-        businessmember.setBizMemberId(encodedPassword);
+        businessmember.setBizPassword(encodedPassword);
         // 업무로직
         businessmember = businessmemberService.createBusiness(businessmember);
         // 리다이렉트후 메세지처리
@@ -74,9 +74,11 @@ import java.util.Map;
         );
         return ResponseEntity.ok(resultMap);
     }
-   /* @GetMapping("/bizlogin.do")
-    public void bizlogin(){
-    }*/
+
+//    @GetMapping("/bizlogin.do")
+//    public void bizlogin(){
+//    }
+
 //    @PostMapping("/bizlogin.do")
 //    public String processLogin(@RequestParam("bizMemberId") String bizMemberId,
 //                               @RequestParam("bizPassword") String bizPassword,
