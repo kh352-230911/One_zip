@@ -6,6 +6,8 @@ select * from tb_attachment;
 select * from tb_guest_board;
 select * from tb_zip_attachment;
 
+select * from tb_businessmember;
+
 insert into tb_zip (id, member_id, content, day_count, total_count, reg_date, color_code)
 values (seq_tb_zip_id.nextval, 'honggd1', '우리집이 처음이야', 0, 0, to_date('12/12/2023', 'MM/DD/RRRR'), '#FFFFFF');
 

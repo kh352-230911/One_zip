@@ -1,8 +1,11 @@
 package com.sh.onezip.businessproduct.entity;
 
+import com.sh.onezip.authority.entity.Authority;
+//import com.sh.onezip.bizauthority.entity.BizAuthority;
 import com.sh.onezip.product.entity.Product;
 import jakarta.persistence.*;
 import lombok.*;
+import org.codehaus.groovy.runtime.StreamGroovyMethods;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -35,7 +38,7 @@ public class Businessmember {
     @Column
     private String bizImageUrl;
     @Column
-    private String bizLicense;
+    private String bizLicense; // 사업자등록증 -> 권한 컬럼
     @Column(unique = true)
     private String bizRegNo;
     @Column
@@ -45,5 +48,9 @@ public class Businessmember {
     @OneToMany(mappedBy = "businessmember", fetch = FetchType.EAGER)
     @Builder.Default
     private List<Product> products = new ArrayList<>();
+
+//    @OneToMany(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "biz_member_id")
+//    private List<BizAuthority> bizAuthorities;
 
 }

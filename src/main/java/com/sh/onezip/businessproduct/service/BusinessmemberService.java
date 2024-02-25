@@ -31,5 +31,9 @@ public class BusinessmemberService {
     public Businessmember findBybizMemberId(String bizMemberId) {
         return businessmemberRepository.findByBizMemberId(bizMemberId);
     }
+
+//    public Businessmember findByBizMemberId(String bizMemberId) {
+//        return businessmemberRepository.findByBizMemberId(bizMemberId);
+//    }
 }
 
