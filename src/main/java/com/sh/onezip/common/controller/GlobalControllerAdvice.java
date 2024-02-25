@@ -10,6 +10,7 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(Exception.class)
     public String exceptionHandler(Exception e){
+
         log.debug("오류가 발생했습니다...");
         log.error(e.getMessage(), e); // String msg, Throwable t
         return "common/error";
