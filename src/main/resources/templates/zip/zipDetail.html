@@ -17,7 +17,7 @@
     <link rel="stylesheet" th:href="@{/css/roomIamge.css}" />
 <head>
   <meta charset="UTF-8" />
-  <title th:text="${memberName} + ${zip.id} + '.zip'"></title>
+  <title th:text="${memberName} + '.zip'"></title>
   <style>
     .grid-cell {
       width: 100px;
@@ -76,18 +76,13 @@
               <input type="hidden" id="csrf" th:value="${_csrf.token}" />
               <button type="submit">검색</button>
             </form>
-            <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button">내 이웃</button>
+<!--            <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button">내 이웃</button>-->
           </div>
         </div>
         <div class="home_main">
-          <div class="profile">
+          <div class="profile" th:style="'color:' + ${zipColorCode}">
             <div class="profile_1">
-<!--              <img class="profile_image" th:src="@{/images/iu.jpg}"/>-->
-<!--                <div th:each="attachment : ${zip.attachments}">-->
-<!--                    <img th:src="${attachment.url}" alt="Attachment Image">-->
-<!--                </div>-->
-
-                <!--                <div th:each="resource, status : ${resources}" th:data-resource-id="${resource.id}">-->
+                대표 사진
               <div th:if="${pfAttachments}" style="text-align: center">
                     <img th:src="${pfAttachments.url}" style="width: 225px;display: inline-block;border-radius: 50%;"/>
               </div>
@@ -133,6 +128,7 @@
               <table>
                 <tr class="row1">
                   <td class="box1" th:rowspan="2" style="vertical-align: middle">
+                      내 방
                       <div class="slider-container" style="padding-top: 0; height: 340px;">
                           <div id="roomImageCarousel" class="slider">
                               <img id="rolImage" th:if="${roAttachments.size != 0}" th:each="roAttachment : ${roAttachments}" th:src="${roAttachment.url}" alt="Carousel Image" class="slide max-w-full max-h-full" />
@@ -172,10 +168,14 @@
                             </div>
                         </div>
                     </td>
-                  <td class="box4">이웃, 일정, 선물박스</td>
+                  <td class="box4">이웃, 일정, 선물박스
+                      <br>
+                      <button id="neighborBtn" th:if="${session.zip.id} == ${zipId}" type="button"> 내 이웃 </button>
+                  </td>
                 </tr>
                 <tr class="row2">
                   <td class="box7">
+                      스토리
                       <div th:if="${stAttachments}" style="text-align: center">
                           <img th:src="${stAttachments.url}" style="width: 225px;display: inline-block;border-radius: 50%;"/>
                       </div>
@@ -190,8 +190,8 @@
       <div class="menu_bar">
         <a th:href="@{'/zip/zipDetail.do?id=' + ${zip.id}}" class="menu_button1">홈</a>
         <a th:href="@{/community/tipList.do}" class="menu_button3">팁공유</a>
-        <a th:href="@{/community/diary.do}" class="menu_button2">다이어리</a>
-        <a th:href="@{/zip/visit.do}" class="menu_button4">방명록</a>
+        <a th:if="${session.zip.id} == ${zipId}" th:href="@{/community/diary.do}" class="menu_button2">다이어리</a>
+<!--        <a th:href="@{/zip/visit.do}" class="menu_button4">방명록</a>-->
         <a th:href="@{'/zip/zipUpdate.do?id=' + ${session.zip.id}}" th:if="${session.zip.id} == ${zipId}" class="menu_button5">집 꾸미기</a>
       </div>
     </div>
