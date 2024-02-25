@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +35,7 @@ import java.util.Map;
 
     public class BusinessController {
     @Autowired
-    PasswordEncoder passwordEncoder;
+    BCryptPasswordEncoder passwordEncoder;
     @Autowired
     BusinessmemberService businessmemberService;
 
@@ -73,9 +74,11 @@ import java.util.Map;
         );
         return ResponseEntity.ok(resultMap);
     }
+
     @GetMapping("/bizlogin.do")
     public void bizlogin(){
     }
+
 //    @PostMapping("/bizlogin.do")
 //    public String processLogin(@RequestParam("bizMemberId") String bizMemberId,
 //                               @RequestParam("bizPassword") String bizPassword,
