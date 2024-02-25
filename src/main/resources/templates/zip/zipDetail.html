@@ -4,6 +4,7 @@
       layout:decorate="~{layout/zip}">
 
 
+<script src="../../static/js/zip/roomImage.js"></script>
 <link rel="stylesheet" href="../../static/css/visit.css">
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <div layout:fragment="content">
@@ -24,6 +25,41 @@
     }
     .image-placeholder {
       background-color: #D1D5DB; /* Tailwind gray-300 */
+    }
+    .slider-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px; /* 슬라이더의 최대 너비 설정 */
+        margin: 0 auto; /* 가운데 정렬 */
+        overflow: hidden; /* 넘치는 이미지를 감춥니다. */
+    }
+
+    .slider {
+        display: flex; /* 이미지를 가로로 나란히 배치합니다. */
+        transition: transform 0.5s ease; /* 슬라이드 전환 효과를 부드럽게 만듭니다. */
+    }
+
+    .slider img {
+        width: 100%; /* 이미지를 슬라이더의 너비에 맞게 조정합니다. */
+        height: auto; /* 이미지의 높이를 자동으로 조정합니다. */
+    }
+
+    .slider-controls {
+        margin-top : 20px;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+    }
+
+    .slider-controls button {
+        background-color: rgba(255, 255, 255, 0.5);
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .slider-controls button:hover {
+        background-color: rgba(255, 255, 255, 0.7);
     }
   </style>
 </head>
@@ -52,11 +88,10 @@
 <!--                </div>-->
 
                 <!--                <div th:each="resource, status : ${resources}" th:data-resource-id="${resource.id}">-->
-                <div th:each="attachment : ${zip.attachments}">
-                    <th:block th:if="${attachments.size != 0}">
-                        <img th:src="${attachments.get(0).url}" class="w-24 h-24 m-auto hover:w-80 hover:h-64"/>
-                    </th:block>
-                </div>
+              <div th:if="${pfAttachments}" style="text-align: center">
+                    <img th:src="${pfAttachments.url}" style="width: 225px;display: inline-block;border-radius: 50%;"/>
+              </div>
+
             </div>
               <div class="content_title"><strong>소개글</strong><br></div>
             <div class="profile_2" th:text="${zipContent}"></div>
@@ -97,38 +132,38 @@
             <div class="miniroom_contents" th:style="'color:' + ${zipColorCode}">
               <table>
                 <tr class="row1">
-                  <td class="box1" th:rowspan="2">
-                      <div class="room-image-carousel-container py-12">
-                          <div id="roomImageCarousel" class="room-image-carousel">
-                              <img id="carouselImage" src="" alt="Carousel Image" class="max-w-full max-h-full" />
-                          </div>
-                          <div class="flex justify-center mt-4">
-                              <button id="prevButton" class="room-carousel-button">&lt;</button>
-                              <button id="nextButton" class="room-carousel-button">&gt;</button>
+                  <td class="box1" th:rowspan="2" style="vertical-align: middle">
+                      <div class="slider-container" style="padding-top: 0; height: 340px;">
+                          <div id="roomImageCarousel" class="slider">
+                              <img id="rolImage" th:if="${roAttachments.size != 0}" th:each="roAttachment : ${roAttachments}" th:src="${roAttachment.url}" alt="Carousel Image" class="slide max-w-full max-h-full" />
                           </div>
                       </div>
+                      <div class="slider-controls">
+                          <button id="prevBtn" onclick="prevSlide()"> < </button>
+                          <button id="nextBtn" onclick="nextSlide()"> > </button>
+                      </div>
                   </td>
-                    <td class="box3">
-                        <div class="flex justify-center items-center h-screen">
-                            <div class="bg-white shadow-lg rounded-lg p-6">
-                                <div class="border-b-2 pb-2">
+                    <td class="box3" style="padding-top:0">
+                        <div class="flex justify-center items-center h-screen" style="display: inline">
+                            <div class="bg-white shadow-lg rounded-lg p-6" style="padding-bottom: 0.9rem">
+                                <div class="border-b-2 pb-2" style="margin-bottom: 1rem; padding-bottom: 0">
                                     <h5 class="text-xl font-semibold">.𝑷𝒓𝒐𝒇𝒊𝒍𝒆</h5>
                                 </div>
-                                <div>
+                                <div style="line-height: 1rem; margin-bottom: 0;">
                                     <!-- 프로필 정보 -->
-                                    <label class="block text-gray-700 text-sm font-bold mb-3">닉네임 : </label>
+                                    <label class="inline-block text-gray-700 text-sm font-bold mb-2">닉네임 : </label>
                                     <span th:text="${zip.member.nickname != null ? zip.member.nickname : '미작성'}"></span>
                                     <br>
-                                    <label class="block text-gray-700 text-sm font-bold mb-3">생일 : </label>
+                                    <label class="inline-block text-gray-700 text-sm font-bold mb-2">생일 : </label>
                                     <span th:text="${zip.member.birthday != null ? zip.member.birthday : '미작성'}"></span>
                                     <br>
-                                    <label class="block text-gray-700 text-sm font-bold mb-3">성별 : </label>
+                                    <label class="inline-block text-gray-700 text-sm font-bold mb-2">성별 : </label>
                                     <span th:text="${zip.member.gender != null ? zip.member.gender : '미작성'}"></span>
                                     <br>
-                                    <label class="block text-gray-700 text-sm font-bold mb-3">취미 : </label>
+                                    <label class="inline-block text-gray-700 text-sm font-bold mb-2">취미 : </label>
                                     <span th:text="${zip.member.hobby != null ? zip.member.hobby : '미작성'}"></span>
                                     <br>
-                                    <label class="block text-gray-700 text-sm font-bold mb-3">MBTI : </label>
+                                    <label class="inline-block text-gray-700 text-sm font-bold mb-2">MBTI : </label>
                                     <span th:text="${zip.member.mbti != null ? zip.member.mbti : '미작성'}"></span>
                                     <br>
 <!--                                    <label class="block text-gray-700 text-sm font-bold mb-2">주소 : </label>-->
@@ -140,7 +175,11 @@
                   <td class="box4">이웃, 일정, 선물박스</td>
                 </tr>
                 <tr class="row2">
-                  <td class="box7">스토리</td>
+                  <td class="box7">
+                      <div th:if="${stAttachments}" style="text-align: center">
+                          <img th:src="${stAttachments.url}" style="width: 225px;display: inline-block;border-radius: 50%;"/>
+                      </div>
+                  </td>
                   <td class="box8">목표 가구</td>
                 </tr>
               </table>
@@ -196,6 +235,8 @@
     <script th:src="@{/js/neighbor/neighborList.js}"></script>
     <script th:src="@{/js/neighbor/neighborDelete.js}"></script>
     <script th:src="@{/js/zip/roomImage.js}"></script>
+    <script th:src="@{/js/zip/zipRoom.js}"></script>
+
 </body>
 </div>
 

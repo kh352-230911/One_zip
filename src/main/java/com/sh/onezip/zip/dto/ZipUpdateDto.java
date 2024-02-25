@@ -10,8 +10,6 @@ import java.util.List;
 
 @Data
 public class ZipUpdateDto {
-    private long id;
-    private Member member;
     @NotNull(message = "내용은 필수 입력값입니다.")
     private String content;
     @NotNull(message = "색상은 필수 입력값입니다.")
