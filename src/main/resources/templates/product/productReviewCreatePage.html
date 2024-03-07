@@ -28,7 +28,6 @@
 					<input type="file" class="custom-file-input" name="upFile" id="upFile" multiple>
 					<label class="custom-file-label" for="upFile">리뷰 이미지를 선택하세요</label>
 				</div>
-
 			</div>
 			<div>
 				<textarea class="form-control mb-3" name="reviewContent" required th:text="${productReview?.reviewContent == null? '내용': productReview.reviewContent}"></textarea>
