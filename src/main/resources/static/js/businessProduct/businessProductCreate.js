@@ -3,9 +3,9 @@ document.querySelector("#createOptionBtn").addEventListener('click', (e) => {
     const innerOption =  document.querySelector("#innerOption")
     const innerOptionIndex = innerOption.childElementCount / 3;
     innerOption.insertAdjacentHTML('beforeend', `
-    <input type="text" class="form-control mb-3" placeholder="옵션 명" name="innerOptionName${innerOptionIndex}" id="innerOptionName${innerOptionIndex}" required>
-    <input type="text" class="form-control mb-3" placeholder="옵션 재고 수량" name="innerOptionStock${innerOptionIndex}" id="innerOptionStock${innerOptionIndex}" required>
-    <input type="text" class="form-control mb-3" placeholder="옵션 추가 금액" name="innerOptionPrice${innerOptionIndex}" id="innerOptionPrice${innerOptionIndex}" required>
+        <input type="text" class="form-control mb-3 w-1/3" placeholder="옵션 명" name="innerOptionName${innerOptionIndex}" id="innerOptionName${innerOptionIndex}" required>
+        <input type="text" class="form-control mb-3 w-1/3" placeholder="옵션 재고 수량" name="innerOptionStock${innerOptionIndex}" id="innerOptionStock${innerOptionIndex}" required>
+        <input type="text" class="form-control mb-3 w-1/3" placeholder="옵션 추가 금액" name="innerOptionPrice${innerOptionIndex}" id="innerOptionPrice${innerOptionIndex}" required>
 `);
     innerOption.value = parseInt(innerOptionIndex + 1);
 });
