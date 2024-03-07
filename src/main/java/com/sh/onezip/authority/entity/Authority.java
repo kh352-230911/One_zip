@@ -1,7 +1,6 @@
 package com.sh.onezip.authority.entity;
 
 import com.sh.onezip.authority.entity.RoleAuth;
-import com.sh.onezip.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

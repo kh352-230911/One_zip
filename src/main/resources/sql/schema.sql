@@ -214,36 +214,16 @@ CREATE TABLE tb_gifts (
 );
 
 -- 주문 상품
-CREATE TABLE tb_order_product (
-                                  id number NOT NULL,
-                                  plog_no number NOT NULL,
-                                  product_no number NOT NULL,
-                                  poption_no number NOT NULL,
-                                  purchase_quantity number DEFAULT 1 NOT NULL,
-                                  pay_amount number NOT NULL,
-                                  CONSTRAINT pk_tb_order_product PRIMARY KEY (id),
-                                  CONSTRAINT fk_tb_order_product_plog FOREIGN KEY (plog_no) REFERENCES tb_plog(id),
-                                  CONSTRAINT fk_tb_order_product_product FOREIGN KEY (product_no) REFERENCES tb_product(id),
-                                  CONSTRAINT fk_tb_order_product_poption FOREIGN KEY (poption_no) REFERENCES tb_poption(id)
+CREATE TABLE tb_order_product
+(
+    id                number           NOT NULL,
+    plog_no           number           NOT NULL,
+    product_no        number           NOT NULL,
+    poption_no        number           NOT NULL,
+    purchase_quantity number DEFAULT 1 NOT NULL,
+    pay_amount        number           NOT NULL,
+    CONSTRAINT pk_tb_order_product PRIMARY KEY (id),
+    CONSTRAINT fk_tb_order_product_plog FOREIGN KEY (plog_no) REFERENCES tb_plog (id),
+    CONSTRAINT fk_tb_order_product_product FOREIGN KEY (product_no) REFERENCES tb_product (id),
+    CONSTRAINT fk_tb_order_product_poption FOREIGN KEY (poption_no) REFERENCES tb_poption (id)
 );
-
--- 찜
-CREATE TABLE tb_steam (
-                          id number NOT NULL,
-                          member_id varchar2(10) NOT NULL,
-                          product_no number NOT NULL,
-                          CONSTRAINT pk_tb_steam PRIMARY KEY (id),
-                          CONSTRAINT fk_tb_steam_member FOREIGN KEY (member_id) REFERENCES tb_member(member_id),
-                          CONSTRAINT fk_tb_steam_product FOREIGN KEY (product_no) REFERENCES tb_product(id)
-);
-
--- 배송지 주소록
-CREATE TABLE tb_shipping_address (
-                                     id number NOT NULL,
-                                     member_id varchar2(10) NOT NULL,
-                                     addr_nickname varchar(30) DEFAULT '기본 주소지' NOT NULL,
-                                     shipping_addr varchar2(100) NOT NULL,
-                                     CONSTRAINT pk_tb_shipping_address PRIMARY KEY (id),
-                                     CONSTRAINT fk_tb_shipping_address_member FOREIGN KEY (member_id) REFERENCES tb_member(member_id)
-);
-
