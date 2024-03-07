@@ -11,19 +11,13 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @Entity
-@Table(
-        name = "tb_authority",
-        uniqueConstraints =
-            @UniqueConstraint(
-                name = "uq_authority_member_id_name",
-                columnNames = {"member_id", "user_type"}))
+@Table(name = "tb_authority")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Authority implements Serializable{
     @Id
-//    @GeneratedValue(strategy= GenerationType.AUTO)
     @GeneratedValue(generator = "seq_Authority_id_generator")
     @SequenceGenerator(
             name = "seq_Authority_id_generator",
