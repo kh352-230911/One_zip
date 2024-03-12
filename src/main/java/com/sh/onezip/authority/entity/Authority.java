@@ -46,5 +46,7 @@ public class Authority implements Serializable{
     @Enumerated(EnumType.STRING)
     private RoleAuth userType;
 
+
+    // 여기까지가 HSH 코드
 }
 

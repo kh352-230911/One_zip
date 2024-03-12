@@ -49,5 +49,7 @@ public class MemberService {
         authorityService.createAuthority(authority);  // tb_authority 테이블에 저장
         return savedMember;
     }
+
+    // 여기까지가 HSH코드
 }
 

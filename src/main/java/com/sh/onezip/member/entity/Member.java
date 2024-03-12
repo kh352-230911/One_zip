@@ -71,4 +71,6 @@ public class Member {
     private List<Authority> authorities = new ArrayList<>();
 
 
+    //여기까지가 HSH 코드
+
 }
