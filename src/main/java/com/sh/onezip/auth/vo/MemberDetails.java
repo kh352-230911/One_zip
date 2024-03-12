@@ -2,10 +2,8 @@ package com.sh.onezip.auth.vo;
 
 import com.sh.onezip.member.entity.Member;
 import lombok.Data;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -15,10 +13,8 @@ import java.util.Map;
 @Data
 public class MemberDetails implements UserDetails, OAuth2User {
 
-    // 현재 사용자의 인증된 정보를 가져옴
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
     final Member member;
+
     private Map<String, Object> attributes;
 
     @Override
@@ -74,7 +70,6 @@ public class MemberDetails implements UserDetails, OAuth2User {
     public Map<String, Object> getAttributes() {
         return this.attributes;
     }
-
     }
 
 

@@ -47,7 +47,7 @@ public class OAuth2UserServiceIml extends DefaultOAuth2UserService {
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
         log.debug("clientRegistration = {}", clientRegistration);
-        log.debug("accessToken = {}", accessToken);
+//        log.debug("accessToken = {}", accessToken);
         log.debug("oAuth2User = {}", oAuth2User);
 //        log.debug("attributes = {}", attributes);
 
@@ -55,10 +55,6 @@ public class OAuth2UserServiceIml extends DefaultOAuth2UserService {
 //
 //        // google인 경우, {sub}@google이 username이 된다.
         String username = OAuth2UserUtils.getUsername(oAuth2User, provider);
-
-
-        log.debug(username);
-
         try {
             memberDetails = (MemberDetails) authService.loadUserByUsername(username);
         } catch (UsernameNotFoundException e) {

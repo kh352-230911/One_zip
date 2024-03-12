@@ -13,29 +13,28 @@ public class MemberCreateDto {
     private String memberId;
     @NotBlank(message = "비밀번호는 필수 입력 항목입니다.")
     private String password;
-    @NotBlank(message = "이름은 필수 입력 항목입니다.")
+    @NotBlank
     private String name;
+    private String email;
     private String nickname;
     private LocalDate birthday;
     private Gender gender;
     private String phone;
     private String hobby;
     private String mbti;
-    private String memberAddr;
-    private String memberDetailAddr; // 상세 주소
 
     public Member toMember() {
         return Member.builder()
                 .memberId(memberId)
                 .password(password)
                 .name(name)
-                .gender(gender)
+                .email(email)
+                .nickname(nickname)
                 .birthday(birthday)
+                .gender(gender)
                 .phone(phone)
                 .hobby(hobby)
-                .nickname(nickname)
                 .mbti(mbti)
-                .memberAddr(memberAddr + "#" + memberDetailAddr)
                 .build();
     }
 }

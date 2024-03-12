@@ -5,14 +5,10 @@ import com.sh.onezip.authority.entity.RoleAuth;
 import com.sh.onezip.authority.service.AuthorityService;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.repository.MemberRepository;
-import com.sh.onezip.orderproduct.entity.OrderProduct;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -23,39 +19,35 @@ public class MemberService {
     @Autowired
     AuthorityService authorityService;
 
-
-
+    public Member findByName(String username) {
+        return memberRepository.findByName(username);
+    }
     public Member findByMemberId(String memberId) {
         return memberRepository.findByMemberId(memberId);
     }
 
-
-
-    public Member createMember(Member member) {
-        memberRepository.save(member);
-        Authority authority = Authority.builder()
-                .memberId(member.getMemberId())
-                .userType(RoleAuth.ROLE_USER)
-                .build();
-        authorityService.createAuthority(authority);
-        return member;
-    }
-
-    public Member updateMember(Member member) {
-        return memberRepository.save(member);
-    }
-
-    public List<Member> findAllMembers() {
-        return memberRepository.findAll();
-    }
-
-
-//    public void deleteByid(String memberId) {
-//        System.out.println("회원삭제 서비스");
-//        memberRepository.deleteById(memberId); // 회원 삭제
+//    public Member createMember(Member member) {
+//        memberRepository.save(member);
+//        Authority authority = Authority.builder()
+//                .memberId(member.getId())
+//                .userType(RoleAuth.ROLE_USER)
+//                .build();
+//        authorityService.createAuthority(authority);
+//        return member;
 //    }
 
-    public void deleteById(String memberId) {
-        memberRepository.deleteById(memberId);
+
+    @Transactional
+    public Member createMember(Member member) {
+        System.out.println("flag");
+        Member savedMember = memberRepository.save(member);  // 먼저 tb_member 테이블에 저장
+        System.out.println(savedMember + "flag1");
+        Authority authority = Authority.builder()
+                .member(savedMember)  // 저장된 멤버의 ID 사용
+                .userType(RoleAuth.ROLE_USER)
+                .build();
+        authorityService.createAuthority(authority);  // tb_authority 테이블에 저장
+        return savedMember;
     }
 }
+
