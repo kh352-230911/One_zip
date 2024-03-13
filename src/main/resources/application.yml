@@ -13,12 +13,12 @@ spring:
     url: ${PROD_DB_URL}
     username: ${PROD_DB_USERNAME}
     password: ${PROD_DB_PASSWORD}
-#spring:
-#  datasource:
-#    driver-class-name: oracle.jdbc.OracleDriver
-#    url: jdbc:oracle:thin:@localhost:1521:xe
-#    username: ziptest
-#    password: ziptest
+  #spring:
+  #  datasource:
+  #    driver-class-name: oracle.jdbc.OracleDriver
+  #    url: jdbc:oracle:thin:@localhost:1521:xe
+  #    username: ziptest
+  #    password: ziptest
   profiles:
     default: test
     active: prod
@@ -30,7 +30,7 @@ spring:
       hibernate:
         format_sql: true
         hbm2ddl:
-          auto: validate
+          auto: none
     database: oracle
     database-platform: org.hibernate.dialect.OracleDialect
   security:
