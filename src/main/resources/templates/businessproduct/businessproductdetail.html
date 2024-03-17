@@ -15,7 +15,7 @@
               th:action="@{/businessproduct/businessproductdetail.do}"
               method="post"
               enctype="multipart/form-data">
-            <input type="hidden" name="id" th:value="${businessproduct.id}">
+            <input type="hidden" name="id"  th:value="${businessproduct.id}">
             <input type="text" class="form-control mb-3" placeholder="상품명" name="productName" id="productName" th:value="${businessproduct.productName}"required>
             <input type="text" class="form-control mb-3" placeholder="상품가격" name="productPrice" id="productPrice" th:value="${businessproduct.productPrice}"required>
             <!--            <input type="text" class="form-control mb-3" placeholder="할인율" name="discountRate" id="discountRate" required>-->
@@ -24,16 +24,16 @@
             <!--            <input type="text" class="form-control mb-3" placeholder="옵션금액(추가요금)" name="optionCost" id="optionCost" required>-->
             <input type="text" class="form-control mb-3" placeholder="상품분류코드" name="productTypecode" id="productTypecode" th:value="${businessproduct.productTypeCode}"required>
             <input type="text" class="form-control mb-3" placeholder="적용 할인율" name="discountRate" id="discountRate" th:value="${businessproduct.discountRate}"required>
-            <input type="text" class="form-control mb-3" placeholder="할인 적용 금액" name="sellPrice" id="sellPrice" th:value="${businessproduct.sellPrice}"required>
+            <input type="text" class="form-control mb-3" placeholder="할인 적용 금액" name="productDiscount" id="sellPrice" th:value="${businessproduct.sellPrice}"required>
             <div th:if="!${#lists.isEmpty(businessproduct.productOptions)}" class="mb-4">
-                    <div th:each="productOption, status: ${businessproduct.productOptions}">
+                    <span th:each="productOption : ${businessproduct.productOptions}">
 <!--                        <option th:value="|${productOption.id}#${productOption.optionCost}|"-->
                         <!--                                th:text="|${productOption.optionName} +${productOption.optionCost}원|">-->
                         <!--                        </option>-->
-                        <div><p>옵션 명: </p><input type="text" th:name="optionName${status.index}" th:value="${productOption.optionName}"></div>
-                        <div><p>옵션 금액: </p><input type="text" th:name="optionCost${status.index}" th:value="${productOption.optionCost}"></div>
-                        <div><p>옵션 수량: </p><input type="text" th:name="totalStock${status.index}" th:value="${productOption.totalStock}"></div>
-                    </div>
+                        <div><p>옵션 명: </p><input type="text" th:value="${productOption.optionName}"></div>
+                        <div><p>옵션 금액: </p><input type="text" th:value="${productOption.optionCost}"></div>
+                        <div><p>옵션 수량: </p><input type="text" th:value="${productOption.totalStock}"></div>
+                    </span>
             </div>
             <!--            <br>-->
             <!--            <span th:text="|재고수량:|"><span th:style="'margin-right: 10px;'"></span></span>-->
@@ -51,19 +51,11 @@
                 <input type="file" class="custom-file-input" name="upFile" id="upFile" multiple>
                 <label class="custom-file-label" for="upFile"></label>
             </div>
-            <select name="selectRefType" id="selectRefType" class="bg-gray-100 border border-gray-300 rounded px-4 py-2">
-                <option th:each="productOption : ${cart.product.productOptions}"
-                        th:value="${productOption.id}#${productOption.optionCost}"
-                        th:text="${productOption.optionName} +${productOption.optionCost}원"></option>
-            </select>
-            <div class="input-group mb-3" style="padding:0px;">
-                <div th:each="attachment, status : ${businessproduct.attachmentList}" class="input-group-prepend" style="padding:0px;">
-                    <span class="input-group-text"><img th:name="attachmentUrl${status.index}" th:value="${attachment.url}" th:src="${attachment.url}"></span>
-                    <input type="hidden" th:name="attachmentKey${status.index}" th:value="attachment.Key">
+            <div class="input-group mb-3" style="padding:0px;" >
+                <div th:each="attachment : ${businessproduct.attachmentList}" class="input-group-prepend" style="padding:0px;">
+                    <span class="input-group-text"><img th:src="${attachment.url}"></span>
                 </div>
             </div>
-
-
             <!--/businessproduct/businessproductlist.do?bizMemberId=" + businessmember.getBizMemberId();-->
             <!--            <textarea class="form-control  mb-3" name="content" placeholder="내용" required></textarea>-->
             <a href="javascript:confirm('정말 수정하시겠습니까? 😯') && document.businessFrm.submit();" class="btn btn-outline-success d-inline-block mr-2">수정하기</a>
