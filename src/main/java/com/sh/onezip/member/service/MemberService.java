@@ -26,22 +26,11 @@ public class MemberService {
         return memberRepository.findByMemberId(memberId);
     }
 
-//    public Member createMember(Member member) {
-//        memberRepository.save(member);
-//        Authority authority = Authority.builder()
-//                .memberId(member.getId())
-//                .userType(RoleAuth.ROLE_USER)
-//                .build();
-//        authorityService.createAuthority(authority);
-//        return member;
-//    }
 
 
     @Transactional
     public Member createMember(Member member) {
-        System.out.println("flag");
         Member savedMember = memberRepository.save(member);  // 먼저 tb_member 테이블에 저장
-        System.out.println(savedMember + "flag1");
         Authority authority = Authority.builder()
                 .member(savedMember)  // 저장된 멤버의 ID 사용
                 .userType(RoleAuth.ROLE_USER)
@@ -49,6 +38,7 @@ public class MemberService {
         authorityService.createAuthority(authority);  // tb_authority 테이블에 저장
         return savedMember;
     }
+
 
     // 여기까지가 HSH코드
 }

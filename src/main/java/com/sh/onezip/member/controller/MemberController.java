@@ -67,13 +67,9 @@ public class MemberController {
 
         // MemberCreateDto -> Member 변환
         Member member = memberCreateDto.toMember();
-        System.out.println("flag1");
         String encodePassword = passwordEncoder.encode(member.getPassword());
-        System.out.println("flag2");
         member.setPassword(encodePassword);
-        System.out.println("flag3");
         member = memberService.createMember(member);
-        System.out.println("flag4");
 
         redirectAttributes.addFlashAttribute("msg", "회원가입이 완료되었습니다.");
         return "redirect:/";
