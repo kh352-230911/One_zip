@@ -12,8 +12,14 @@
     <div layout:fragment="content" class="mx-12 mt-12 px-4 sm:px-6 lg:px-8">
         <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">
-                <h1 class="text-base font-semibold leading-6 text-gray-900">회원관리</h1>
+                <h1 class="text-base font-semibold leading-6 text-gray-900">전체회원관리</h1>
+                <span>전체 회원 수: <span th:text="${totalCount} + '명'">0</span></span> <br>
+                <span>(일반 회원 수: <span th:text="${memberCount} + '명'">0</span>,</span>
+                <span>사업자 회원 수: <span th:text="${businessCount} + '명'">0</span>,</span>
+                <span>관리자 회원 수: <span th:text="${adminCount} + '명'">0</span>)</span>
                 <p class="mt-2 text-sm text-gray-700">환영합니다, 관리자님! 여기는 웹사이트의 핵심을 관리하는 곳, 회원 관리 페이지입니다. </br>이 페이지를 통해 관리자님은 웹사이트의 회원 정보를 손쉽게 삭제할 수 있으며, 회원의 활동 상태를 관리할 수 있습니다. </br>이 페이지는 사용자의 편의성과 효율적인 관리를 위해 설계되었습니다.</p>
+                <p class="mt-2 text-sm text-gray-700">* 일반(ROLE_USER), 사업자(ROLE_BUSINESS), 관리자(ROLE_ADMIN) *</p>
+                <br><a href="#" th:onclick="|location.href='@{/admin/businessmemberList.do}';|" class="font-semibold text-indigo-600 hover:text-indigo-500"> 사업자회원관리페이지로 이동 🧐</a>
             </div>
 
         </div>
@@ -27,9 +33,10 @@
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">이름</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">성별</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">전화번호</th>
-                            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-3">
-                                <span class="sr-only">Edit</span>
-                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">이메일</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">일반/사업자/관리자</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">가입일시</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">비고</th>
                         </tr>
                         </thead>
                         <tbody class="bg-white">
@@ -38,9 +45,18 @@
                             <td th:text="${member.name}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
                             <td th:text="${member.gender}"  class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
                             <td th:text="${member.phone}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
+                            <td th:text="${member.email}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
+                            <td>
+                                <ul>
+                                <!-- authority(변수명) : member entity랑 OneToMany -->
+                                    <li th:each="authority : ${member.authorities}" th:text="${authority.userType}"
+                                        class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></li>
+                                </ul>
+                            </td>
+                            <td th:text="${member.regDate}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
                             <td>
                                 <form th:action="@{/admin/memberList.do}" method="post">
-                                    <input type="hidden" id="memberId" name="memberId" th:value="${member.memberId}">
+                                    <input type="hidden" id="id" name="id" th:value="${member.id}">
                                     <button type="submit" class="text-indigo-600 hover:text-red-600">삭제</button>
                                 </form>
                             </td>
@@ -49,6 +65,23 @@
                     </table>
                 </div>
             </div>
+        </div>
+        <br><br>
+        <div class="pagination" style="text-align: center;">
+            <ul class="pagination-list" style="display: flex; justify-content: center;">
+                <!-- 이전 페이지 링크 -->
+                <li th:if="${number > 0}">
+                    <a th:href="@{/admin/memberList.do(page=${number - 1}, size=${size})}" class="pagination-link"> 이전페이지로 이동하기 </a>
+                </li>
+                <!-- 페이지 번호 링크 -->
+                <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}" th:class="${pageNumber == number ? 'active' : ''}" class="pagination-item" style="margin: 0 5px;">
+                    <a th:href="@{/admin/memberList.do(page=${pageNumber}, size=${size})}" th:text="${pageNumber + 1}" class="pagination-link" style="font-size: 16px;"></a>
+                </li>
+                <!-- 다음 페이지 링크 -->
+                <li th:if="${number + 1 < totalPages}">
+                    <a th:href="@{/admin/memberList.do(page=${number + 1}, size=${size})}" class="pagination-link"> 다음페이지로 이동하기 </a>
+                </li>
+            </ul>
         </div>
     </div>
 

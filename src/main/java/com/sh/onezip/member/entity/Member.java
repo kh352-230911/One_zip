@@ -1,12 +1,11 @@
 package com.sh.onezip.member.entity;
 
 import com.sh.onezip.authority.entity.Authority;
+import com.sh.onezip.customeranswercenter.entity.AnswerCenter;
+import com.sh.onezip.customerquestioncenter.entity.QuestionCenter;
 import com.sh.onezip.member.entity.Gender;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.apachecommons.CommonsLog;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -25,6 +24,8 @@ import java.util.List;
 @Entity
 @DynamicInsert // null이 아닌 필드만 등록
 @DynamicUpdate // 영속성컨텍스트의 엔티티와 달라진 필드만 수정
+// HBK write Tostring / reason : Member Authority ,QuestionCenter, AnswerCenter stackoverflow
+@ToString(exclude = {"authorities", "questionCenters", "answerCenters"})
 @Table(name = "tb_member")
 public class Member {
 
@@ -70,7 +71,15 @@ public class Member {
 //    @JoinColumn(name = "member_id") //authority 테이블의 컬럼명시
     private List<Authority> authorities = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Address> addresses = new ArrayList<>();
     //여기까지가 HSH 코드
 
+    // HBK start
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<QuestionCenter> questionCenters = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<AnswerCenter> answerCenters = new ArrayList<>();
+    // HBK end
 }

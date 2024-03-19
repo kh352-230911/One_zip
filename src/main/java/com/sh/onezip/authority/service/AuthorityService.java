@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthorityService {
     @Autowired
+    // HBK start
     AuthorityRepository authorityRepository;
     public Authority createAuthority(Authority authority) {
         return authorityRepository.save(authority);
     }
+    // HBK end
 }

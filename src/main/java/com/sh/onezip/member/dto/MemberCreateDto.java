@@ -1,6 +1,6 @@
 package com.sh.onezip.member.dto;
 
-import com.sh.onezip.member.entity.Address;
+//import com.sh.onezip.member.entity.Address;
 import com.sh.onezip.member.entity.Gender;
 import com.sh.onezip.member.entity.Member;
 import jakarta.validation.constraints.NotBlank;
@@ -41,12 +41,12 @@ public class MemberCreateDto {
                 .build();
     }
 
-    public Address toAddress(Member member) {
-        Address address = new Address();
-        address.setMember(member); // Member 참조 설정
-        address.setBaseAddress(baseAddress);
-        address.setDetailAddress(detailAddress);
-        // 필요한 경우 다른 필드도 설정
-        return address;
-    }
+//    public Address toAddress(Member member) {
+//        Address address = new Address();
+//        address.setMember(member); // Member 참조 설정
+//        address.setBaseAddress(baseAddress);
+//        address.setDetailAddress(detailAddress);
+//        // 필요한 경우 다른 필드도 설정
+//        return address;
+//    }
 }

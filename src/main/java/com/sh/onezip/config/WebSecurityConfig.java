@@ -33,9 +33,10 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/", "/templates/index.html").permitAll()
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**","/admin/memberList.do").permitAll()
                         .requestMatchers("/member/createMember.do","/member/checkIdDuplicate.do", "/member/selectMemberType.do").anonymous()
                         .requestMatchers("/board/**").authenticated()
+                        .requestMatchers("/business/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin((form) -> form

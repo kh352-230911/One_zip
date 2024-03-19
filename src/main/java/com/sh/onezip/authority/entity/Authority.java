@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Table(
         name = "tb_authority",
         uniqueConstraints =
-        @UniqueConstraint(
+            @UniqueConstraint(
                 name = "uq_authority_member_id_name",
                 columnNames = {"id", "member_id", "user_type"}))
 @Data
@@ -36,7 +36,7 @@ public class Authority implements Serializable{
     private Long id;
 
 
-    //    @Column(nullable = false, name = "member_id")
+//    @Column(nullable = false, name = "member_id")
 //    private Long memberId;
     @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -45,5 +45,8 @@ public class Authority implements Serializable{
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleAuth userType;
+
+
     // 여기까지가 HSH 코드
 }
+
