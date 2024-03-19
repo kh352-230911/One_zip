@@ -96,7 +96,8 @@
                             <!-- 회원 아이디 -->
                             <input type="hidden" name="memberId" th:value="${question.member.memberId}">
                             <!-- 답변 고유 번호 -->
-                            <input type="hidden" name="aid" th:value="${answer.id}">
+                            <!--   answer가 null이 아닌 경우에만 hidden input이 생성되고, answer가 null인 경우 빈 문자열이 설정  -->
+                            <input type="hidden" name="aid" th:value="${answer != null ? answer.id : ''}" th:if="${answer != null}">
                             <textarea id="editedContent" rows="6" style="font-size: 18px; width: 100%; border-radius: 10px; padding: 10px;" th:value="${question.answerCenter != null ? question.answerCenter.aoneContent : ''}" readonly></textarea>
                             <div style="display: flex; justify-content: flex-end;">
                                 <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-700 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">수정</button>
