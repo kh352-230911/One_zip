@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+<head>
+    <title></title>
+</head>
+<style layout:fragment="style"></style>
+
+<h1>회원 목록</h1>
+    <div layout:fragment="content" class="mx-12 mt-12 px-4 sm:px-6 lg:px-8">
+        <div class="sm:flex sm:items-center">
+            <div class="sm:flex-auto">
+                <h1 class="text-base font-semibold leading-6 text-gray-900">고객센터</h1>
+                <span>전체 질문 수: <span th:text="${totalCount} + '개'">0</span></span> <br>
+                <span>답변 미작성 수: <span th:text="${answerN} + '개'">0</span>,</span>
+                <span>답변 완료 수: <span th:text="${answerY} + '개'">0</span>)</span>
+                <p class="mt-2 text-sm text-gray-700">환영합니다, 관리자님! 여기는 회원들의 전체 문의글을 한 눈에 볼 수 있는, 관리자 전용 고객센터 문의 페이지입니다. </br>이 페이지를 통해 관리자님은 일반 회원과 사업자 회원이 작성한 문의글을 보고 답변 작성 및 수정을 할 수 있습니다. 또한 부적절한 문의글의 경우 삭제할 수 있습니다.</br>이 페이지는 사용자의 편의성과 효율적인 관리를 위해 설계되었습니다.</p>
+                <p class="mt-2 text-sm text-gray-700">* 답변대기(N), 답변완료(Y) *</p>
+            </div>
+
+        </div>
+        <div class="mt-8 flow-root">
+            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                    <table class="min-w-full divide-y divide-gray-300">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">문의고유번호</th>
+                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">회원아이디</th>
+                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">문의내용</th>
+                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">회원권한</th>
+                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">답변여부</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">작성일시</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">비고</th>
+                        </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                        <tr th:each="question : ${questions}" class="even:bg-gray-50">
+                            <td th:text="${question.id}" class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3"></td>
+                            <td th:text="${question.member.memberId}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
+                                    <!--  20자 넘으면 보이지 않게 처리 하였음  -->
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <a th:href="@{/admin/customerACenterDetailList.do(id=${question.id})}" class="hover:underline" title="상세 문의 페이지로 이동">
+                                    <span th:text="${#strings.length(question.qoneContent) > 20 ? #strings.substring(question.qoneContent, 0, 20) + '...' : question.qoneContent}">문의내용</span>
+                                </a>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li th:each="authority : ${question.member.authorities}" th:text="${authority.userType}"
+                                        class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></li>
+                                </ul>
+                            </td>
+                            <td th:text="${question.answerYn}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
+                            <td th:text="${question.qoneRegdate}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
+                            <td>
+                                <form th:action="@{/admin/customerACenterList.do}" method="post">
+                                    <input type="hidden" id="id" name="id" th:value="${question.id}">
+                                    <button type="submit" class="text-indigo-600 hover:text-red-600">삭제</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="pagination" style="text-align: center;">
+            <ul class="pagination-list" style="display: flex; justify-content: center;">
+                <!-- 이전 페이지 링크 -->
+                <li th:if="${number > 0}">
+                    <a th:href="@{/admin/customerACenterList.do(page=${number - 1}, size=${size})}" class="pagination-link"> 이전페이지로 이동하기 </a>
+                </li>
+                <!-- 페이지 번호 링크 -->
+                <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}" th:class="${pageNumber == number ? 'active' : ''}" class="pagination-item" style="margin: 0 5px;">
+                    <a th:href="@{/admin/customerACenterList.do(page=${pageNumber}, size=${size})}" th:text="${pageNumber + 1}" class="pagination-link" style="font-size: 16px;"></a>
+                </li>
+                <!-- 다음 페이지 링크 -->
+                <li th:if="${number + 1 < totalPages}">
+                    <a th:href="@{/admin/customerACenterList.do(page=${number + 1}, size=${size})}" class="pagination-link"> 다음페이지로 이동하기 </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+<!--<script layout:fragment="script">-->
+</script>
+</html>

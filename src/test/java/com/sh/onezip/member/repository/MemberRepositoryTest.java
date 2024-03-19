@@ -104,5 +104,21 @@ class MemberRepositoryTest {
 //                });
 //    }
 
+// HBK start
+@DisplayName("회원은 고객센터에 문의글을 작성 할 수 있다.")
+@Test
+void test3(){
+    // 1. 일반회원으로 로그인을 한 회원 찾기
+    Member member = memberRepository.findByMemberId("biztest7");
+    assertThat(member).isNotNull();
+    // 2. 문의글 등록
+    QuestionCenter questionCenter = QuestionCenter.builder()
+            .member(member)
+            .qoneContent("아직 사업자 등록증이 발행 되지 않았을 경우는 사업자 회원으로 권한이 변경 될 수는 없는 건가요?")
+            .build();
+    // 3. 문의글 등록 정보 저장
+    questionCenterRepository.save(questionCenter);
+}
+
 }
 

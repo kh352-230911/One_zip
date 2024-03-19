@@ -4,178 +4,25 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layout/default}">
 <head>
-    <title>회원가입</title>
-    <link rel="stylesheet" th:href="@{/css/createBizMember.css}" />
-
+    <title>사업자 등록 선택</title>
+    <link rel="stylesheet" th:href="@{/css/selectMemberType.css}" />
 </head>
-<div layout:fragment="content" class="isolate bg-white px-6 py-24 sm:py-32 lg:px-56 ">
-    <div class="absolute top-[-10rem] -z-10 transform-gpu overflow-hidden mt-40">
-        <div class="bgWallpaper mt-12">
-            <div class="main">
-                <h1 class="text-center text-7xl font-extrabold">ONE.ZIP</h1>
-                <div class="house">
-                    <div class="floor"></div>
-                    <div class="wall">
-                        <div class="window"></div>
-                        <div class="door">
-                            <div class="door__square"></div>
-                            <div class="door__line"></div>
-                            <div class="door__square"></div>
-                        </div>
-                        <div class="window"></div>
-                    </div>
-                    <div class="top"></div>
-                    <div class="circle"></div>
-                    <div class="plastic">
-                        <div class="plastic__g">
-                            <div class="plastic__item"></div>
-                            <div class="plastic__item"></div>
-                            <div class="plastic__item"></div>
-                            <div class="plastic__item"></div>
-                            <div class="plastic__item"></div>
-                            <div class="plastic__item"></div>
-                            <div class="plastic__item"></div>
-                            <div class="plastic__item"></div>
-                            <div class="plastic__item"></div>
-                        </div>
-                    </div>
-                    <div class="line">
-                        <div class="line__item"></div>
-                        <div class="line__item"></div>
-                        <div class="line__item"></div>
-                        <div class="line__item"></div>
-                        <div class="line__item"></div>
-                        <div class="line__item"></div>
-                        <div class="line__item"></div>
-                        <div class="line__item"></div>
-                        <div class="line__item"></div>
-                    </div>
-                </div>
-                <div class="clouds">
-                    <div class="cloud">
-                        <div class="cloud__item"></div>
-                        <div class="cloud__item"></div>
-                    </div>
-                    <div class="cloud">
-                        <div class="cloud__item"></div>
-                        <div class="cloud__item"></div>
-                    </div>
-                    <div class="cloud">
-                        <div class="cloud__item"></div>
-                        <div class="cloud__item"></div>
-                    </div>
-                    <div class="bird"></div>
-                </div>
-                <div class="birds">
-                    <div class="bird"></div>
-                    <div class="bird"></div>
-                </div>
-                <div class="tree">
-                    <div class="tree__item"></div>
-                    <div class="tree__item"></div>
-                    <div class="tree__item"></div>
-                </div>
-                <div class="bush">
-                    <div class="bush__item"></div>
-                    <div class="bush__item"></div>
-                </div>
-                <div class="dot"></div>
+<style layout:fragment="style"></style>
+<div layout:fragment="content" class="mx-12 mt-12 px-4 sm:px-6 lg:px-8">
+    <div class="card-list">
+        <a href="#" th:onclick="|location.href='@{/business/createbusiness.do}';|" class="card-item">
+            <img th:src="@{/images/사업자회원.png}" alt="Card Image">
+            <span class="developer">사업자</span>
+            <h3>사업자회원 등록하기</h3>
+            <div class="arrow">
+                <i class="fas fa-arrow-right card-icon"></i>
             </div>
-        </div>
-    </div>
-    <!-- 폼 -->
-    <div class="flex justify-end mr-9">
-        <form name="bizMemberCreateFrm" th:action="@{/business/createbusiness.do}" method="POST" class="mr-42 mt-3 max-w-xl sm:mt-3 w-5/12">
-            <div class="mx-auto max-w-2xl text-center">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                    회원가입
-                </h2>
-                <p class="mt-2 text-lg leading-8 text-gray-600"></p>
-            </div>
-            <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-                <div class="sm:col-span-2">
-                    <label for="bizMemberId" class="block text-sm font-semibold leading-6 text-gray-900">아이디</label>
-                    <div id="bizMemberId-container" class="mt-2.5">
-                        <input type="text" placeholder="4글자이상" name="bizMemberId" id="bizMemberId" pattern="^\w{4,}$" value="" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                        <!--                        <span class="biz guide ok">이 아이디는 사용가능합니다.</span>-->
-                        <!--                        <span class="biz guide error">이 아이디는 사용할 수 없습니다.</span>-->
-                        <input type="hidden" name="bizMemberIdDuplicateCheck" id="bizMemberIdDuplicateCheck" value="0"/>
-                    </div>
-                </div>
-                <div class="sm:col-span-2">
-                    <label for="bizPassword" class="block text-sm font-semibold leading-6 text-gray-900">비밀번호</label>
-                    <div class="mt-2.5">
-                        <input type="password" name="bizPassword" id="bizPassword" value="" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                    </div>
-                </div>
-                <div class="sm:col-span-2">
-                    <label for="bizPassword" class="block text-sm font-semibold leading-6 text-gray-900">비밀번호 확인</label>
-                    <div class="mt-2.5">
-                        <input type="password" name="bizpasswordConfirmation" id="bizpasswordConfirmation" value="" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                    </div>
-                </div>
-                <div class="sm:col-span-2">
-                    <label for="bizName" class="block text-sm font-semibold leading-6 text-gray-900">상호명</label>
-                    <div class="mt-2.5">
-                        <input type="text" name="bizName" id="bizName" value="" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                    </div>
-                </div>
-                <div class="sm:col-span-2">
-                    <label for="bizRegNo" class="block text-sm font-semibold leading-6 text-gray-900">사업장 등록 번호</label>
-                    <div class="relative mt-2.5">
-                        <input type="tel" name="bizRegNo" id="bizRegNo" autocomplete="tel" required class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                    </div>
-                </div>
-                <div class="sm:col-span-2">
-                    <label for="bizLicense" class="block text-sm font-semibold leading-6 text-gray-900">사업자 등록증</label>
-                    <div class="relative mt-2.5">
-                        <input type="tel" name="bizLicense" id="bizLicense" placeholder="등록증 첨부파일 등록 시 '제출완료' 입력 요망" autocomplete="tel" required class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                        <dd class="mt-1 sm:col-span-2">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="upFile" id="upFile" multiple>
-                                <label class="custom-file-label" for="upFile">파일을 선택하세요</label>
-                            </div>
-                        </dd>
-                    </div>
-                </div>
-                <div class="sm:col-span-2">
-                    <label for="bizPhone" class="block text-sm font-semibold leading-6 text-gray-900">사업장 대표번호</label>
-                    <div class="relative mt-2.5">
-                        <input type="tel" name="bizPhone" id="bizPhone" autocomplete="tel" required class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                    </div>
-                </div>
-                <button type="button" id="addrBtn" class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mt-6">주소검색</button>
-            </div>
-            <div>
-                <label for="bizAddr" class="block text-sm font-semibold leading-6 text-gray-900">주소</label>
-                <div class="mt-2.5">
-                    <input type="text" name="bizAddr" id="bizAddr" autocomplete="given-name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-gray-200">
-                </div>
-            </div>
-            <div>
-                <label for="bizDetailAddr" class="mt-3 block text-sm font-semibold leading-6 text-gray-900">상세주소</label>
-                <div class="mt-2.5">
-                    <input type="text" name="bizDetailAddr" id="bizDetailAddr" autocomplete="given-name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-            </div>
-            <div>
-                <label for="bizRegStatus" class="mt-3 block text-sm font-semibold leading-6 text-gray-900" >승인여부</label>
-                <div class="mt-2.5">
-                    <input type="bizRegStatus" name="bizRegStatus" id="bizRegStatus" autocomplete="given-name" placeholder="승인여부에 'D' 입력 요망"  class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-            </div>
-            <div class="sm:col-span-2">
-                <button type="submit" class="mt-3 block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    회원가입 완료
-                </button>
-            </div>
-        </form>
+        </a>
+        <h3>이 페이지는 일반회원에서 사업자로 </h3>
+        <h3>변환을 하실 예정인 사업장이 있는 </h3>
+        <h3>회원님을 위한 페이지입니다. </h3>
     </div>
 </div>
-</div>
-
-
-<script layout:fragment="script" th:src="@{/js/member/createMember.js}"></script>
-<script layout:fragment="script" th:src="@{/js/member/memberAddr.js}"></script>
-
+<!--<script layout:fragment="script">-->
+</script>
 </html>

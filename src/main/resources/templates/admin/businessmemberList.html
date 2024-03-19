@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+<head>
+    <title></title>
+</head>
+<style layout:fragment="style"></style>
+
+<h1>회원 목록</h1>
+    <div layout:fragment="content" class="mx-12 mt-12 px-4 sm:px-6 lg:px-8">
+        <div class="sm:flex sm:items-center">
+            <div class="sm:flex-auto">
+                <h1 class="text-base font-semibold leading-6 text-gray-900">사업자회원관리</h1>
+                <span>전체 사업자 회원 수: <span th:text="${totalCount} + '명'">0</span></span> <br>
+                <span>(사업자 대기 회원 수: <span th:text="${businessWCount} + '명'">0</span>,</span>
+                <span>사업자 반려 회원 수: <span th:text="${businessDCount} + '명'">0</span>,</span>
+                <span>사업자 승인 회원 수: <span th:text="${businessACount} + '명'">0</span>)</span>
+                <p class="mt-2 text-sm text-gray-700">환영합니다, 관리자님! 여기는 웹사이트의 권한여부를 관리하는 곳, 사업자 관리 페이지입니다. </br>이 페이지를 통해 관리자님은 웹사이트의 사업자 회원 승인 및 반려 처리를 할 수 있고, 사업자 회원의 활동 상태를 관리할 수 있습니다. </br>이 페이지는 사용자의 편의성과 효율적인 관리를 위해 설계되었습니다.</p>
+                <p class="mt-2 text-sm text-gray-700">* 대기(W), 반려(D), 승인(A) *</p>
+                <br><a href="#" th:onclick="|location.href='@{/admin/memberList.do}';|" class="font-semibold text-indigo-600 hover:text-indigo-500"> 전체회원관리페이지로 이동 🧐</a>
+            </div>
+
+        </div>
+        <div class="mt-8 flow-root">
+            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                    <table class="min-w-full divide-y divide-gray-300">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">아이디</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">사업장명</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">첨부파일(사업자등록증)</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">사업자등록번호</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">전화번호</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">권한여부</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">가입일시</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">비고</th>
+                        </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                        <tr th:each="bizmember : ${bizmembers}" class="even:bg-gray-50">
+                            <td th:text="${bizmember.member.memberId}" class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3"></td>
+                            <td th:text="${bizmember.bizName}"  class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
+                            <td>
+                                <img th:if="${bizmember.bizLicense}" th:src="@{/images/file.png}" width="16px">
+                            </td>
+                            <td th:text="${bizmember.bizRegNo}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
+                            <td th:text="${bizmember.member.phone}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
+                            <td th:text="${bizmember.bizRegStatus}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
+<!--                            <td>-->
+<!--                                <ul>-->
+<!--                                    <li th:each="business : ${bizmember.bizRegStatus}" th:text="${business.userType}"-->
+<!--                                        class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></li>-->
+<!--                                </ul>-->
+<!--                            </td>-->
+                            <td th:text="${bizmember.member.regDate}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
+                            <td><a href="#" th:onclick="|location.href='@{/admin/businessmemberDetailList.do(id=${bizmember.id})}'|" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> 접수 내역 보기</a></td>
+                            </td>
+<!--                            <td>-->
+<!--                                <form th:action="@{/admin/memberList.do}" method="post">-->
+<!--                                    <input type="hidden" id="id" name="id" th:value="${member.id}">-->
+<!--                                    <button type="submit" class="text-indigo-600 hover:text-red-600">삭제</button>-->
+<!--                                </form>-->
+<!--                            </td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="pagination" style="text-align: center;">
+            <ul class="pagination-list" style="display: flex; justify-content: center;">
+                <!-- 이전 페이지 링크 -->
+                <li th:if="${number > 0}">
+                    <a th:href="@{/admin/businessmemberList.do(page=${number - 1}, size=${size})}" class="pagination-link"> 이전페이지로 이동하기 </a>
+                </li>
+                <!-- 페이지 번호 링크 -->
+                <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}" th:class="${pageNumber == number ? 'active' : ''}" class="pagination-item" style="margin: 0 5px;">
+                    <a th:href="@{/admin/businessmemberList.do(page=${pageNumber}, size=${size})}" th:text="${pageNumber + 1}" class="pagination-link" style="font-size: 16px;"></a>
+                </li>
+                <!-- 다음 페이지 링크 -->
+                <li th:if="${number + 1 < totalPages}">
+                    <a th:href="@{/admin/businessmemberList.do(page=${number + 1}, size=${size})}" class="pagination-link"> 다음페이지로 이동하기 </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+<!--<script layout:fragment="script">-->
+</script>
+</html>
