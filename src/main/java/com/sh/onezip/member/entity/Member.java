@@ -1,6 +1,7 @@
 package com.sh.onezip.member.entity;
 
 import com.sh.onezip.authority.entity.Authority;
+import com.sh.onezip.business.entity.Business;
 import com.sh.onezip.customeranswercenter.entity.AnswerCenter;
 import com.sh.onezip.customerquestioncenter.entity.QuestionCenter;
 import com.sh.onezip.member.entity.Gender;
@@ -87,6 +88,7 @@ public class Member {
     // KMJ start
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Product> products = new ArrayList<>();
+
 
     //
 

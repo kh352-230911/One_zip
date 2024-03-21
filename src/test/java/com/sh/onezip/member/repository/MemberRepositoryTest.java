@@ -3,6 +3,8 @@ package com.sh.onezip.member.repository;
 import com.sh.onezip.authority.entity.Authority;
 import com.sh.onezip.authority.entity.RoleAuth;
 import com.sh.onezip.authority.repository.AuthorityRepository;
+import com.sh.onezip.customerquestioncenter.entity.QuestionCenter;
+import com.sh.onezip.customerquestioncenter.repository.QuestionCenterRepository;
 import com.sh.onezip.member.entity.Gender;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Disabled;
@@ -31,7 +33,8 @@ class MemberRepositoryTest {
     AuthorityRepository authorityRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
-
+    @Autowired
+    QuestionCenterRepository questionCenterRepository;
 
     @DisplayName("MemberRepository빈은 null이 아니다.")
     @Test

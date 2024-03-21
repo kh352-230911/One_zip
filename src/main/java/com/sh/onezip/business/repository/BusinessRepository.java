@@ -12,5 +12,8 @@ public interface BusinessRepository extends JpaRepository<Business, Long> {
     // HBK start
     @Query("SELECT b FROM Business b WHERE b.id =:id")
     Business findBizmember(Long id);
+
+    @Query("SELECT b FROM Business b WHERE b.bizName =:bizName")
+    Business findByBizName(String bizName);
     // HBK end
 }

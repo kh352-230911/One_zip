@@ -53,6 +53,16 @@ public class MemberService {
         memberRepository.deleteById(id);
     }
 
+
+    public Member updateMember(Member member) {
+        return memberRepository.save(member);
+    }
+
+    public Member findById(Long id) {
+        return memberRepository.findByMId(id);
+    }
+
+
     // HBK end
 }
 

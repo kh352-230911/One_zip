@@ -69,6 +69,10 @@ public class ProductService {
 
     // KMJ end
 
+    // HBK start
+    public Page<Product> findAllBizProduct(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
 
 }
 
