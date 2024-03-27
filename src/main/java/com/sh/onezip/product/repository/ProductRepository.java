@@ -31,4 +31,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p WHERE p.member.id = :id order by p.id asc")
     Page<Product> findAllBizIdProduct(Long id, Pageable pageable);
+
 }

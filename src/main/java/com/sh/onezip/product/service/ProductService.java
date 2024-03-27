@@ -1,6 +1,7 @@
 package com.sh.onezip.product.service;
 
 import com.sh.onezip.attachment.repository.AttachmentRepository;
+import com.sh.onezip.attachment.service.AttachmentService;
 import com.sh.onezip.product.dto.ProductDetailDto;
 import com.sh.onezip.product.dto.ProductListDto;
 import com.sh.onezip.product.dto.ProductPurchaseInfoDto;
@@ -31,7 +32,8 @@ public class ProductService {
 
     @Autowired
     ModelMapper modelMapper;
-
+    @Autowired
+    AttachmentService attachmentService;
     // variable 선언 end
 
 
@@ -101,6 +103,20 @@ public class ProductService {
         return productListDtoPage.map(product -> convertToProductListDto(product));
     }
 
+    public void createProductBiz(ProductDetailDto productDetailDto) {
+        Product product = productRepository.save(convertToProductDetailInsertDto(productDetailDto));
+        productDetailDto.getAttachments().forEach(attachmentCreateDto -> {
+            attachmentCreateDto.setRefId(product.getId());
+            attachmentCreateDto.setRefType("SP");
+            attachmentService.createAttachment(attachmentCreateDto);
+        });
+
+    }
+
+    private Product convertToProductDetailInsertDto(ProductDetailDto productDetailDto) {
+        Product product = modelMapper.map(productDetailDto, Product.class);
+        return product;
+    }
 }
 
 

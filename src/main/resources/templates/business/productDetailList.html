@@ -86,7 +86,7 @@
     <!-- 폼 -->
     <div class="flex justify-end mr-9">
         <input type="hidden" id="id" name="id" th:value="${member.id}">
-        <form name="memberCreateFrm" th:action="@{/member/createMember.do}" method="POST" class="mr-42 mt-3 max-w-xl sm:mt-3 w-5/12">
+        <form name="memberCreateFrm" th:action="@{/business/productDetailList.do}" method="POST" class="mr-42 mt-3 max-w-xl sm:mt-3 w-5/12" enctype="multipart/form-data">
             <div class="mx-auto max-w-2xl text-center">
                 <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                     사업자상품등록
@@ -95,32 +95,58 @@
             </div>
             <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                 <div class="sm:col-span-2">
-                    <label for="password" class="block text-sm font-semibold leading-6 text-gray-900">상품명</label>
+                    <label for="productName" class="block text-sm font-semibold leading-6 text-gray-900">상품명</label>
                     <div class="mt-2.5">
-                        <input type="password" name="password" id="password" value="" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"  />
+                        <input type="productName" name="productName" id="productName" value="" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"  />
                     </div>
                 </div>
                 <div class="sm:col-span-2">
-                    <label for="password" class="block text-sm font-semibold leading-6 text-gray-900">상품분류코드</label>
+                    <label for="productTypeCode" class="block text-sm font-semibold leading-6 text-gray-900">상품분류코드</label>
+                    <p class="mt-2 text-sm text-gray-700"> * 생활용품(FU), 식품(FO)</p>
                     <div class="mt-2.5">
-                        <input type="password" name="passwordConfirmation" id="passwordConfirmation" value="" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                        <input type="productTypeCode" name="productTypeCode" id="productTypeCode" value="" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="FU / FO로 입력해주세요." />
+                    </div>
+                </div>
+<!--                <select id="productTypeCode" name="productTypeCode" class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" style="font-size:18px;">-->
+<!--                    <option value="" selected>상품분류코드</option>-->
+<!--                    <option value="생활용품" th:selected="${member.productTypecode == 'FU'}">생활용품(FU)</option>-->
+<!--                    <option value="식품" th:selected="${member.productTypecode == 'FO'}">식품(FO)</option>-->
+<!--                </select>-->
+                <div class="sm:col-span-1">
+                    <label for="productPrice" class="block text-sm font-semibold leading-6 text-gray-900">상품정가가격</label>
+                    <div class="mt-2.5">
+                        <input type="productPrice" name="productPrice" id="productPrice" value="" required class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                 </div>
                 <div class="sm:col-span-1">
-                    <label for="name" class="block text-sm font-semibold leading-6 text-gray-900">상품정가가격</label>
+                    <label for="discountRate" class="block text-sm font-semibold leading-6 text-gray-900">할인율</label>
                     <div class="mt-2.5">
-                        <input type="text" name="name" id="name" value="" required class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                        <input type="discountRate" name="discountRate" id="discountRate" value="" required class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    </div>
+                </div>
+
+                <div class="sm:col-span-1">
+                    <label for="optionName" class="block text-sm font-semibold leading-6 text-gray-900">옵션명</label>
+                    <div class="mt-2.5">
+                        <input type="text" name="optionName" id="optionName" value="" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="옵션 추가 시 입력해주세요."  />
                     </div>
                 </div>
                 <div class="sm:col-span-1">
-                    <label for="name" class="block text-sm font-semibold leading-6 text-gray-900">할인율</label>
+                    <label for="optionCost" class="block text-sm font-semibold leading-6 text-gray-900">추가요금</label>
                     <div class="mt-2.5">
-                        <input type="text" name="name" id="name" value="" required class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                        <input type="text" name="optionCost" id="optionCost" value="" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="옵션 추가 시 입력해주세요."/>
+                    </div>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label for="totalStock" class="block text-sm font-semibold leading-6 text-gray-900">상품 납품 수량</label>
+                    <div class="mt-2.5">
+                        <input type="totalStock" name="totalStock" id="totalStock" value="" required class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="상품 수량 등록(50이상~300미만)" />
                     </div>
                 </div>
                 <div class="sm:col-span-2">
-                    <div class="custom-file"><br>
-                    <label for="password" class="block text-sm font-semibold leading-6 text-gray-900">상품 사진 제출</label>
+                    <div class="custom-file">
+                    <label class="block text-sm font-semibold leading-6 text-gray-900">상품 사진 제출</label>
                     <div class="mt-2.5">
                         <input type="file" name="upFile" accept="image/*" class="form-input block w-full py-3 px-4 border rounded-md">
                         <p class="mt-1 text-sm leading-6 text-gray-600">* 상품관련이미지 첨부</p>
@@ -134,10 +160,10 @@
             </div>
             </div>
         </form>
-
+<!--        <script layout:fragment="script" th:src="@{/js/product/productDetail.js}"></script>-->
     </div>
 </div>
 
-
-<script></script>
+<script>
+</script>
 </html>
