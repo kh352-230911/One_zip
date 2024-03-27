@@ -17,7 +17,12 @@
                 <span>(사업자 대기 회원 수: <span th:text="${businessWCount} + '명'">0</span>,</span>
                 <span>사업자 반려 회원 수: <span th:text="${businessDCount} + '명'">0</span>,</span>
                 <span>사업자 승인 회원 수: <span th:text="${businessACount} + '명'">0</span>)</span>
-                <p class="mt-2 text-sm text-gray-700">환영합니다, 관리자님! 여기는 웹사이트의 권한여부를 관리하는 곳, 사업자 관리 페이지입니다. </br>이 페이지를 통해 관리자님은 웹사이트의 사업자 회원 승인 및 반려 처리를 할 수 있고, 사업자 회원의 활동 상태를 관리할 수 있습니다. </br>이 페이지는 사용자의 편의성과 효율적인 관리를 위해 설계되었습니다.</p>
+                <p class="mt-2 text-sm text-gray-700">환영합니다, 관리자님! 여기는 웹사이트의 권한여부를 관리하는 곳, 사업자 관리 페이지입니다.
+                    </br>이 페이지를 통해 관리자님은 웹사이트의 사업자 회원 승인 및 반려 처리를 할 수 있고, 사업자 회원의 활동 상태를 관리할 수 있습니다.
+                    </br>동일한 아이디로 여러 건이 조회 되는 회원의 경우 회원의 최종 요청에 따라 승인 여부를 부여한 후 기존 내역은 삭제 처리를 해야합니다.
+                    </br>이 페이지는 사용자의 편의성과 효율적인 관리를 위해 설계되었습니다.
+                </p>
+
                 <p class="mt-2 text-sm text-gray-700">* 대기(W), 반려(D), 승인(A) *</p>
                 <br><a href="#" th:onclick="|location.href='@{/admin/memberList.do}';|" class="font-semibold text-indigo-600 hover:text-indigo-500"> 전체회원관리페이지로 이동 🧐</a>
             </div>
@@ -36,19 +41,20 @@
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">전화번호</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">권한여부</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">가입일시</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">상세내역</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">비고</th>
                         </tr>
                         </thead>
                         <tbody class="bg-white">
                         <tr th:each="bizmember : ${bizmembers}" class="even:bg-gray-50">
                             <td th:text="${bizmember.member.memberId}" class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3"></td>
-                            <td th:text="${bizmember.bizName}"  class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
+                            <td th:text="${bizmember.business.bizName}"  class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
                             <td>
-                                <img th:if="${bizmember.bizLicense}" th:src="@{/images/file.png}" width="16px">
+                                <img th:if="${bizmember.attachmentList}" th:src="@{/images/file.png}" width="16px">
                             </td>
-                            <td th:text="${bizmember.bizRegNo}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
+                            <td th:text="${bizmember.business.bizRegNo}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
                             <td th:text="${bizmember.member.phone}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
-                            <td th:text="${bizmember.bizRegStatus}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
+                            <td th:text="${bizmember.business.bizRegStatus}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
 <!--                            <td>-->
 <!--                                <ul>-->
 <!--                                    <li th:each="business : ${bizmember.bizRegStatus}" th:text="${business.userType}"-->
@@ -56,7 +62,13 @@
 <!--                                </ul>-->
 <!--                            </td>-->
                             <td th:text="${bizmember.member.regDate}" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"></td>
-                            <td><a href="#" th:onclick="|location.href='@{/admin/businessmemberDetailList.do(id=${bizmember.id})}'|" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> 접수 내역 보기</a></td>
+                            <td><a href="#" th:onclick="|location.href='@{/admin/businessmemberDetailList.do(id=${bizmember.business.id})}'|" class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> 접수 내역 보기</a></td>
+                            </td>
+                            <td>
+                                <form th:action="@{/admin/businessmemberList.do}" method="post">
+                                    <input type="hidden" id="id" name="id" th:value="${bizmember.business.id}">
+                                    <button type="submit" class="text-indigo-600 hover:text-red-600">삭제</button>
+                                </form>
                             </td>
 <!--                            <td>-->
 <!--                                <form th:action="@{/admin/memberList.do}" method="post">-->

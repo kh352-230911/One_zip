@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html
         xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         layout:decorate="~{layout/default}">
 <head>
     <title>사업자 등록 선택</title>
@@ -9,6 +9,7 @@
 </head>
 <style layout:fragment="style"></style>
 <div layout:fragment="content" class="mx-12 mt-12 px-4 sm:px-6 lg:px-8">
+
     <div class="card-list">
         <a th:href="@{'/member/createbizmember.do?id=' + ${#authentication.principal.member.id}}" class="card-item">
             <img th:src="@{/images/사업자회원.png}" alt="Card Image">
@@ -19,25 +20,17 @@
             </div>
         </a>
 
-        <h1 class="text-base">
-             <span class="border-b-2 border-gray-400 font-semibold pb-2 pt-16 text-5xl">
-                🤗ONE_ZIP 사업자 등록 페이지 소개🤗
-            </span>
-            <br><br>
-            홈페이지에는 현재 일반 회원으로 등록되어 있는 분들이 <br><br>
-            사업자로 전환하기 위해 신청할 수 있는 사업자 회원 등록 <br><br>
-            페이지가 마련되어 있습니다.
-            <br><br>
-            이미 사업장을 운영 중이신 분들은 사업장 정보를 등록하시면, <br><br>
-            원집 관리자가 검토 후에 승인 처리를 해드릴 예정입니다.
-            <br><br>
-            그 후에는 원집 홈페이지에서 상품을 판매할 수 있게 됩니다.
-            <br><br> 등록을 원하시는 회원님은 사업자회원 등록하기를 눌러주세요!<br><br>
-        </h1>
-        <div style="display: inline-block; float: right;">
-        <a th:href="@{/}" class="rounded-md bg-white px-3 py-2 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2">메인페이지로 돌아가기</a>
-    </div></div>
-
+        <a href="#" th:onclick="|location.href='@{'/member/updatebizmember.do?id=' + ${#authentication.principal.member.id}}';|" class="card-item">
+            <img th:src="@{/images/일반회원.png}" alt="Card Image">
+            <span class="designer">사업자</span>
+            <h3>사업자회원 수정하기</h3>
+            <div class="arrow">
+                <i class="fas fa-arrow-right card-icon"></i>
+            </div>
+        </a>
+    </div>
+</div>
+       </div>
 </div>
 
 <!--<script layout:fragment="script">-->

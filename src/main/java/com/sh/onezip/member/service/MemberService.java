@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,7 +47,7 @@ public class MemberService {
 
     // HBK start
     public Page<Member> findAllMembers(Pageable pageable) {
-        return memberRepository.findAll(pageable);
+        return memberRepository.findAllMembers(pageable);
     }
 
     public void deleteById(Long id) {
@@ -61,6 +62,7 @@ public class MemberService {
     public Member findById(Long id) {
         return memberRepository.findByMId(id);
     }
+
 
 
     // HBK end

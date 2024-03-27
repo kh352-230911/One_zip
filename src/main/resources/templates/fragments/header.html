@@ -63,7 +63,7 @@
                         <a href="/onezip/admin/customerACenterList.do">고객 센터</a>
                     </th:block>
                     <th:block sec:authorize="hasRole('BUSINESS')">
-                        <a th:href="@{'/onezip/business/productList.do?id=' + ${product.member.id}}">사업자 전용</a>
+                        <a th:href="@{'/business/productList.do?id=' + ${#authentication.principal.member.id}}">사업자 전용</a>
                     </th:block>
                     <!-- HBK header 추가 end-->
                     <th:block sec:authorize="isAnonymous()">

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+<head>
+    <title></title>
+</head>
+<style layout:fragment="style"></style>
+
+<h1>이메일</h1>
+<div layout:fragment="content" class="mx-12 mt-12 px-4 sm:px-6 lg:px-8">
+    <form th:action="@{/admin/bizEmailSend.do}" method="post">
+        <table>
+            <div class="sm:col-span-4">
+                <label for="email" class="block text-sm font-medium leading-6 text-gray-900" style="font-size:18px;">이메일</label>
+                <div class="mt-2 w-80">
+                    <input id="email" th:value="${bizmember.member.email}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" style="font-size:18px;"readonly>
+                </div>
+            </div>
+            <tr>
+                <td>제목</td>
+                <td>
+                    <input type="text" name="title" placeholder="제목을 입력하세요">
+                </td>
+            </tr>
+            <tr>
+                <td>내용</td>
+                <td>
+                    <textarea name="content" placeholder="보낼 내용을 입력하세요"> </textarea>
+                </td>
+            </tr>
+        </table>
+        <button type="submit" class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" >발송</button>
+    </form>
+</div>
+<!--<script layout:fragment="script">-->
+</script>
+</html>

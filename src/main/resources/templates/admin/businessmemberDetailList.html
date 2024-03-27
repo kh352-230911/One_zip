@@ -92,11 +92,11 @@
          </span>
                 <p class="text-base text-sm font-semibold text-gray-900">
                     <br>현재 <span class="text-center" th:text="${bizmember.member.name}">-</span>님의 권한 상태는
-                    <span class="text-center" th:text="${bizmember.bizRegStatus}">-</span>입니다.</p>
+                    <span class="text-center" th:text="${bizmember.business.bizRegStatus}">-</span>입니다.</p>
                 <p class="mt-2 text-sm text-gray-700"> 사업자 서류 내역 검열 완료 후 권한 변경이 필요한 경우, <br>이메일로 통지된 후 수정 버튼을 눌러주세요. </p>
                 <p class="mt-2 text-sm text-gray-700">
                     <span class="text-center" th:text="${bizmember.member.name}">-</span>님의 이메일 주소는
-                    <a th:href="@{'/admin/businessmemberEmail.do?id=' + ${bizmember.id}}" class="font-semibold text-indigo-600 hover:text-indigo-500" th:text="${bizmember.member.email}"></a>
+                    <a th:href="@{'/admin/bizEmailSend.do?id=' + ${bizmember.business.id}}" class="font-semibold text-indigo-600 hover:text-indigo-500" th:text="${bizmember.member.email}"></a>
                     입니다.</p>
                 <p class="mt-2 text-sm text-gray-700">이메일 주소 클릭 시 메일 발송 페이지로 이동합니다.</p>
                 <p class="mt-2 text-sm text-gray-700">* 대기(W), 반려(D), 승인(A) *</p>
@@ -119,7 +119,7 @@
             <div class="sm:col-span-4">
                 <label for="bizName" class="block text-sm font-medium leading-6 text-gray-900" style="font-size:18px;">사업장명</label>
                 <div class="mt-2 w-80">
-                    <input id="bizName" th:value="${bizmember.bizName}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" style="font-size:18px;" readonly>
+                    <input id="bizName" th:value="${bizmember.business.bizName}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" style="font-size:18px;" readonly>
                 </div>
             </div>
             <div class="sm:col-span-4">
@@ -131,7 +131,7 @@
             <div class="sm:col-span-4">
                 <label for="name" class="block text-sm font-medium leading-6 text-gray-900" style="font-size:18px;">사업자등록번호</label>
                 <div class="mt-2 w-80">
-                    <input id="bizRegNo" th:value="${bizmember.bizRegNo}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" style="font-size:18px;" readonly>
+                    <input id="bizRegNo" th:value="${bizmember.business.bizRegNo}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" style="font-size:18px;" readonly>
                 </div>
             </div>
             <div class="sm:col-span-4 w-80">
@@ -140,7 +140,7 @@
                      th:data-modal-target="'img-modal'"
                      th:data-modal-toggle="'img-modal'">
                     <div>
-                        <img src="${bizmember.bizLicense}" class="w-24 h-24 m-auto">
+                        <img th:src="${bizimage.url}" class="w-24 h-24 m-auto">
                         <!-- Main modal -->
                         <div th:id="'img-modal'" tabindex="-1" aria-hidden="true"
                              class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -153,8 +153,8 @@
                                         </h3>
                                     </div>
                                     <!-- Modal body -->
-                                    <div class="p-4 md:p-5 space-y-4">
-                                        <img src="${bizmember.bizLicense}" class="mx-auto cursor-pointer" alt="">
+                                    <div th:if="${bizimage}" class="p-4 md:p-5 space-y-4">
+                                        <img th:src="${bizimage.url}" class="mx-auto cursor-pointer" alt="">
                                     </div>
                                 </div>
                             </div>
@@ -167,11 +167,11 @@
                 <p class="mt-2 text-sm text-gray-700">* 초기 접근 권한은 W(대기)상태입니다.</p>
                 <select id="bizRegStatus" name="bizRegStatus" class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" style="font-size:18px;">
                     <option value="" selected>접근권한여부</option>
-                    <option value="승인" th:selected="${bizmember.bizRegStatus == 'A'}">승인(A)</option>
-                    <option value="반려" th:selected="${bizmember.bizRegStatus == 'D'}">반려(D)</option>
+                    <option value="승인" th:selected="${bizmember.business.bizRegStatus == 'A'}">승인(A)</option>
+                    <option value="반려" th:selected="${bizmember.business.bizRegStatus == 'D'}">반려(D)</option>
                 </select><br><br>
                 <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
-                    <input type="hidden" name="id" th:value="${bizmember.id}">
+                    <input type="hidden" name="id" th:value="${bizmember.business.id}">
                     <a th:href="@{/admin/businessmemberList.do}" class="inline-block rounded-md bg-transparent px-3 py-2 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2">취소</a>
                     <button type="submit" onclick="return confirm('수정하시겠습니까?')" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">수정</button>
                 </div>

@@ -17,7 +17,7 @@ public class QuestionCenterService {
     QuestionCenterRepository questionCenterRepository;
     // HBK start
     public Page<QuestionCenter> findAllQuestions(Pageable pageable) {
-        return questionCenterRepository.findAll(pageable);
+        return questionCenterRepository.findAllQuestions(pageable);
     }
 
     public void deleteByQId(Long id) {

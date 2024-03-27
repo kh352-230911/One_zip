@@ -48,7 +48,6 @@ public class BusinessRepositoryTest {
         Business business = Business.builder()
                 .member(member)
                 .bizName("(주)고양이")
-                .bizLicense("사업자 등록증")
                 .bizRegNo("123-45-876")
                 .bizRegStatus(BizAccess.W) // 대기 상태로 설정
                 .build();
@@ -72,7 +71,6 @@ public class BusinessRepositoryTest {
 
             // 사업자 정보 수정
             newbusiness.setBizName("(주)강아지");
-            newbusiness.setBizLicense("사업자 등록증");
             newbusiness.setBizRegNo("123-77-777");
 
             // 수정된 사업자 엔티티를 저장

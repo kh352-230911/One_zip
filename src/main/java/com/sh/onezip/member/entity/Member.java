@@ -6,6 +6,8 @@ import com.sh.onezip.customeranswercenter.entity.AnswerCenter;
 import com.sh.onezip.customerquestioncenter.entity.QuestionCenter;
 import com.sh.onezip.member.entity.Gender;
 import com.sh.onezip.product.entity.Product;
+import com.sh.onezip.productanswer.entity.ProductAnswer;
+import com.sh.onezip.productquestion.entity.ProductQuestion;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.apachecommons.CommonsLog;
@@ -88,6 +90,12 @@ public class Member {
     // KMJ start
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Product> products = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<ProductQuestion> productQuestions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<ProductAnswer> productAnswers = new ArrayList<>();
 
 
     //
