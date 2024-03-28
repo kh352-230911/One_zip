@@ -1,8 +1,10 @@
 package com.sh.onezip.business.controller;
 
 import com.sh.onezip.attachment.dto.AttachmentCreateDto;
+import com.sh.onezip.attachment.service.AttachmentService;
 import com.sh.onezip.attachment.service.S3FileService;
 import com.sh.onezip.auth.vo.MemberDetails;
+import com.sh.onezip.business.dto.BusinessAllDto;
 import com.sh.onezip.business.entity.Business;
 import com.sh.onezip.business.service.BusinessService;
 import com.sh.onezip.member.entity.Member;
@@ -46,9 +48,11 @@ public class BusinessController {
     ProductService productService;
     @Autowired
     S3FileService s3FileService;
+    @Autowired
+    AttachmentService attachmentService;
 
     @GetMapping("/productList.do")
-    public void productList(@AuthenticationPrincipal MemberDetails memberDetails, @PageableDefault(size = 8, page = 0) Pageable pageable, Model model) {
+    public void productList(@AuthenticationPrincipal MemberDetails memberDetails, @PageableDefault(size = 6, page = 0) Pageable pageable, Model model) {
         // findAllBizIdProduct 에서 member.id(회원고유번호)를 찾고 productListDtoPage Long id(상품고유번호)와 매핑하여 사업자가 등록한 상품을 조회한다.
         Page<ProductListDto> productListDtoPage = productService.findAllBizIdProduct(memberDetails.getMember().getId(), pageable);
         log.debug("productListDtoPage = {}", productListDtoPage);
@@ -66,6 +70,14 @@ public class BusinessController {
         return products.stream()
                 .filter(ptype -> ptype.getProductTypecode() == type)
                 .count();
+    }
+
+    @PostMapping("/productList.do")
+    public String productList(@RequestParam Long id,
+                                     RedirectAttributes redirectAttributes) {
+        productService.deleteById(id);
+        attachmentService.deleteByphotoId(id);
+        return "redirect:/business/productList.do";
     }
 
     @GetMapping("/productDetailList.do")
@@ -106,5 +118,12 @@ public class BusinessController {
         redirectAttributes.addFlashAttribute("msg", "상품이 등록되었습니다 🎁");
         return "redirect:/business/productList.do";
     }
-}
 
+    @GetMapping("/productUpdateList.do")
+    public void productUpdateList(@RequestParam Long id, Model model){
+        // 회원 고유번호를 찾고 productListDto랑 매핑
+        ProductListDto productListDto = productService.findByBizProductId(id);
+        model.addAttribute("product", productListDto);
+        model.addAttribute("bizimage", attachmentService.findByIdWithType(id, "SP"));
+    }
+}

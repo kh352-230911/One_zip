@@ -139,7 +139,7 @@
                     <div class="custom-file"><br>
                         <label class="block text-sm font-semibold leading-6 text-gray-900">*사업자 제출 사항</label>
                         <input type="file" name="upFile" accept="image/*" class="form-input block w-full py-3 px-4 border rounded-md"
-                        th:text="${(biz.attachmentList != null and biz.attachmentList.size() > 0) ? '첨부파일 - ' + biz.attachmentList[0].originalFilename : ''}">
+                        th:text="${(biz.attachmentList != null and biz.attachmentList.size() > 0) ? '이전 제출 첨부파일 - ' + biz.attachmentList[0].originalFilename : ''}">
                         <!-- th:text="|첨부파일 - ${biz.attachmentList[0].originalFilename}|">-->
                         <p class="mt-1 text-sm leading-6 text-gray-600">* 사업자 등록증 1부</p>
                         <p class="mt-1 text-sm leading-6 text-gray-600">* 사업장 증빙 서류</p>

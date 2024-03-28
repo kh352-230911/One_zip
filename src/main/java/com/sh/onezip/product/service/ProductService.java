@@ -7,19 +7,25 @@ import com.sh.onezip.product.dto.ProductListDto;
 import com.sh.onezip.product.dto.ProductPurchaseInfoDto;
 import com.sh.onezip.product.entity.Product;
 import com.sh.onezip.product.repository.ProductRepository;
+import com.sh.onezip.productoption.dto.ProductOptionDto;
+import com.sh.onezip.productoption.entity.ProductOption;
+import com.sh.onezip.productoption.service.ProductOptionService;
 import com.sh.onezip.productquestion.entity.ProductQuestion;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+@Slf4j
 @Service
+@Transactional
 public class ProductService {
 
 
@@ -34,6 +40,8 @@ public class ProductService {
     ModelMapper modelMapper;
     @Autowired
     AttachmentService attachmentService;
+    @Autowired
+    ProductOptionService productOptionService;
     // variable 선언 end
 
 
@@ -103,8 +111,16 @@ public class ProductService {
         return productListDtoPage.map(product -> convertToProductListDto(product));
     }
 
+    // 사업자 상품 등록
     public void createProductBiz(ProductDetailDto productDetailDto) {
         Product product = productRepository.save(convertToProductDetailInsertDto(productDetailDto));
+        List<ProductOptionDto> productOptionList = productDetailDto.getProductOptionlist();
+        if (productOptionList != null) {
+            for (ProductOptionDto productOptionDto : productOptionList) {
+                productOptionDto.setProductId(product.getId());
+                productOptionService.createProductOption(productOptionDto);
+            }
+        }
         productDetailDto.getAttachments().forEach(attachmentCreateDto -> {
             attachmentCreateDto.setRefId(product.getId());
             attachmentCreateDto.setRefType("SP");
@@ -117,8 +133,17 @@ public class ProductService {
         Product product = modelMapper.map(productDetailDto, Product.class);
         return product;
     }
-}
 
+    public void deleteById(Long id) {
+        productRepository.deleteById(id);
+    }
+
+    public ProductListDto findByBizProductId(Long id) {
+        Product product = productRepository.findByBizProductId(id);
+        return convertToProductListDto(product);
+    }
+
+}
 
 
 

@@ -164,6 +164,7 @@ public class AdminController {
     public String businessmemberList(@RequestParam Long id,
                                            RedirectAttributes redirectAttributes) {
         businessService.deleteById(id);
+        attachmentService.deleteByphotoId(id);
         return "redirect:/admin/businessmemberList.do";
     }
 

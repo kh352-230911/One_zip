@@ -32,4 +32,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.member.id = :id order by p.id asc")
     Page<Product> findAllBizIdProduct(Long id, Pageable pageable);
 
+    @Query("select p FROM Product p where p.id =:id")
+    Product findByBizProductId(Long id);
 }

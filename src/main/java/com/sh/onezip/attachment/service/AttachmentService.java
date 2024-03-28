@@ -54,5 +54,10 @@ public class AttachmentService {
         return attachmentList;
     }
 
+    // HBK start
+
+    public void deleteByphotoId(Long id) {
+        attachmentRepository.deleteById(id);
+    }
 
 }
