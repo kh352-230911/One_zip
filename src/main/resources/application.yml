@@ -64,7 +64,7 @@ spring:
 logging:
   level:
     root: info
-    com.sh.app: debug
+    com.sh.onezip: debug
 # aws-s3 설정
 cloud:
   aws:

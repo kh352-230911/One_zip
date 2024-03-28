@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+<head>
+    <title></title>
+</head>
+<style layout:fragment="style"></style>
+
+<h1>회원 목록</h1>
+    <div layout:fragment="content" class="mx-12 mt-12 px-4 sm:px-6 lg:px-8">
+        <div class="sm:flex sm:items-center">
+            <input type="hidden" id="memberId" name="memberId">
+            <div class="sm:flex-auto">
+                <h1 class="text-base font-semibold leading-6 text-gray-900">상품전체관리</h1>
+                <span>전체 상품 수: <span th:text="${totalCount} + '개'">0</span></span> <br>
+                <span>(식품 수: <span th:text="${FOCount} + '개'">0</span>,</span>
+                <span>가구 수: <span th:text="${FUCount} + '개'">0</span>,</span>
+                <p class="mt-2 text-sm text-gray-700">환영합니다, 사업자님! 여기는 상품을 관리하는 곳, 사업자 상품 관리 페이지입니다. </br>이 페이지를 통해 사업자님은 상품 등록, 수정, 삭제 기능을 이용하실 수 있습니다. </br>이 페이지는 사용자의 편의성과 효율적인 관리를 위해 설계되었습니다.</p>
+                <p class="mt-2 text-sm text-gray-700">* 식품(FO), 가구, 가전·디지털, 생활용품(FU) *</p>
+                <br><a href="#" th:onclick="|location.href='@{/admin/businessmemberList.do}';|" class="font-semibold text-indigo-600 hover:text-indigo-500"> 사업자 문의 페이지 |</a>
+                <a href="#" th:onclick="|location.href='@{/admin/businessmemberList.do}';|" class="font-semibold text-indigo-600 hover:text-indigo-500"> 사업자 리뷰 페이지 |</a>
+                <a href="#" th:onclick="|location.href='@{/admin/businessmemberList.do}';|" class="font-semibold text-indigo-600 hover:text-indigo-500"> 상품 결제 및 발송 현황 페이지 </a>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end;">
+            <input type="button" value="상품 등록하기" id="btn-add" style="cursor: pointer;" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-700 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" th:onclick="|location.href = '@{/business/productDetailList.do(id=${#authentication.principal.member.id})}';|"/>
+        </div>
+
+        <div class="overflow-x-auto">
+            <div class="mt-6 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-3 lg:grid-cols-3">
+                <div th:each="product, status : ${products}"  th:data-product-id="${product.id}" class="group relative mt-12">
+                    <div  class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <img th:if="${#lists.isEmpty(product.attachmentList)}" th:src="@{/images/일반회원.png}" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                        <img th:if="!${#lists.isEmpty(product.attachmentList)}" th:src="${product.attachmentList[0].url}" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <a href="#"  th:onclick="|location.href='@{/business/productUpdateList.do(id=${product.id})}'|" class="text-sm text-gray-700">
+                                <span aria-hidden="true" class="absolute inset-0 text-base" th:text="'상품등록일자 : ' + ${product.regDate}"></span>
+                            </a>
+                            <p class="text-gray-500" th:text="${product.productName}+|(${product.productTypecode})|"></p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900" th:text="${product.originalPrice} + '원'"></p>
+                    </div>
+                </div>
+                <!-- 반복 블록 끝 -->
+            </div>
+        </div><br>
+
+        <div class="pagination" style="text-align: center;">
+            <ul class="pagination-list" style="display: flex; justify-content: center;">
+                <!-- 이전 페이지 링크 -->
+                <li th:if="${number > 0}">
+                    <a th:href="@{/business/productList.do(page=${number - 1}, size=${size})}" class="pagination-link"> 이전페이지로 이동하기 </a>
+                </li>
+                <!-- 페이지 번호 링크 -->
+                <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}" th:class="${pageNumber == number ? 'active' : ''}" class="pagination-item" style="margin: 0 5px;">
+                    <a th:href="@{/business/productList.do(page=${pageNumber}, size=${size})}" th:text="${pageNumber + 1}" class="pagination-link" style="font-size: 16px;"></a>
+                </li>
+                <!-- 다음 페이지 링크 -->
+                <li th:if="${number + 1 < totalPages}">
+                    <a th:href="@{/business/productList.do(page=${number + 1}, size=${size})}" class="pagination-link"> 다음페이지로 이동하기 </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+<!--<script layout:fragment="script">-->
+</script>
+</html>

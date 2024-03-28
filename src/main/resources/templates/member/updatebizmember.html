@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+<head>
+    <title>사업자 수정 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/createMember.css}" />
+
+</head>
+<div layout:fragment="content" class="isolate bg-white px-6 py-24 sm:py-32 lg:px-56 ">
+    <h1 class= "text-right text-7xl font-extrabold" style="margin-right: 420px;">ONE.ZIP</h1><br>
+    <h1 class="text-right text-3xl font-extrabold" style="margin-right: 420px;">사업자 회원 수정 페이지</h1><br>
+    <div class="absolute top-[8rem] -z-20 transform-gpu overflow-hidden mt-20">
+        <div class="bgWallpaper mt-8">
+            <div class="main">
+                <div class="house">
+                    <div class="floor"></div>
+                    <div class="wall">
+                        <div class="window"></div>
+                        <div class="door">
+                            <div class="door__square"></div>
+                            <div class="door__line"></div>
+                            <div class="door__square"></div>
+                        </div>
+                        <div class="window"></div>
+                    </div>
+                    <div class="top"></div>
+                    <div class="circle"></div>
+                    <div class="plastic">
+                        <div class="plastic__g">
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                    </div>
+                </div>
+                <div class="clouds">
+                    <div class="cloud">
+                        <div class="cloud__item"></div>
+                        <div class="cloud__item"></div>
+                    </div>
+                    <div class="cloud">
+                        <div class="cloud__item"></div>
+                        <div class="cloud__item"></div>
+                    </div>
+                    <div class="cloud">
+                        <div class="cloud__item"></div>
+                        <div class="cloud__item"></div>
+                    </div>
+                    <div class="bird"></div>
+                </div>
+                <div class="birds">
+                    <div class="bird"></div>
+                    <div class="bird"></div>
+                </div>
+                <div class="tree">
+                    <div class="tree__item"></div>
+                    <div class="tree__item"></div>
+                    <div class="tree__item"></div>
+                </div>
+                <div class="bush">
+                    <div class="bush__item"></div>
+                    <div class="bush__item"></div>
+                </div>
+                <div class="dot"></div>
+            </div>
+        </div>
+        <h1 class="mt-2 text-3xl font-extrabold">사업자 수정 관련 유의사항 안내드립니다 🤗</h1><br>
+            <p class="mt-2 text-base text-gray-700">
+                사업자 수정은 사업장명, 사업자 등록 번호, 그리고 첨부 파일 수정 항목이 있습니다.<br>
+                사업자는 상품을 납품하는 주체이기 때문에 수정사항은 상세하게 검토되어야 합니다.<br>
+                수정을 완료한 후 저장을 클릭하면, 즉시 사업자 승인 상태에서 사업자 대기 회원으로<br>
+                전환되며, 동시에 사업자 관련 신규 고유 번호가 부여됩니다. 수정된 서류는 관리자에 <br>
+                의해 검토 후 승인 또는 반려 처리됩니다. 수정 사항에 대한 관련 내용은 이메일을 통해 <br>
+                발신되니, 이 점 유의하시길 바랍니다. (사업자 전환 여부 2~3일 소요 예상)<br>
+                * 사업자 수정 건 승인 완료 시 이전 사업자 등록 내역 삭제 처리 *
+            </p>
+    </div>
+    <!-- 폼 -->
+    <div class="flex justify-end mr-8" th:if="${biz}">
+        <input type="hidden" name="memberId" th:value="${biz.member.id}">
+        <div class="mr-42 mt-3 max-w-xl sm:mt-3 w-5/12"  th:if="${biz != null}">
+            <div class="sm:col-span-2">
+                <label for="memberId" class="block text-sm font-semibold leading-6 text-gray-900">아이디</label>
+                <div class="mt-2.5">
+                    <input type="text" name="memberId" id="memberId" th:value="${biz.member.memberId}" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" readonly/>
+                </div>
+            </div><br>
+            <div class="sm:col-span-2">
+                <label for="name" class="block text-sm font-semibold leading-6 text-gray-900">이름</label>
+                <div class="mt-2.5">
+                    <input type="text" name="name" id="name" th:value="${biz.member.name}" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" readonly/>
+                </div>
+            </div><br>
+            <div class="sm:col-span-2">
+                <label for="phone" class="block text-sm font-semibold leading-6 text-gray-900">전화번호</label>
+                <div class="mt-2.5">
+                    <input type="text" name="phone" id="phone" th:value="${biz.member.phone}" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" readonly/>
+                </div>
+            </div><br>
+            <div class="sm:col-span-2">
+                <label for="email" class="block text-sm font-semibold leading-6 text-gray-900">이메일</label>
+                <div class="mt-2.5">
+                    <input type="text" name="email" id="email" th:value="${biz.member.email}" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" readonly/>
+                </div>
+            </div><br>
+            <form name="uploadFrm" th:action="@{/member/updatebizmember.do}" method="POST" enctype="multipart/form-data">
+                <div class="sm:col-span-2">
+                    <label for="bizName" class="block text-sm font-semibold leading-6 text-gray-900">*사업장명 </label>
+                    <div class="mt-2.5">
+                        <input type="bizName" name="bizName" id="bizName" th:value="${biz.business.bizName}" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"  />
+                    </div>
+                </div><br>
+                <div class="sm:col-span-2">
+                    <label for="bizRegNo" class="block text-sm font-semibold leading-6 text-gray-900">*사업자등록번호</label>
+                    <div class="mt-2.5">
+                        <input type="bizRegNo" name="bizRegNo" id="bizRegNo" th:value="${biz.business.bizRegNo}" required class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"  />
+                    </div>
+                </div>
+                <div class="sm:col-span-2">
+                    <div class="custom-file"><br>
+                        <label class="block text-sm font-semibold leading-6 text-gray-900">*사업자 제출 사항</label>
+                        <input type="file" name="upFile" accept="image/*" class="form-input block w-full py-3 px-4 border rounded-md"
+                        th:text="${(biz.attachmentList != null and biz.attachmentList.size() > 0) ? '이전 제출 첨부파일 - ' + biz.attachmentList[0].originalFilename : ''}">
+                        <!-- th:text="|첨부파일 - ${biz.attachmentList[0].originalFilename}|">-->
+                        <p class="mt-1 text-sm leading-6 text-gray-600">* 사업자 등록증 1부</p>
+                        <p class="mt-1 text-sm leading-6 text-gray-600">* 사업장 증빙 서류</p>
+                    </div>
+                    <input type="hidden" name="bizRegStatus" th:value="${biz.business.bizRegStatus}">
+                </div><br>
+                <div class="sm:col-span-2">
+                    <button type="submit" class="mt-3 block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        사업자 회원 수정 완료
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<script layout:fragment="script"></script>
+</html>

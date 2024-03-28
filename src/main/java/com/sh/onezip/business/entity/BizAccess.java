@@ -1,7 +1,5 @@
 package com.sh.onezip.business.entity;
 
-import java.util.stream.DoubleStream;
-
 public enum BizAccess {
     // 사업자 승인 상태
     A,

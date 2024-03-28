@@ -14,9 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
-@Service
 @Transactional
 @Service
 @Slf4j
@@ -52,20 +52,29 @@ public class MemberService {
 
         return savedMember;
     }
-    // 여기까지가 HSH코드
-
-    // HBK start
-    public Page<Member> findAllMembers(Pageable pageable) {
-        return memberRepository.findAll(pageable);
-    }
 
     public Member updateMember(Member member) {
         return memberRepository.save(member);
     }
 
+    // 여기까지가 HSH코드
+
+    // HBK start
+    public Page<Member> findAllMembers(Pageable pageable) {
+        return memberRepository.findAllMembers(pageable);
+    }
+
+
     public void deleteById(Long id) {
         memberRepository.deleteById(id);
     }
+
+
+    public Member findById(Long id) {
+        return memberRepository.findByMId(id);
+    }
+
+
 
     // HBK end
 }

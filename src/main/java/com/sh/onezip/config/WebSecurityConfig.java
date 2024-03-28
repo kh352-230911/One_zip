@@ -38,6 +38,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/board/**").authenticated()
                         .requestMatchers("/business/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/business/**").hasRole("BUSINESS")
                         .anyRequest().authenticated())
                 .formLogin((form) -> form
                         .loginPage("/auth/login.do") // 로그인 페이지 URL

@@ -57,12 +57,15 @@
                     <li>
                         <a th:href="@{/product/productList.do}" class="block py-2 px-3 text-gray-900 hover:bg-gray-100 hover:border-b hover:border-gray-400 md:hover:bg-transparent md:p-0">쇼핑</a>
                     </li>
-                    <!-- HBK admin header 추가 -->
+                    <!-- HBK admin, business header 추가 -->
                     <th:block sec:authorize="hasRole('ADMIN')">
                         <a href="/onezip/admin/memberList.do">회원 목록</a>
                         <a href="/onezip/admin/customerACenterList.do">고객 센터</a>
                     </th:block>
-                    <!-- HBK admin header 추가 end-->
+                    <th:block sec:authorize="hasRole('BUSINESS')">
+                        <a th:href="@{'/business/productList.do?id=' + ${#authentication.principal.member.id}}">사업자 전용</a>
+                    </th:block>
+                    <!-- HBK header 추가 end-->
                     <th:block sec:authorize="isAnonymous()">
                     <li>
                         <a href="#" th:onclick="|location.href='@{/auth/login.do}';|" class="block py-2 px-3 text-gray-900 hover:bg-gray-100 hover:border-b hover:border-gray-400 md:hover:bg-transparent md:p-0">로그인</a>

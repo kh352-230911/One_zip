@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html
         xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         layout:decorate="~{layout/default}">
 <head>
     <title>사업자 등록 선택</title>
@@ -9,8 +9,9 @@
 </head>
 <style layout:fragment="style"></style>
 <div layout:fragment="content" class="mx-12 mt-12 px-4 sm:px-6 lg:px-8">
+
     <div class="card-list">
-        <a href="#" th:onclick="|location.href='@{/business/createbusiness.do}';|" class="card-item">
+        <a th:href="@{'/member/createbizmember.do?id=' + ${#authentication.principal.member.id}}" class="card-item">
             <img th:src="@{/images/사업자회원.png}" alt="Card Image">
             <span class="developer">사업자</span>
             <h3>사업자회원 등록하기</h3>
@@ -18,11 +19,20 @@
                 <i class="fas fa-arrow-right card-icon"></i>
             </div>
         </a>
-        <h3>이 페이지는 일반회원에서 사업자로 </h3>
-        <h3>변환을 하실 예정인 사업장이 있는 </h3>
-        <h3>회원님을 위한 페이지입니다. </h3>
+
+        <a href="#" th:onclick="|location.href='@{'/member/updatebizmember.do?id=' + ${#authentication.principal.member.id}}';|" class="card-item">
+            <img th:src="@{/images/일반회원.png}" alt="Card Image">
+            <span class="designer">사업자</span>
+            <h3>사업자회원 수정하기</h3>
+            <div class="arrow">
+                <i class="fas fa-arrow-right card-icon"></i>
+            </div>
+        </a>
     </div>
 </div>
+       </div>
+</div>
+
 <!--<script layout:fragment="script">-->
 </script>
 </html>

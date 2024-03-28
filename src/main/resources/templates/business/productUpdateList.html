@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+<head>
+    <title>사업자상품상세페이지</title>
+    <link rel="stylesheet" th:href="@{/css/createMember.css}" />
+
+</head>
+<div layout:fragment="content" class="isolate bg-white px-6 py-24 sm:py-32 lg:px-56 ">
+    <div class="absolute top-[-5rem] -z-10 transform-gpu overflow-hidden mt-40">
+        <div class="bgWallpaper mt-12">
+            <div class="main">
+                <h1 class="text-center text-7xl font-extrabold">ONE.ZIP</h1>
+                <div class="house">
+                    <div class="floor"></div>
+                    <div class="wall">
+                        <div class="window"></div>
+                        <div class="door">
+                            <div class="door__square"></div>
+                            <div class="door__line"></div>
+                            <div class="door__square"></div>
+                        </div>
+                        <div class="window"></div>
+                    </div>
+                    <div class="top"></div>
+                    <div class="circle"></div>
+                    <div class="plastic">
+                        <div class="plastic__g">
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                            <div class="plastic__item"></div>
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                        <div class="line__item"></div>
+                    </div>
+                </div>
+                <div class="clouds">
+                    <div class="cloud">
+                        <div class="cloud__item"></div>
+                        <div class="cloud__item"></div>
+                    </div>
+                    <div class="cloud">
+                        <div class="cloud__item"></div>
+                        <div class="cloud__item"></div>
+                    </div>
+                    <div class="cloud">
+                        <div class="cloud__item"></div>
+                        <div class="cloud__item"></div>
+                    </div>
+                    <div class="bird"></div>
+                </div>
+                <div class="birds">
+                    <div class="bird"></div>
+                    <div class="bird"></div>
+                </div>
+                <div class="tree">
+                    <div class="tree__item"></div>
+                    <div class="tree__item"></div>
+                    <div class="tree__item"></div>
+                </div>
+                <div class="bush">
+                    <div class="bush__item"></div>
+                    <div class="bush__item"></div>
+                </div>
+                <div class="dot"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 폼 -->
+    <div class="flex justify-end mr-9">
+        <input type="hidden" id="id" name="id" th:value="${product.id}">
+        <form name="memberCreateFrm" th:action="@{/business/productUpdateList.do}" method="POST" class="mr-42 mt-3 max-w-xl sm:mt-3 w-5/12" enctype="multipart/form-data">
+            <div class="mx-auto max-w-2xl text-center">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    사업자상품상세페이지
+                </h2><br><br>
+                <p class="mt-2 text-lg leading-8 text-gray-600"></p>
+            </div>
+            <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+                <div class="sm:col-span-2">
+                    <label for="productName" class="block text-sm font-semibold leading-6 text-gray-900">상품명</label>
+                    <div class="mt-2.5">
+                        <input id="productName" th:value="${product.productName}" class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"  />
+                    </div>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="productTypeCode" class="block text-sm font-semibold leading-6 text-gray-900">상품분류코드</label>
+                    <p class="mt-2 text-sm text-gray-700"> * 상품분류코드는 변경 할 수 없습니다.</p>
+                    <div class="mt-2.5">
+                        <input id="productTypeCode" th:value="${product.productTypecode}" class="form-control block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 0 " readonly/>
+                    </div>
+                </div>
+                <div class="sm:col-span-1">
+                    <label for="productPrice" class="block text-sm font-semibold leading-6 text-gray-900">상품정가가격</label>
+                    <div class="mt-2.5">
+                        <input id="productPrice" th:value="${product.productPrice}" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    </div>
+                </div>
+                <div class="sm:col-span-1">
+                    <label for="discountRate" class="block text-sm font-semibold leading-6 text-gray-900">할인율</label>
+                    <div class="mt-2.5">
+                        <input id="discountRate" th:value="${product.discountRate}" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    </div>
+                </div>
+<!--                <div class="sm:col-span-2">-->
+<!--                    <label for="totalStock" class="block text-sm font-semibold leading-6 text-gray-900">상품 납품 수량</label>-->
+<!--                    <div class="mt-2.5">-->
+<!--                        <input id="totalStock" th:value="${product.productOptionlist.totalStock}" class="optionInput block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="상품 수량 등록(50이상~300미만)" />-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="sm:col-span-2">
+                    <label for="totalStock" class="block text-sm font-semibold leading-6 text-gray-900">상품 납품 수량</label>
+                    <div class="mt-2.5">
+                        <input type="totalStock" name="totalStock" id="totalStock" class="optionInput block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="상품 수량 등록(50이상~300미만)" />
+                    </div>
+                </div>
+                <button class="mt-2 text-base text-gray-700" id="showOptionsBtn">➕ 상품옵션추가 (선택사항)</button>
+                <div id="optionsContainer">
+                    <!-- 기본적인 옵션 입력란 -->
+                    <div class="optionsGroup">
+                        <div class="sm:col-span-1">
+                            <label for="optionName" class="block text-sm font-semibold leading-6 text-gray-900">옵션명</label>
+                            <div class="mt-2.5">
+                                <input type="optionName" name="optionName" id="optionName" class="optionInput block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="옵션 추가 시 입력해주세요." />
+                            </div>
+                        </div>
+                        <div class="sm:col-span-1">
+                            <label for="optionCost" class="block text-sm font-semibold leading-6 text-gray-900">추가요금</label>
+                            <div class="mt-2.5">
+                                <input type="optionCost" name="optionCost" id="optionCost" class="optionInput block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="옵션 추가 시 입력해주세요." />
+                            </div>
+                        </div><br>
+                    </div>
+                </div>
+<!--                <div id="optionsContainer">-->
+<!--                    &lt;!&ndash; 기본적인 옵션 입력란 &ndash;&gt;-->
+<!--                    <div class="optionsGroup">-->
+<!--                        <div class="sm:col-span-1">-->
+<!--                            <label for="optionName" class="block text-sm font-semibold leading-6 text-gray-900">옵션명</label>-->
+<!--                            <div class="mt-2.5">-->
+<!--                                <input id="optionName" th:value="${product.productOptionlist.optionName}" class="optionInput block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="옵션 추가 시 입력해주세요." />-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="sm:col-span-1">-->
+<!--                            <label for="optionCost" class="block text-sm font-semibold leading-6 text-gray-900">추가요금</label>-->
+<!--                            <div class="mt-2.5">-->
+<!--                                <input id="optionCost" th:value="${product.productOptionlist.optionCost}" class="optionInput block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="옵션 추가 시 입력해주세요." />-->
+<!--                            </div>-->
+<!--                        </div><br>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="sm:col-span-2">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <img th:if="${#lists.isEmpty(product.attachmentList)}" th:src="@{/images/일반회원.png}" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                        <img th:if="!${#lists.isEmpty(product.attachmentList)}" th:src="${product.attachmentList[0].url}" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                    </div>
+                    <div class="custom-file">
+                    <label class="block text-sm font-semibold leading-6 text-gray-900">현재 원집 상품 페이지에 등록되어있는 이미지 입니다.</label>
+                    <div class="mt-2.5">
+                        <input type="file" name="upFile" accept="image/*" class="form-input block w-full py-3 px-4 border rounded-md">
+                        <p class="mt-1 text-sm leading-6 text-gray-600">* 상품관련이미지 첨부(수정용 이미지)</p>
+                    </div>
+                    </div>
+                </div>
+            <div class="sm:col-span-2">
+                <button type="submit" class="mt-3 block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    상품수정 완료
+                </button>
+            </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script layout:fragment="script">
+    document.getElementById("showOptionsBtn").addEventListener("click", function() {
+        const optionsContainer = document.getElementById("optionsContainer");
+        const optionsGroup = document.createElement("div");
+        optionsGroup.classList.add("optionsGroup");
+
+        optionsGroup.innerHTML = `
+        <div class="sm:col-span-1">
+            <label for="optionName" class="block text-sm font-semibold leading-6 text-gray-900">옵션명</label>
+            <div class="mt-2.5">
+                <input type="optionName" name="optionName" class="optionInput block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="옵션 추가 시 입력해주세요." />
+            </div>
+        </div>
+        <div class="sm:col-span-1">
+            <label for="optionCost" class="block text-sm font-semibold leading-6 text-gray-900">추가요금</label>
+            <div class="mt-2.5">
+                <input type="optionCost" name="optionCost" class="optionInput block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="옵션 추가 시 입력해주세요." />
+            </div>
+        </div>
+    `;
+
+        optionsContainer.appendChild(optionsGroup);
+    });
+</script>
+</html>

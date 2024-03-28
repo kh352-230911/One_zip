@@ -50,7 +50,7 @@ public class AdminRepositoryTest {
     @Test
     void test2(){
         // 사업자회원고유번호로 사업자 회원 찾기
-        Optional<Business> business = businessRepository.findById(23L);
+        Optional<Business> business = businessRepository.findById(25L);
         assertThat(business).isNotNull();
 
         // 찾은 사업자 엔티티가 존재하는 경우 .isPresent -> 값이 존재 하는지
@@ -59,13 +59,13 @@ public class AdminRepositoryTest {
         }
         Business newbusiness = business.get();
         // 사업자 승인 상태로 변경
-        newbusiness.setBizRegStatus(BizAccess.A);
+        newbusiness.setBizRegStatus(BizAccess.W);
         businessRepository.save(newbusiness);
 
         // 승인 상태인지 확인
         Business approvedBusiness = businessRepository.findById(business.get().getId()).orElse(null);
         assertThat(approvedBusiness).isNotNull();
-        assertThat(approvedBusiness.getBizRegStatus()).isEqualTo(BizAccess.A);
+        assertThat(approvedBusiness.getBizRegStatus()).isEqualTo(BizAccess.W);
     }
     @DisplayName("사업자 회원 변경 요청 반려 처리")
     @Test
@@ -143,7 +143,7 @@ public class AdminRepositoryTest {
     @DisplayName("관리자 사업자 등록 상품 삭제")
     @Test
     void test9(){
-
+    // 컨트롤러에서 처리
     }
 
     @DisplayName("관리자 메인페이지 배너 선택")

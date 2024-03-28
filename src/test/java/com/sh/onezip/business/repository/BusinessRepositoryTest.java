@@ -4,6 +4,9 @@ import com.sh.onezip.business.entity.BizAccess;
 import com.sh.onezip.business.entity.Business;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.repository.MemberRepository;
+import com.sh.onezip.product.entity.Product;
+import com.sh.onezip.product.entity.ProductType;
+import com.sh.onezip.product.repository.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ public class BusinessRepositoryTest {
 
     @Autowired
     private BusinessRepository businessRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     // HBK start
     @DisplayName("BusinessRepository빈은 null이 아니다.")
@@ -42,7 +48,6 @@ public class BusinessRepositoryTest {
         Business business = Business.builder()
                 .member(member)
                 .bizName("(주)고양이")
-                .bizLicense("사업자 등록증")
                 .bizRegNo("123-45-876")
                 .bizRegStatus(BizAccess.W) // 대기 상태로 설정
                 .build();
@@ -66,7 +71,6 @@ public class BusinessRepositoryTest {
 
             // 사업자 정보 수정
             newbusiness.setBizName("(주)강아지");
-            newbusiness.setBizLicense("사업자 등록증");
             newbusiness.setBizRegNo("123-77-777");
 
             // 수정된 사업자 엔티티를 저장
@@ -76,10 +80,33 @@ public class BusinessRepositoryTest {
     @DisplayName("사업자 상품 등록")
     @Test
     void test3(){
+        Business business = businessRepository.findByBizName("(주)강아지");
+        Member member = memberRepository.findByMemberId("biztest7");
+        assertThat(business).isNotNull();
+
+        Product product = Product.builder()
+                .member(member)
+                .productName("스즈메 의자")
+                .productTypecode(ProductType.FU)
+                .productPrice(20000)
+                .discountRate(10)
+                .build();
+        productRepository.save(product);
     }
     @DisplayName("사업자 상품 내역 수정")
     @Test
     void test4(){
+        Optional<Product> productOptional = productRepository.findById(282L);
+        assertThat(productOptional).isPresent();
+
+        if(productOptional.isPresent()) {
+            Product newproduct = productOptional.get();
+
+            newproduct.setProductName("JMT맛있는 닭갈비");
+            newproduct.setProductTypecode(ProductType.FO);
+
+            productRepository.save(newproduct);
+        }
     }
     @DisplayName("사업자 등록 상품 전체 조회")
     @Test
@@ -89,6 +116,7 @@ public class BusinessRepositoryTest {
     @DisplayName("사업자 상품 삭제")
     @Test
     void test6(){
+        // 컨트롤러에서 바로 실행
     }
     @DisplayName("상품 문의글 전체 조회")
     @Test

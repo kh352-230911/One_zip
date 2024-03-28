@@ -1,8 +1,11 @@
 package com.sh.onezip.admin.controller;
 
+import com.sh.onezip.attachment.entity.Attachment;
+import com.sh.onezip.attachment.service.AttachmentService;
 import com.sh.onezip.authority.entity.Authority;
 import com.sh.onezip.authority.entity.RoleAuth;
 import com.sh.onezip.authority.service.AuthorityService;
+import com.sh.onezip.business.dto.BusinessAllDto;
 import com.sh.onezip.business.entity.BizAccess;
 import com.sh.onezip.business.entity.Business;
 import com.sh.onezip.business.service.BusinessService;
@@ -13,8 +16,8 @@ import com.sh.onezip.customerquestioncenter.entity.QuestionCenter;
 import com.sh.onezip.customerquestioncenter.service.QuestionCenterService;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
+import com.sh.onezip.stomp.dto.Type;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,17 +25,12 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -48,6 +46,8 @@ public class AdminController {
     QuestionCenterService questionCenterService;
     @Autowired
     AnswerCenterService answerCenterService;
+    @Autowired
+    AttachmentService attachmentService;
 
     // HBK start
     @GetMapping("/memberList.do")
@@ -61,11 +61,11 @@ public class AdminController {
             if (business.getBizRegStatus() == BizAccess.A) {
                 // 해당 사업자에 연관된 회원의 권한을 업데이트함
                 Member member = business.getMember();
-                // 이미 ROLE_BUSINESS 권한을 가진 회원인 경우, 추가적인 처리를 하지 않음
-                if (member.getAuthorities().stream()
-                        .noneMatch(authority -> authority.getUserType() == RoleAuth.ROLE_BUSINESS)) {
-                    // 기존 권한을 모두 제거하고, 새로운 권한을 추가함
-                    member.getAuthorities().clear();
+                // 이미 ROLE_BUSINESS 권한을 가진 회원인 경우에도 처리
+                boolean hasBusinessRole = member.getAuthorities().stream()
+                        .anyMatch(authority -> authority.getUserType() == RoleAuth.ROLE_BUSINESS);
+                if (!hasBusinessRole) {
+                    // 새로운 권한을 추가함
                     Authority authority = new Authority();
                     authority.setMember(member);
                     authority.setUserType(RoleAuth.ROLE_BUSINESS);
@@ -116,20 +116,20 @@ public class AdminController {
     @GetMapping("/businessmemberList.do")
     public void businessMemberLists(@PageableDefault(size = 8, page = 0) Pageable pageable, Model model) {
 
-        Page<Business> businessPage = businessService.findAllBizmembers(pageable);
+        Page<BusinessAllDto> businessPage = businessService.findAllBizmember(pageable);
 
         // 각 사업자 회원의 상태를 처리
-        for (Business business : businessPage.getContent()) {
+        for (BusinessAllDto business : businessPage.getContent()) {
             // 각 회원의 상태에 따라 처리
-            if (business.getBizRegStatus() == BizAccess.W) {
+            if (business.getBusiness().getBizRegStatus() == BizAccess.W) {
                 // 대기 상태면 변경 없음
-                business.setBizRegStatus(BizAccess.W);
-            } else if (business.getBizRegStatus() == BizAccess.A) {
+                business.getBusiness().setBizRegStatus(BizAccess.W);
+            } else if (business.getBusiness().getBizRegStatus() == BizAccess.A) {
                 // 승인 상태면 권한도 변경해줘야함
-                business.setBizRegStatus(BizAccess.A);
-            } else if (business.getBizRegStatus() == BizAccess.D) {
+                business.getBusiness().setBizRegStatus(BizAccess.A);
+            } else if (business.getBusiness().getBizRegStatus() == BizAccess.D) {
                 // 반려 상태면 변경 없음
-                business.setBizRegStatus(BizAccess.D);
+                business.getBusiness().setBizRegStatus(BizAccess.D);
             }
         }
         model.addAttribute("bizmembers", businessPage.getContent()); // 회원 목록을 나타내는 리스트
@@ -153,18 +153,28 @@ public class AdminController {
      * @return 주어진 역할을 가진 회원 수
      */
     // 회원 유형별 회원 수를 계산하는 메소드
-    private long calculateBizMemberCount(List<Business> bizmembers, BizAccess access) {
+    private long calculateBizMemberCount(List<BusinessAllDto> bizmembers, BizAccess access) {
         // 회원 목록을 스트림으로 변환하여 각 회원에 대해 필터링하고 주어진 역할을 가진 회원인지 확인
         return bizmembers.stream()
-                .filter(business -> business.getBizRegStatus() == access) // 해당 권한을 가진 회원만 필터링
+                .filter(business -> business.getBusiness().getBizRegStatus() == access) // 해당 권한을 가진 회원만 필터링
                 .count(); // 일치하는 회원 수를 계산하여 반환
     }
 
-    @GetMapping("/businessmemberDetailList.do")
-    public void businessmemberDetailList(@RequestParam Long id, Model model) {
-        Business business = businessService.findBizmember(id);
-        model.addAttribute("bizmember", business);
+    @PostMapping("/businessmemberList.do")
+    public String businessmemberList(@RequestParam Long id,
+                                           RedirectAttributes redirectAttributes) {
+        businessService.deleteById(id);
+        attachmentService.deleteByphotoId(id);
+        return "redirect:/admin/businessmemberList.do";
     }
+
+    @GetMapping("/businessmemberDetailList.do")
+    public void businessmemberDetailList(@RequestParam Long id, Model model){
+        BusinessAllDto adminbusiness = businessService.findBizAmember(id);
+        model.addAttribute("bizimage", attachmentService.findByIdWithType(id,"SP"));
+        model.addAttribute("bizmember", adminbusiness);
+    }
+
 
     @PostMapping("/businessmemberDetailList.do")
     public String businessmemberDetailList(@RequestParam Long id,
@@ -177,24 +187,28 @@ public class AdminController {
         Optional<Business> businessOptional = businessService.findById(id);
         // 사업자 고유번호가 있는지 확인
         if (businessOptional.isPresent()) {
-            Business newbusiness = businessOptional.get();
+            Business business = businessOptional.get();
+            Member member = business.getMember();
             if (bizRegStatus.equals("승인")) {
-                newbusiness.setBizRegStatus(BizAccess.A);
-                // 승인으로 바뀌면 ROLE_BUSINESS로도 바뀌어야함
-                // 기존 member객체를 가져옴
-                Member member = newbusiness.getMember();
-                // 연관되어있는 권한객체도 가져옴
+                business.setBizRegStatus(BizAccess.A);
+                // 권한을 변경하여 저장
                 Authority authority = new Authority();
-                // 그리고 새로운 객체로 바꿔줌 (ROLE_USER -> ROLE_BUSINESS)
                 authority.setMember(member);
                 authority.setUserType(RoleAuth.ROLE_BUSINESS);
-                // 변경된 회원 정보를 저장한다
-                // 변경된 항목을 추가해줌
-                member.getAuthorities().add(authority);
+                member.getAuthorities().clear(); // 지우고
+                member.getAuthorities().add(authority); // 새로운 권한으로 변경
+                memberService.updateMember(member);
             } else if (bizRegStatus.equals("반려")) {
-                newbusiness.setBizRegStatus(BizAccess.D);
+                business.setBizRegStatus(BizAccess.D);
+                // 권한을 변경하여 저장
+                Authority authority = new Authority();
+                authority.setMember(member);
+                authority.setUserType(RoleAuth.ROLE_USER);
+                member.getAuthorities().clear();
+                member.getAuthorities().add(authority);
+                memberService.updateMember(member);
             }
-            businessService.updateBizAccess(newbusiness);
+            businessService.updateBizAccess(business);
         } else {
             // 오류 페이지로 이동
         }
@@ -203,11 +217,6 @@ public class AdminController {
         return "redirect:/admin/businessmemberDetailList.do?id=" + id;
     }
 
-    @GetMapping("/businessmemberEmail.do")
-    public void businessmemberEmail(@RequestParam Long id, Model model) {
-        Business business = businessService.findBizmember(id);
-        model.addAttribute("bizmember", business);
-    }
 
     @GetMapping("/customerACenterList.do")
     public void customerCenterLists(@PageableDefault(size = 8, page = 0) Pageable pageable, Model model) {
@@ -261,7 +270,7 @@ public class AdminController {
                                             @RequestParam String memberId,
                                             RedirectAttributes redirectAttributes) {
 
-        // 문의글 ID로 문의 정보 조회
+        // 문의글 고유번호로 문의 정보 조회
         QuestionCenter questionCenter = questionCenterService.findByQId(id);
         System.out.println("1: " + questionCenter);
 
@@ -318,6 +327,11 @@ public class AdminController {
         // 리다이렉트 후 메시지 전달
         redirectAttributes.addFlashAttribute("msg", "🎈🎈🎈 게시글을 성공적으로 수정했습니다. 🎈🎈🎈");
         return "redirect:/admin/customerACenterDetailList.do?id=" + id;
+    }
+
+    @GetMapping("/bizEmailSend.do")
+    public void bizEmailSend(@RequestParam Long id, Model model){
+
     }
 // HBK end
 }
