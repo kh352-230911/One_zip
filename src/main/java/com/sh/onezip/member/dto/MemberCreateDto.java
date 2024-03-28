@@ -1,7 +1,9 @@
 package com.sh.onezip.member.dto;
 
+
 import com.sh.onezip.member.entity.Address;
 import com.sh.onezip.member.entity.AddressType; // AddressType 엔터티 또는 Enum을 사용한다고 가정
+
 import com.sh.onezip.member.entity.Gender;
 import com.sh.onezip.member.entity.Member;
 import jakarta.validation.constraints.NotBlank;
@@ -57,4 +59,5 @@ public class MemberCreateDto {
         address.setAddressType(addressType); // 주소 유형 설정
         return address;
     }
+
 }

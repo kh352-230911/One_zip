@@ -1,7 +1,10 @@
 package com.sh.onezip.member.entity;
 
 import com.sh.onezip.authority.entity.Authority;
+import com.sh.onezip.customeranswercenter.entity.AnswerCenter;
+import com.sh.onezip.customerquestioncenter.entity.QuestionCenter;
 import com.sh.onezip.member.entity.Gender;
+import com.sh.onezip.product.entity.Product;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.apachecommons.CommonsLog;
@@ -22,6 +25,9 @@ import java.util.List;
 @Entity
 @DynamicInsert // null이 아닌 필드만 등록
 @DynamicUpdate // 영속성컨텍스트의 엔티티와 달라진 필드만 수정
+
+// HBK write Tostring / reason : Member Authority ,QuestionCenter, AnswerCenter stackoverflow
+
 @ToString(exclude = {"authorities", "questionCenters", "answerCenters"})
 @Table(name = "tb_member")
 public class Member {
@@ -69,7 +75,22 @@ public class Member {
     private List<Authority> authorities;
 //    private List<Authority> authorities = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Address> addresses = new ArrayList<>();
     //여기까지가 HSH 코드
+
+    // HBK start
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<QuestionCenter> questionCenters = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<AnswerCenter> answerCenters = new ArrayList<>();
+    // HBK end
+
+    // KMJ start
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Product> products = new ArrayList<>();
+
+    //
 
 }

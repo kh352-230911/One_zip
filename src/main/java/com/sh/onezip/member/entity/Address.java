@@ -24,6 +24,11 @@ public class Address {
     private Long id;
 //    @Column(nullable = false, unique = true)
 //    private String memberId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "member_id") // 데이터베이스의 컬럼명과 일치시키세요.
+    private Member member;
+
     @Column(nullable = false)
     private String recipientName;
     @Column(nullable = false)
@@ -35,7 +40,9 @@ public class Address {
     @Column
     private String detailAddress;
 
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
 }

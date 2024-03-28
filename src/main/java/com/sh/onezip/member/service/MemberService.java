@@ -9,9 +9,14 @@ import com.sh.onezip.member.repository.AddressRepository;
 import com.sh.onezip.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
+@Service
 @Transactional
 @Service
 @Slf4j
@@ -47,12 +52,21 @@ public class MemberService {
 
         return savedMember;
     }
+    // 여기까지가 HSH코드
+
+    // HBK start
+    public Page<Member> findAllMembers(Pageable pageable) {
+        return memberRepository.findAll(pageable);
+    }
 
     public Member updateMember(Member member) {
         return memberRepository.save(member);
     }
 
+    public void deleteById(Long id) {
+        memberRepository.deleteById(id);
+    }
 
-    // 여기까지가 HSH코드
+    // HBK end
 }
 

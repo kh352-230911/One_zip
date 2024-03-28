@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+<head>
+    <title></title>
+</head>
+<style layout:fragment="style"></style>
+
+<h1>문의 상세 페이지</h1>
+<div layout:fragment="content" class="mx-12 mt-12 px-4 sm:px-6 lg:px-8">
+    <div class="home-container">
+        <div class="title-box flex justify-center">
+         <span class="border-b-2 border-gray-400 font-semibold pb-2 pt-16 text-3xl">
+             ONE_ZIP 고객센터 입니다 무엇이든 물어보세요 🤗
+         </span>
+        </div>
+        <p class="px-3 py-3.5 text-center text-lg font-semibold text-gray-900">
+            안녕하세요 <span th:text="${question.member.name}"> </span> 회원님 원집(ONE_ZIP🏠) 관리자 입니다. 반갑습니다~
+            <br>고객센터 문의글 같은 경우 작성일자 기준으로 1~2일 안으로 답변드리고 있습니다.<br>
+            보다 정확한 답변을 전달해드리기 위해 항상 노력하겠습니다. 감사합니다 💕</p>
+        <!-- table박스 -->
+        <div class="container flex justify-center mt-4">
+            <img th:src="@{/images/question.png}" width="450px">
+            <table>
+                <thead class="text-lg">
+                <tr>
+                    <th class="px-4">문의고유번호</th>
+                    <th class="px-4">회원아이디</th>
+                    <th class="px-4">회원권한</th>
+                    <th class="px-4">답변여부</th>
+                    <th class="px-4">문의날짜</th>
+                </tr>
+                </thead>
+                <tbody class="text-lg">
+                <tr>
+                    <!--  answer 객체가 null이 아니고, 그 안에 있는 questionCenter 속성이 null이 아닐 때 -->
+                    <!--                        <input type="hidden" name="id" th:if="${answer != null && answer.questionCenter != null}" th:value="${answer.questionCenter.id}">-->
+                    <td class="px-4 text-center" th:text="${question.id}">-</td>
+                    <td class="px-4 text-center" th:text="${question.member.memberId}">-</td>
+                    <td class="px-4 text-center" th:each="authority : ${question.member.authorities}" th:text="${authority.userType}">-</td>
+                    <td class="px-4">
+                        <div class="text-center" th:text="${question.answerYn == null ? 'N' : question.answerYn}">-</div>
+                    </td>
+                    <td class="px-4" th:text="${question.qoneRegdate}">-</td>
+                </tr>
+                <tr style="height: 20px;"></tr> <!-- 여기서 간격 조절 -->
+                <tr>
+                    <!-- 줄바꿈 문자를 <br/>로 치환 -->
+                    <td colspan="5" class="px-4 py-2 text-center border border-gray-300 text-xl" style="max-width: 200px; word-wrap: break-word; white-space: pre-line;"
+                        th:utext="${#strings.replace(question.qoneContent, '\n', '<br/>')}"></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="mt-8">
+        <form th:action="@{/admin/customerACenterDetailList.do}" method="post">
+            <input type="hidden" name="id" th:value="${question.id}">
+            <div class="title-box flex justify-center mb-4">
+            <span class="border-b-2 border-gray-400 font-semibold pb-2 pt-16 text-3xl">
+                ONE_ZIP 문의글 답변 🤗
+            </span>
+            </div>
+            <div class="mt-4" th:if="${answer != null}">
+                <p class="text-center text-lg font-semibold text-gray-900">
+                    해당 답변은 adminking(관리자)님이 답변하였습니다.
+                </p>
+                <p class="text-center text-lg font-semibold text-gray-900">
+                    답변 고유번호는 <span class="text-center" th:text="${answer.id}">-</span>번입니다.
+                </p>
+                <p class="text-center text-lg font-semibold text-gray-900">
+                    ✔️ 수정을 완료하려면 답변 수정을 마치신 후 '답변 수정 버튼'을 클릭해주세요!
+                </p><br><br>
+            </div>
+            <div class="mb-8 flex justify-center items-center text-lg">
+                <input type="text" rows="6" style="font-size: 18px; width: 50%;" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="답변해주세요!" name="aoneContent" id="aoneContent" th:value="${question.answerCenter != null ? question.answerCenter.aoneContent : ''}"required>
+                <!-- 등록된 답변이 있을 경우 답변하기 버튼 숨김 -->
+                <button type="submit" class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" th:if="${question.answerCenter == null}">답변 등록</button>
+
+                <!-- 수정 버튼 -->
+                <button type="button" class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-700 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" th:if="${question.answerCenter != null}" onclick="openEditModal()">답변 수정</button>
+
+                <!-- 수정 모달 창 -->
+                <div id="editModal" class="modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; background-color: rgba(0, 0, 0, 0.5); width: 100%; height: 100%; overflow: auto;">
+                    <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 30%;">
+                        <span class="close" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;" onclick="closeEditModal()">&times;</span>
+
+                        <span class="font-semibold pb-2 pt-6 text-lg">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;관리자님! 수정 내용 확인 후, 수정 버튼을 클릭해주세요 🤗 </span>
+
+                        <form id="editForm" th:action="@{/admin/customerACenterDetailList.do}" method="post">
+                            <!-- 질문 고유 번호 -->
+                            <input type="hidden" name="id" th:value="${question.id}">
+                            <!-- 회원 아이디 -->
+                            <input type="hidden" name="memberId" th:value="${question.member.memberId}">
+                            <!-- 답변 고유 번호 -->
+                            <!--   answer가 null이 아닌 경우에만 hidden input이 생성되고, answer가 null인 경우 빈 문자열이 설정  -->
+                            <input type="hidden" name="aid" th:value="${answer != null ? answer.id : ''}" th:if="${answer != null}">
+                            <textarea id="editedContent" rows="6" style="font-size: 18px; width: 100%; border-radius: 10px; padding: 10px;" th:value="${question.answerCenter != null ? question.answerCenter.aoneContent : ''}" readonly></textarea>
+                            <div style="display: flex; justify-content: flex-end;">
+                                <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-700 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">수정</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+<script layout:fragment="script" th:src="@{/js/admin/customerACenterDetailList.js}">
+</script>
+</html>

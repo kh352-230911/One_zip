@@ -62,11 +62,11 @@
                     <div class="mt-4 flex justify-between">
                         <div>
                             <a href="#" class="text-sm text-gray-700">
-                                <span aria-hidden="true" class="absolute inset-0" th:text="'판매자 : ' + ${product.bizName}"></span>
+                                <span aria-hidden="true" class="absolute inset-0" th:text="'판매자 : ' + ${product.memberName}"></span>
                             </a>
                             <p class=" text-m text-gray-500" th:text="${product.productName}"></p>
                         </div>
-                        <p class="text-sm font-medium text-gray-900" th:text="${product.sellPrice} + '원'"></p>
+                        <p class="text-sm font-medium text-gray-900" th:text="${product.applyPrice} + '원'"></p>
                     </div>
                 </div>
                 <!-- 반복 블록 끝 -->
