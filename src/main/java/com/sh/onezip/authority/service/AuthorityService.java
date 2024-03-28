@@ -11,6 +11,7 @@ public class AuthorityService {
     // HBK start
     AuthorityRepository authorityRepository;
     public Authority createAuthority(Authority authority) {
+        System.out.println("authorityRepository:" +  authority);
         return authorityRepository.save(authority);
     }
     // HBK end
