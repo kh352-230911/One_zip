@@ -3,10 +3,7 @@ package com.sh.onezip.member.entity;
 import com.sh.onezip.authority.entity.Authority;
 import com.sh.onezip.member.entity.Gender;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.apachecommons.CommonsLog;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -25,11 +22,12 @@ import java.util.List;
 @Entity
 @DynamicInsert // null이 아닌 필드만 등록
 @DynamicUpdate // 영속성컨텍스트의 엔티티와 달라진 필드만 수정
+@ToString(exclude = {"authorities", "questionCenters", "answerCenters"})
 @Table(name = "tb_member")
 public class Member {
 
     @Id
-    @GeneratedValue(generator = "seq_Member_id_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_Member_id_generator")
     @SequenceGenerator(
             name = "seq_Member_id_generator",
             sequenceName = "tb_member_seq",
@@ -68,7 +66,8 @@ public class Member {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
 //    @JoinColumn(name = "member_id") //authority 테이블의 컬럼명시
-    private List<Authority> authorities = new ArrayList<>();
+    private List<Authority> authorities;
+//    private List<Authority> authorities = new ArrayList<>();
 
 
     //여기까지가 HSH 코드

@@ -10,6 +10,7 @@ public class AuthorityService {
     @Autowired
     AuthorityRepository authorityRepository;
     public Authority createAuthority(Authority authority) {
+        System.out.println("authorityRepository:" +  authority);
         return authorityRepository.save(authority);
     }
 }

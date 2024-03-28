@@ -29,7 +29,7 @@ public class Authority implements Serializable{
     @SequenceGenerator(
             name = "seq_Authority_id_generator",
             sequenceName = "tb_authority_seq",
-            initialValue = 1,
+            initialValue = 300,
             allocationSize = 1)
 
     @Column
@@ -41,6 +41,8 @@ public class Authority implements Serializable{
     @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+//    @Column(nullable = false, name = "member_id")
+//    private String memberId;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

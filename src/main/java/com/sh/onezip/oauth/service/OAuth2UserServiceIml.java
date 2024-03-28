@@ -2,6 +2,7 @@ package com.sh.onezip.oauth.service;
 
 import com.sh.onezip.auth.service.AuthService;
 import com.sh.onezip.auth.vo.MemberDetails;
+import com.sh.onezip.member.entity.Address;
 import com.sh.onezip.member.entity.Member;
 import com.sh.onezip.member.service.MemberService;
 
@@ -55,12 +56,16 @@ public class OAuth2UserServiceIml extends DefaultOAuth2UserService {
 //
 //        // google인 경우, {sub}@google이 username이 된다.
         String username = OAuth2UserUtils.getUsername(oAuth2User, provider);
+        //기본주소정보 생성
+        Address address = new Address();
+        address.setBaseAddress("기본 주소");
+        address.setDetailAddress("상세 주소");
         try {
             memberDetails = (MemberDetails) authService.loadUserByUsername(username);
         } catch (UsernameNotFoundException e) {
 //            // username이 존재하지않는 경우 회원가입처리
             Member member = OAuth2UserUtils.of(oAuth2User, provider);
-            memberService.createMember(member);
+            memberService.createMember(member, address);
             memberDetails = (MemberDetails) authService.loadUserByUsername(username);
         }
             return memberDetails;
