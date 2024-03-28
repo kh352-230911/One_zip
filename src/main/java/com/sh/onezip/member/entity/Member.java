@@ -28,13 +28,15 @@ import java.util.List;
 @Entity
 @DynamicInsert // null이 아닌 필드만 등록
 @DynamicUpdate // 영속성컨텍스트의 엔티티와 달라진 필드만 수정
+
 // HBK write Tostring / reason : Member Authority ,QuestionCenter, AnswerCenter stackoverflow
+
 @ToString(exclude = {"authorities", "questionCenters", "answerCenters"})
 @Table(name = "tb_member")
 public class Member {
 
     @Id
-    @GeneratedValue(generator = "seq_Member_id_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_Member_id_generator")
     @SequenceGenerator(
             name = "seq_Member_id_generator",
             sequenceName = "tb_member_seq",
@@ -73,7 +75,8 @@ public class Member {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
 //    @JoinColumn(name = "member_id") //authority 테이블의 컬럼명시
-    private List<Authority> authorities = new ArrayList<>();
+    private List<Authority> authorities;
+//    private List<Authority> authorities = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Address> addresses = new ArrayList<>();
